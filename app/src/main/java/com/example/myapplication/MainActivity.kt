@@ -35,7 +35,7 @@ fun MyApp() {
     Scaffold(
             topBar = {
                 TopAppBar(
-                        title = { Text("Hello") },
+                        title = { Text("Mathify") },
                         actions = {
                             IconButton(onClick = { /* Handle home button click */ }) {
                                 Icon(Icons.Filled.Home, contentDescription = "Home")
