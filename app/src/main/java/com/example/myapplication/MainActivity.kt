@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.Purple40
+import com.example.myapplication.ui.theme.Purple80
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalAnimationApi::class)
@@ -61,12 +62,29 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+@OptIn(ExperimentalAnimationApi::class)
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    MyApp()
+}
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @ExperimentalAnimationApi
 @Composable
 fun MyApp() {
-    var isExpanded = rememberSaveable {
+    //Toggle variables for all 4 expand buttons
+    var isExpandedB1 = rememberSaveable {
+        mutableStateOf(false)
+    }
+    var isExpandedB2 = rememberSaveable {
+        mutableStateOf(false)
+    }
+    var isExpandedB3 = rememberSaveable {
+        mutableStateOf(false)
+    }
+    var isExpandedB4 = rememberSaveable {
         mutableStateOf(false)
     }
     Scaffold(
@@ -85,67 +103,155 @@ fun MyApp() {
             },
             content = {
                 Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
+                        //Adds padding to button column at the top
+                        modifier = Modifier.fillMaxSize().padding(  top = 100.dp),
+                        verticalArrangement = Arrangement.Top,
                         horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Button(onClick = { /* Handle button 1 click */ },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Red,
-                            contentColor = Color.White),
-                        modifier = Modifier
-                            .wrapContentSize(Alignment.Center)
-                            .fillMaxWidth(0.8f)) {
-                        Text("+", fontSize = 50.sp, textAlign = TextAlign.Center)
-                    }
-                    Spacer(modifier = Modifier.height(50.dp))
-                    //Subtraction button with expanding button
-                    Box(modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .background(Purple40)){
-                        Button(onClick = { /* Handle button 2 click */ },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.Red,
-                                contentColor = Color.White),
-                        modifier = Modifier
-                            .wrapContentSize(Alignment.CenterStart)
-                            .fillMaxWidth(0.8f)) {
-                        Text("-", fontSize = 50.sp, textAlign = TextAlign.Center)
+                    //Button 1 with expanding button
+                    Column {
+                        Box(modifier = Modifier
+                            .fillMaxWidth(0.8f)){
+                            Button(onClick = { /* Handle button 1 click */ },
+                                modifier = Modifier
+                                    .wrapContentSize(Alignment.CenterStart)
+                                    .fillMaxWidth(0.8f)) {
+                                Text("+", fontSize = 50.sp, textAlign = TextAlign.Center)
+                            }
+                            Button(onClick = {isExpandedB1.value = !isExpandedB1.value},
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Purple80,
+                                    contentColor = Purple40),
+                                modifier = Modifier
+                                    .align(Alignment.CenterEnd)
+                                    .fillMaxWidth(0.2f)) {
+                                Text("+", fontSize = 25.sp, textAlign = TextAlign.Center)
+                            }
                         }
-                        Button(onClick = {isExpanded.value = !isExpanded.value},
-                            modifier = Modifier
-                                .align(Alignment.CenterEnd)
-                                .fillMaxWidth(0.2f)) {
-                            Text("+", fontSize = 25.sp, textAlign = TextAlign.Center)
+                        //Whatever needs to be under button 1 to has to be added below here--------
+                        this@Column.AnimatedVisibility(visible = isExpandedB1.value) {
+                            Text(text = "Addition Statistics will be shown here!!!",
+                                modifier = Modifier.padding(4.dp).fillMaxWidth(0.8f),
+                                fontSize = 5.em
+                            )
                         }
                     }
 
                     Spacer(modifier = Modifier.height(50.dp))
-                    Button(onClick = { /* Handle button 3 click */ },
-                        modifier = Modifier
-                            .wrapContentSize(Alignment.Center)
-                            .fillMaxWidth(0.8f)) {
-                        Text("×", fontSize = 50.sp, textAlign = TextAlign.Center)
+
+                    //Button 2 with expanding button
+                    Column {
+                        Box(modifier = Modifier
+                            .fillMaxWidth(0.8f)){
+                            Button(onClick = { /* Handle button 2 click */ },
+                                modifier = Modifier
+                                    .wrapContentSize(Alignment.CenterStart)
+                                    .fillMaxWidth(0.8f)) {
+                                Text("-", fontSize = 50.sp, textAlign = TextAlign.Center)
+                            }
+                            Button(onClick = {isExpandedB2.value = !isExpandedB2.value},
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Purple80,
+                                    contentColor = Purple40),
+                                modifier = Modifier
+                                    .align(Alignment.CenterEnd)
+                                    .fillMaxWidth(0.2f)) {
+                                Text("+", fontSize = 25.sp, textAlign = TextAlign.Center)
+                            }
+                        }
+                        //Whatever needs to be under button 2 to has to be added below here--------
+                        this@Column.AnimatedVisibility(visible = isExpandedB2.value) {
+                            Text(text = "Subtraction Statistics will be shown here!!!",
+                                modifier = Modifier.padding(4.dp).fillMaxWidth(0.8f),
+                                fontSize = 5.em
+                            )
+                        }
                     }
+
+
                     Spacer(modifier = Modifier.height(50.dp))
-                    Button(onClick = { /* Handle button 4 click */ },
-                        modifier = Modifier
-                            .wrapContentSize(Alignment.Center)
-                            .fillMaxWidth(0.8f)) {
-                        Text("÷", fontSize = 50.sp, textAlign = TextAlign.Center)
+
+                        //Button 3 with expanding button
+                        Column {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth(0.8f)
+                            ) {
+                                Button(
+                                    onClick = { /* Handle button 3 click */ },
+                                    modifier = Modifier
+                                        .wrapContentSize(Alignment.CenterStart)
+                                        .fillMaxWidth(0.8f)
+                                ) {
+                                    Text("×", fontSize = 50.sp, textAlign = TextAlign.Center)
+                                }
+                                Button(
+                                    onClick = { isExpandedB3.value = !isExpandedB3.value },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Purple80,
+                                        contentColor = Purple40),
+                                    modifier = Modifier
+                                        .align(Alignment.CenterEnd)
+                                        .fillMaxWidth(0.2f)
+                                ) {
+                                    Text("+", fontSize = 25.sp, textAlign = TextAlign.Center)
+                                }
+                            }
+                            //Whatever needs to be under button 3 to has to be added below here--------
+                            this@Column.AnimatedVisibility(visible = isExpandedB3.value) {
+                                Text(
+                                    text = "Multiplication Statistics will be shown here!!!",
+                                    modifier = Modifier.padding(4.dp).fillMaxWidth(0.8f),
+                                    fontSize = 5.em
+                                )
+                            }
+                        }
+
+
+                    Spacer(modifier = Modifier.height(50.dp))
+
+                        //Button 4 with expanding button
+                        Column {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth(0.8f)
+                            ) {
+                                Button(
+                                    onClick = { /* Handle button 4 click */ },
+                                    modifier = Modifier
+                                        .wrapContentSize(Alignment.CenterStart)
+                                        .fillMaxWidth(0.8f)
+                                ) {
+                                    Text("÷", fontSize = 50.sp, textAlign = TextAlign.Center)
+                                }
+                                Button(
+                                    onClick = { isExpandedB4.value = !isExpandedB4.value },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = Purple80,
+                                        contentColor = Purple40),
+                                    modifier = Modifier
+                                        .align(Alignment.CenterEnd)
+                                        .fillMaxWidth(0.2f)
+                                ) {
+                                    Text("+", fontSize = 25.sp, textAlign = TextAlign.Center)
+                                }
+                            }
+                            //Whatever needs to be under button 4 to has to be added below here--------
+                            this@Column.AnimatedVisibility(visible = isExpandedB4.value) {
+                                Text(
+                                    text = "Division Statistics will be shown here!!!",
+                                    modifier = Modifier.padding(4.dp).fillMaxWidth(0.8f),
+                                    fontSize = 5.em
+                                )
+                            }
+                        }
                     }
-                }
             }
     )
 }
 
 
-@OptIn(ExperimentalAnimationApi::class)
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    MyApp()
-}
+
 
 @ExperimentalAnimationApi
 @Composable
