@@ -66,7 +66,6 @@ class AdditionActivityTest : ComponentActivity() {
 fun AdditionTest() {
     //Saving the current activity context
     val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
     var answer by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
     var coolDownOn by remember { mutableStateOf(false) }
