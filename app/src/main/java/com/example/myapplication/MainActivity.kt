@@ -1,7 +1,9 @@
 package com.example.myapplication
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
@@ -46,6 +48,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -63,7 +66,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApp()
-            //Addition()
             }
         }
     }
@@ -72,8 +74,7 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    //MyApp()
-    Addition()
+    MyApp()
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -94,6 +95,8 @@ fun MyApp() {
     var isExpandedB4 = rememberSaveable {
         mutableStateOf(false)
     }
+    //Saving the current activity context
+    val context = LocalContext.current
     Scaffold(
             topBar = {
                 TopAppBar(colors = topAppBarColors(containerColor = Color.LightGray),
@@ -121,7 +124,8 @@ fun MyApp() {
                     Column {
                         Box(modifier = Modifier
                             .fillMaxWidth(0.8f)){
-                            Button(onClick = { /* Handle button 1 click */ },
+                            Button(onClick = { val intent = Intent(context, AdditionActivityTest::class.java)
+                                context.startActivity(intent) },
                                 modifier = Modifier
                                     .wrapContentSize(Alignment.CenterStart)
                                     .fillMaxWidth(0.8f)) {

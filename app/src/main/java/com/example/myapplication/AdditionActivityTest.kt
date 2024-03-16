@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -29,10 +30,12 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,18 +47,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-class AdditionActivity : ComponentActivity() {
+class AdditionActivityTest : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MyApplicationTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colorScheme.background) {
-                    Addition()
-                }
-            }
+            AdditionTest()
         }
     }
 }
@@ -63,15 +63,17 @@ class AdditionActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Addition() {
+fun AdditionTest() {
     //Saving the current activity context
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
     var answer by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
+    var coolDownOn by remember { mutableStateOf(false) }
+    val cooldownTime = 2000L
     val random = Random
-    val number1 = random.nextInt(10)
-    val number2 = random.nextInt(10)
-    val correctAnswer = number1 + number2
+    var question by remember { mutableStateOf(Pair(random.nextInt(10), random.nextInt(10))) }
+    val correctAnswer = question.first + question.second
     Scaffold(
         topBar = {
             TopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.LightGray),
@@ -96,7 +98,7 @@ fun Addition() {
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "Hvad er $number1 + $number2?", fontSize = 24.sp)
+                Text(text = "Hvad er ${question.first} + ${question.second}?", fontSize = 24.sp)
                 Spacer(modifier = Modifier.height(10.dp))
                 TextField(
                     value = answer,
@@ -109,7 +111,9 @@ fun Addition() {
                         } else {
                             result = "Forkert! Prøv igen."
                         }
-                    })
+                        coolDownOn = true //Turns on cooldown for button and text field
+                    }),
+                    enabled = !coolDownOn // Disables text field when cooldown is on
                 )
                 Button(
                     onClick = {
@@ -118,12 +122,23 @@ fun Addition() {
                         } else {
                             result = "Forkert! Prøv igen."
                         }
+                        coolDownOn = true //Turns on cooldown for button and text field
                     },
+                    enabled = !coolDownOn,
                     modifier = Modifier.padding(top = 16.dp)
                 ) {
                     Text("Tjek")
                 }
                 Text(text = result, fontSize = 24.sp, modifier = Modifier.padding(top = 16.dp))
+                if (coolDownOn) {
+                    Text(text = "Vent venligst...", fontSize = 24.sp, modifier = Modifier.padding(top = 16.dp))
+                    // Coroutine to update the question after 3 seconds
+                    LaunchedEffect(key1 = coolDownOn) {
+                        delay(cooldownTime) // delay for 3 seconds
+                        question = Pair(random.nextInt(10), random.nextInt(10)) // update the question
+                        coolDownOn = false // Turns off cooldown for button
+                    }
+                }
             }
         }
     )

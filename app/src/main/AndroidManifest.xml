@@ -13,6 +13,11 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".AdditionActivityTest"
+            android:exported="false"
+            android:label="@string/title_activity_addition"
+            android:theme="@style/Theme.MyApplication" />
+        <activity
             android:name=".AdditionActivity"
             android:exported="false"
             android:label="@string/title_activity_addition"
