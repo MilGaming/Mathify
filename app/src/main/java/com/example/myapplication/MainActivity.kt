@@ -104,9 +104,7 @@ fun MyApp() {
             content = {
                 Column(
                         //Adds padding to button column at the top
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 100.dp),
+                        modifier = Modifier.fillMaxSize().padding(  top = 100.dp),
                         verticalArrangement = Arrangement.Top,
                         horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -133,9 +131,7 @@ fun MyApp() {
                         //Whatever needs to be under button 1 to has to be added below here--------
                         this@Column.AnimatedVisibility(visible = isExpandedB1.value) {
                             Text(text = "Addition Statistics will be shown here!!!",
-                                modifier = Modifier
-                                    .padding(4.dp)
-                                    .fillMaxWidth(0.8f),
+                                modifier = Modifier.padding(4.dp).fillMaxWidth(0.8f),
                                 fontSize = 5.em
                             )
                         }
@@ -166,9 +162,7 @@ fun MyApp() {
                         //Whatever needs to be under button 2 to has to be added below here--------
                         this@Column.AnimatedVisibility(visible = isExpandedB2.value) {
                             Text(text = "Subtraction Statistics will be shown here!!!",
-                                modifier = Modifier
-                                    .padding(4.dp)
-                                    .fillMaxWidth(0.8f),
+                                modifier = Modifier.padding(4.dp).fillMaxWidth(0.8f),
                                 fontSize = 5.em
                             )
                         }
@@ -207,9 +201,7 @@ fun MyApp() {
                             this@Column.AnimatedVisibility(visible = isExpandedB3.value) {
                                 Text(
                                     text = "Multiplication Statistics will be shown here!!!",
-                                    modifier = Modifier
-                                        .padding(4.dp)
-                                        .fillMaxWidth(0.8f),
+                                    modifier = Modifier.padding(4.dp).fillMaxWidth(0.8f),
                                     fontSize = 5.em
                                 )
                             }
@@ -248,9 +240,7 @@ fun MyApp() {
                             this@Column.AnimatedVisibility(visible = isExpandedB4.value) {
                                 Text(
                                     text = "Division Statistics will be shown here!!!",
-                                    modifier = Modifier
-                                        .padding(4.dp)
-                                        .fillMaxWidth(0.8f),
+                                    modifier = Modifier.padding(4.dp).fillMaxWidth(0.8f),
                                     fontSize = 5.em
                                 )
                             }
