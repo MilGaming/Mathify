@@ -69,7 +69,7 @@ fun AdditionTest() {
     var answer by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
     var coolDownOn by remember { mutableStateOf(false) }
-    val cooldownTime = 2000L
+    val cooldownTime = 1000L
     val random = Random
     var question by remember { mutableStateOf(Pair(random.nextInt(10), random.nextInt(10))) }
     val correctAnswer = question.first + question.second
