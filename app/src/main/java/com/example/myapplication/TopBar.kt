@@ -32,21 +32,26 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.PopupProperties
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 public fun CustomTopBar(isHeldDown: Boolean, openDialog: Boolean, title: String) {
-    var isHeldDown by remember { mutableStateOf(false) } // to see if menu open
+    var isHeldDown = remember { mutableStateOf(false) } // to see if menu open
     val openDialog = remember { mutableStateOf(false) } // for popup
     val context = LocalContext.current
     Scaffold(
@@ -61,17 +66,18 @@ public fun CustomTopBar(isHeldDown: Boolean, openDialog: Boolean, title: String)
                         Icon(Icons.Filled.Home, contentDescription = "Home")
                     }
                     Surface(
-                        color = if (isHeldDown) Color.Gray else Color.Transparent,
+                        color = if (isHeldDown.value) Color.Gray else Color.Transparent,
 
                         shape = CircleShape
                     ) {
                         IconButton(
                             onClick = { //achievement pop up menu
-                                isHeldDown = !isHeldDown
+                                isHeldDown.value = !isHeldDown.value
                                 openDialog.value = !openDialog.value
                             },
-
+                            enabled = !isHeldDown.value
                             ) {
+
                             Icon(Icons.Filled.Star, contentDescription = "Trophy")
                         }
                     }
@@ -91,17 +97,28 @@ public fun CustomTopBar(isHeldDown: Boolean, openDialog: Boolean, title: String)
             Spacer(modifier = Modifier.height(50.dp))
         })
     if (openDialog.value) {
-        Popup(openDialog)
+        Popup(openDialog, isHeldDown)
+        val keyboardController = LocalSoftwareKeyboardController.current
+        keyboardController?.hide()
     }
 }
 
 @Composable
-fun Popup(openDialog: MutableState<Boolean>){
+fun Popup(openDialog: MutableState<Boolean>,isHeldDown: MutableState<Boolean>){
     val cornerSize = 10.dp //box specs
+    val coroutineScope = rememberCoroutineScope()
 
     androidx.compose.ui.window.Popup(
         alignment = Alignment.Center, //here we mention the pos
-        properties = PopupProperties() //popup properties
+        properties = PopupProperties(), //popup properties
+        onDismissRequest = {
+            coroutineScope.launch {
+                delay(200) // delay for 200 miliseconds
+                openDialog.value = false
+                isHeldDown.value = false
+            }
+
+        }
     )
     {
         Column {
