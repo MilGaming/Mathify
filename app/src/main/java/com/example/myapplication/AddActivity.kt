@@ -5,12 +5,14 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,6 +35,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -65,13 +68,14 @@ private fun Greeting() {
     var isHeldDown by remember { mutableStateOf(false) } // to see if menu open
     val openDialog = remember { mutableStateOf(false) } // for popup
     val context = LocalContext.current
+
     Scaffold(
         topBar = {
             TopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.LightGray),
                 title = { Text("Mathify") },
                 actions = {
                     IconButton(onClick = { //home button
-                        val intent = Intent(context,MainActivity::class.java)
+                        val intent = Intent(context, MainActivity::class.java)
                         context.startActivity(intent)
                     }) {
                         Icon(Icons.Filled.Home, contentDescription = "Home")
@@ -81,69 +85,14 @@ private fun Greeting() {
 
                         shape = CircleShape
                     ) {
-                        IconButton(onClick = { //aceivment pop up menu
-                            isHeldDown = !isHeldDown
-                            openDialog.value = !openDialog.value
-                        },
+                        IconButton(
+                            onClick = { //aceivment pop up menu
+                                isHeldDown = !isHeldDown
+                                openDialog.value = !openDialog.value
+                            },
 
                             ) {
                             Icon(Icons.Filled.Star, contentDescription = "Trophy")
-                        }
-                    }
-
-                    Box(
-                        modifier = Modifier.offset(y = 15.dp)
-                    ){
-                        val popupWidth = 120.dp
-                        val popupHeight = 130.dp //box specs
-                        val cornerSize= 10.dp
-
-                        if(openDialog.value){ //open the box
-                            Popup(
-                                alignment = Alignment.TopStart, //here we mention the pos
-                                properties = PopupProperties()
-                            ) {
-                                Box( //the box content
-                                    modifier = Modifier
-                                        .size(popupWidth, popupHeight)
-                                        .padding(top = 2.dp)
-                                        .background(Color.Green, RoundedCornerShape(cornerSize))
-                                        .border(1.dp, Color.Black, RoundedCornerShape(cornerSize))
-
-                                ){
-                                    Column(
-                                        modifier = Modifier.padding(horizontal = 10.dp),
-                                        verticalArrangement = Arrangement.spacedBy(5.dp)
-
-                                    ){
-                                        Text(text = "Achivments1",
-                                            modifier = Modifier.padding(vertical = 5.dp),
-                                            fontSize = 16.sp
-                                        )
-
-                                        Divider(color = Color.Black, thickness = 1.dp)
-
-                                        Text(text = "Achivments2",
-                                            modifier = Modifier.padding(vertical = 5.dp),
-                                            fontSize = 16.sp
-                                        )
-
-                                        Divider(color = Color.Black, thickness = 1.dp)
-
-                                        Text(text = "Achivments3",
-                                            modifier = Modifier.padding(vertical = 5.dp),
-                                            fontSize = 16.sp
-                                        )
-
-                                        Divider(color = Color.Black, thickness = 1.dp)
-
-                                    }
-
-
-
-                                }
-
-                            }
                         }
                     }
                 }
@@ -161,7 +110,84 @@ private fun Greeting() {
             }
             Spacer(modifier = Modifier.height(50.dp))
         })
+    if (openDialog.value) {
+        Popup(openDialog)
+    }
+
 }
+
+@Composable
+fun Popup(openDialog: MutableState<Boolean>){
+        val cornerSize = 10.dp //box specs
+
+
+        Popup(
+            alignment = Alignment.Center, //here we mention the pos
+            properties = PopupProperties() //popup properties
+        )
+        {
+
+            Column {
+
+                    Box( //the box content
+
+                        modifier = Modifier
+                            .fillMaxWidth(0.8f)
+                            .fillMaxHeight(0.8f)
+                            .padding(top = 2.dp)
+                            .background(
+                                Color.Green,
+                                RoundedCornerShape(cornerSize)
+                            )
+                            .border(
+                                1.dp,
+                                Color.Black,
+                                RoundedCornerShape(cornerSize)
+                            )
+
+                    ) {
+
+                        Column(
+                            modifier = Modifier.padding(horizontal = 10.dp),
+                            verticalArrangement = Arrangement.spacedBy(5.dp)
+
+                        ) {
+                            Text(
+                                text = "Achivments1",
+                                modifier = Modifier.padding(vertical = 5.dp),
+                                fontSize = 16.sp
+                            )
+
+                            Divider(color = Color.Black, thickness = 1.dp)
+
+                            Text(
+                                text = "Achivments2",
+                                modifier = Modifier.padding(vertical = 5.dp),
+                                fontSize = 16.sp
+                            )
+
+                            Divider(color = Color.Black, thickness = 1.dp)
+
+                            Text(
+                                text = "Achivments3",
+                                modifier = Modifier.padding(vertical = 5.dp),
+                                fontSize = 16.sp
+                            )
+
+                            Divider(color = Color.Black, thickness = 1.dp)
+
+                        }
+
+
+                    }
+
+                }
+            }
+        }
+
+
+
+
 
 
 @Preview(showBackground = true)
