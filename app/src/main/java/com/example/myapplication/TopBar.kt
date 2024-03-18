@@ -66,7 +66,7 @@ public fun CustomTopBar(isHeldDown: Boolean, openDialog: Boolean, title: String)
                         shape = CircleShape
                     ) {
                         IconButton(
-                            onClick = { //aceivment pop up menu
+                            onClick = { //achievement pop up menu
                                 isHeldDown = !isHeldDown
                                 openDialog.value = !openDialog.value
                             },
@@ -99,17 +99,13 @@ public fun CustomTopBar(isHeldDown: Boolean, openDialog: Boolean, title: String)
 fun Popup(openDialog: MutableState<Boolean>){
     val cornerSize = 10.dp //box specs
 
-
     androidx.compose.ui.window.Popup(
         alignment = Alignment.Center, //here we mention the pos
         properties = PopupProperties() //popup properties
     )
     {
-
         Column {
-
             Box( //the box content
-
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .fillMaxHeight(0.8f)
@@ -123,7 +119,6 @@ fun Popup(openDialog: MutableState<Boolean>){
                         Color.Black,
                         RoundedCornerShape(cornerSize)
                     )
-
             ) {
 
                 Column(
@@ -154,12 +149,8 @@ fun Popup(openDialog: MutableState<Boolean>){
                     )
 
                     Divider(color = Color.Black, thickness = 1.dp)
-
                 }
-
-
             }
-
         }
     }
 }
