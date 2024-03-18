@@ -51,7 +51,7 @@ class MulActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Greeting()
+            MulFunction()
         }
     }
 }
@@ -60,7 +60,7 @@ class MulActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Greeting() {
+private fun MulFunction() {
     var isHeldDown by remember { mutableStateOf(false) } // to see if menu open
     val openDialog = remember { mutableStateOf(false) } // for popup
     val context = LocalContext.current
@@ -164,8 +164,8 @@ private fun Greeting() {
 
 @Preview(showBackground = true)
 @Composable
-private fun GreetingPreview() {
+private fun MulFunctionPreview() {
     MyApplicationTheme {
-        Greeting()
+        MulFunction()
     }
 }

@@ -51,7 +51,7 @@ class SubActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Greeting()
+            SubFunction()
         }
     }
 }
@@ -60,7 +60,7 @@ class SubActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Greeting() {
+private fun SubFunction() {
     var isHeldDown by remember { mutableStateOf(false) } // to see if menu open
     val openDialog = remember { mutableStateOf(false) } // for popup
     val context = LocalContext.current
@@ -164,8 +164,8 @@ private fun Greeting() {
 
 @Preview(showBackground = true)
 @Composable
-private fun GreetingPreview() {
+private fun SubFunctionPreview() {
     MyApplicationTheme {
-        Greeting()
+        SubFunction()
     }
 }

@@ -64,7 +64,7 @@ class AddActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Greeting()
+            AddFunction()
         }
     }
 }
@@ -73,7 +73,7 @@ class AddActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Greeting() {
+private fun AddFunction() {
     var isHeldDown by remember { mutableStateOf(false) } // to see if menu open
     val openDialog = remember { mutableStateOf(false) } // for popup
     val context = LocalContext.current
@@ -257,8 +257,8 @@ fun Popup(openDialog: MutableState<Boolean>){
 
 @Preview(showBackground = true)
 @Composable
-private fun GreetingPreview() {
+private fun AddFunctionPreview() {
     MyApplicationTheme {
-        Greeting()
+        AddFunction()
     }
 }
