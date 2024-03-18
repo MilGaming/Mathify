@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -43,6 +44,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -74,6 +76,7 @@ fun DefaultPreview() {
 @ExperimentalAnimationApi
 @Composable
 fun MyApp() {
+    val context = LocalContext.current
     //Toggle variables for all 4 expand buttons
     var isExpandedB1 = rememberSaveable {
         mutableStateOf(false)
@@ -112,7 +115,10 @@ fun MyApp() {
                     Column {
                         Box(modifier = Modifier
                             .fillMaxWidth(0.8f)){
-                            Button(onClick = { /* Handle button 1 click */ },
+                            Button(onClick = {
+                                    val intent = Intent(context,AddActivity::class.java)
+                                    context.startActivity(intent)
+                                             },
                                 modifier = Modifier
                                     .wrapContentSize(Alignment.CenterStart)
                                     .fillMaxWidth(0.8f)) {
@@ -143,7 +149,10 @@ fun MyApp() {
                     Column {
                         Box(modifier = Modifier
                             .fillMaxWidth(0.8f)){
-                            Button(onClick = { /* Handle button 2 click */ },
+                            Button(onClick = { //go to activity
+                                val intent = Intent(context,SubActivity::class.java)
+                                context.startActivity(intent)
+                                             },
                                 modifier = Modifier
                                     .wrapContentSize(Alignment.CenterStart)
                                     .fillMaxWidth(0.8f)) {
@@ -178,7 +187,10 @@ fun MyApp() {
                                     .fillMaxWidth(0.8f)
                             ) {
                                 Button(
-                                    onClick = { /* Handle button 3 click */ },
+                                    onClick = {
+                                        val intent = Intent(context,MulActivity::class.java)
+                                        context.startActivity(intent)
+                                              },
                                     modifier = Modifier
                                         .wrapContentSize(Alignment.CenterStart)
                                         .fillMaxWidth(0.8f)
@@ -217,7 +229,10 @@ fun MyApp() {
                                     .fillMaxWidth(0.8f)
                             ) {
                                 Button(
-                                    onClick = { /* Handle button 4 click */ },
+                                    onClick = {
+                                        val intent = Intent(context,DivActivity::class.java)
+                                        context.startActivity(intent)
+                                              },
                                     modifier = Modifier
                                         .wrapContentSize(Alignment.CenterStart)
                                         .fillMaxWidth(0.8f)
