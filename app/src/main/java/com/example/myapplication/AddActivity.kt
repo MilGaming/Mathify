@@ -46,9 +46,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -71,10 +73,10 @@ class AddActivity : ComponentActivity() {
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 private fun AddFunction() {
-    var isHeldDown by remember { mutableStateOf(false) } // to see if menu open
+    var isHeldDown = remember { mutableStateOf(false) } // to see if menu open
     val openDialog = remember { mutableStateOf(false) } // for popup
     val context = LocalContext.current
     var answer by remember { mutableStateOf("") }
@@ -97,15 +99,20 @@ private fun AddFunction() {
                         Icon(Icons.Filled.Home, contentDescription = "Home")
                     }
                     Surface(
-                        color = if (isHeldDown) Color.Gray else Color.Transparent,
+                        color = if (isHeldDown.value) Color.Gray else Color.Transparent,
 
                         shape = CircleShape
                     ) {
                         IconButton(
                             onClick = { //aceivment pop up menu
-                                isHeldDown = !isHeldDown
-                                openDialog.value = !openDialog.value
+                                if (!openDialog.value) { // if the popup is open
+                                    openDialog.value = !openDialog.value
+                                    isHeldDown.value = !isHeldDown.value
+
+                                }
+
                             },
+                            enabled = !isHeldDown.value
 
                             ) {
                             Icon(Icons.Filled.Star, contentDescription = "Trophy")
@@ -126,9 +133,14 @@ private fun AddFunction() {
             }
             Spacer(modifier = Modifier.height(50.dp))
         })
-    if (openDialog.value) {
-        Popup(openDialog)
+
+    if (openDialog.value) { //Opens the popup
+        Popup(openDialog, isHeldDown)
+        val keyboardController = LocalSoftwareKeyboardController.current
+        keyboardController?.hide()
     }
+
+
     Column(
         //Adds padding to button column at the top
         modifier = Modifier
@@ -182,13 +194,17 @@ private fun AddFunction() {
 }
 
 @Composable
-fun Popup(openDialog: MutableState<Boolean>){
+fun Popup(openDialog: MutableState<Boolean>, isHeldDown: MutableState<Boolean>){
         val cornerSize = 10.dp //box specs
 
 
         Popup(
             alignment = Alignment.Center, //here we mention the pos
-            properties = PopupProperties() //popup properties
+            properties = PopupProperties(), //popup properties
+            onDismissRequest = {
+                openDialog.value = false
+                isHeldDown.value = !isHeldDown.value
+            }
         )
         {
 
