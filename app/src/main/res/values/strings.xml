@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="title_activity_addition">AdditionActivity</string>
+    <string name="title_activity_sub">Sub Activity</string>
+    <string name="title_activity_div">Div Activity</string>
+    <string name="title_activity_mul">Mul Activity</string>
+    <string name="title_activity_add">Add Activity</string>
 </resources>

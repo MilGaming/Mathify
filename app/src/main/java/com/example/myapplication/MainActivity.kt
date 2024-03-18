@@ -124,7 +124,7 @@ fun MyApp() {
                     Column {
                         Box(modifier = Modifier
                             .fillMaxWidth(0.8f)){
-                            Button(onClick = { val intent = Intent(context, AdditionActivityTest::class.java)
+                            Button(onClick = { val intent = Intent(context, AddActivity::class.java)
                                 context.startActivity(intent) },
                                 modifier = Modifier
                                     .wrapContentSize(Alignment.CenterStart)
@@ -158,7 +158,8 @@ fun MyApp() {
                     Column {
                         Box(modifier = Modifier
                             .fillMaxWidth(0.8f)){
-                            Button(onClick = { /* Handle button 2 click */ },
+                            Button(onClick = {  val intent = Intent(context, SubActivity::class.java)
+                                context.startActivity(intent) },
                                 modifier = Modifier
                                     .wrapContentSize(Alignment.CenterStart)
                                     .fillMaxWidth(0.8f)) {
@@ -194,7 +195,8 @@ fun MyApp() {
                                     .fillMaxWidth(0.8f)
                             ) {
                                 Button(
-                                    onClick = { /* Handle button 3 click */ },
+                                    onClick = {  val intent = Intent(context, MulActivity::class.java)
+                                        context.startActivity(intent) },
                                     modifier = Modifier
                                         .wrapContentSize(Alignment.CenterStart)
                                         .fillMaxWidth(0.8f)
@@ -235,7 +237,8 @@ fun MyApp() {
                                     .fillMaxWidth(0.8f)
                             ) {
                                 Button(
-                                    onClick = { /* Handle button 4 click */ },
+                                    onClick = {  val intent = Intent(context, DivActivity::class.java)
+                                        context.startActivity(intent) },
                                     modifier = Modifier
                                         .wrapContentSize(Alignment.CenterStart)
                                         .fillMaxWidth(0.8f)
