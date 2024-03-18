@@ -44,14 +44,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,8 +58,8 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlin.random.Random
+
 
 class AddActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,12 +70,11 @@ class AddActivity : ComponentActivity() {
     }
 }
 
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AddFunction() {
-    var isHeldDown = remember { mutableStateOf(false) } // to see if menu open
+    var isHeldDown by remember { mutableStateOf(false) } // to see if menu open
     val openDialog = remember { mutableStateOf(false) } // for popup
     val context = LocalContext.current
     var answer by remember { mutableStateOf("") }
@@ -89,55 +85,7 @@ private fun AddFunction() {
     var question by remember { mutableStateOf(Pair(random.nextInt(10), random.nextInt(10))) }
     val correctAnswer = question.first + question.second
 
-    Scaffold(
-        topBar = {
-            TopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.LightGray),
-                title = { Text("Mathify") },
-                actions = {
-                    IconButton(onClick = { //home button
-                        val intent = Intent(context, MainActivity::class.java)
-                        context.startActivity(intent)
-                    }) {
-                        Icon(Icons.Filled.Home, contentDescription = "Home")
-                    }
-                    Surface(
-                        color = if (isHeldDown.value) Color.Gray else Color.Transparent,
-
-                        shape = CircleShape
-                    ) {
-                        IconButton(
-                            onClick = { //aceivment pop up menu
-                                if (!openDialog.value) { // if the popup is open
-                                    openDialog.value = !openDialog.value
-                                    isHeldDown.value = !isHeldDown.value
-
-                                }
-
-                            },
-                            enabled = !isHeldDown.value
-
-                            ) {
-                            Icon(Icons.Filled.Star, contentDescription = "Trophy")
-                        }
-                    }
-                }
-            )
-        },
-        content = {
-            Column(
-                //Adds padding to button column at the top
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 100.dp),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-            }
-            Spacer(modifier = Modifier.height(50.dp))
-        })
-
-
-
+    CustomTopBar(isHeldDown, openDialog.value, "Mathify")
     Column(
         //Adds padding to button column at the top
         modifier = Modifier
@@ -188,95 +136,7 @@ private fun AddFunction() {
             }
         }
     }
-    if (openDialog.value) { //Opens the popup
-        Popup(openDialog, isHeldDown)
-        val keyboardController = LocalSoftwareKeyboardController.current
-        keyboardController?.hide()
-    }
 }
-
-@Composable
-fun Popup(openDialog: MutableState<Boolean>, isHeldDown: MutableState<Boolean>){
-
-    val cornerSize = 10.dp //box specs
-    val coroutineScope = rememberCoroutineScope()
-
-        Popup(
-            alignment = Alignment.Center, //here we mention the pos
-            properties = PopupProperties(), //popup properties
-            onDismissRequest = {
-                    coroutineScope.launch {
-                        delay(200) // delay for 200 miliseconds
-                        openDialog.value = false
-                        isHeldDown.value = false
-                    }
-
-            }
-        )
-        {
-
-            Column {
-
-                    Box( //the box content
-
-                        modifier = Modifier
-                            .fillMaxWidth(0.8f)
-                            .fillMaxHeight(0.8f)
-                            .padding(top = 2.dp)
-                            .background(
-                                Color.Green,
-                                RoundedCornerShape(cornerSize)
-                            )
-                            .border(
-                                1.dp,
-                                Color.Black,
-                                RoundedCornerShape(cornerSize)
-                            )
-
-                    ) {
-
-                        Column(
-                            modifier = Modifier.padding(horizontal = 10.dp),
-                            verticalArrangement = Arrangement.spacedBy(5.dp)
-
-                        ) {
-                            Text(
-                                text = "Achivments1",
-                                modifier = Modifier.padding(vertical = 5.dp),
-                                fontSize = 16.sp
-                            )
-
-                            Divider(color = Color.Black, thickness = 1.dp)
-
-                            Text(
-                                text = "Achivments2",
-                                modifier = Modifier.padding(vertical = 5.dp),
-                                fontSize = 16.sp
-                            )
-
-                            Divider(color = Color.Black, thickness = 1.dp)
-
-                            Text(
-                                text = "Achivments3",
-                                modifier = Modifier.padding(vertical = 5.dp),
-                                fontSize = 16.sp
-                            )
-
-                            Divider(color = Color.Black, thickness = 1.dp)
-
-                        }
-
-
-                    }
-
-                }
-            }
-        }
-
-
-
-
-
 
 @Preview(showBackground = true)
 @Composable
