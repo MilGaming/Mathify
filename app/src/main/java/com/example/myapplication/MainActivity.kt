@@ -97,22 +97,11 @@ fun MyApp() {
     }
     //Saving the current activity context
     val context = LocalContext.current
-    Scaffold(
-            topBar = {
-                TopAppBar(colors = topAppBarColors(containerColor = Color.LightGray),
-                        title = { Text("Mathify") },
-                        actions = {
-                            IconButton(onClick = { /* Handle home button click */ }) {
-                                Icon(Icons.Filled.Home, contentDescription = "Home")
-                            }
-                            IconButton(onClick = { /* Handle trophy button click */ }) {
-                                Icon(Icons.Filled.Star, contentDescription = "Trophy")
-                            }
-                        }
-                )
-            },
-            content = {
-                Column(
+    var isHeldDown by remember { mutableStateOf(false) } // to see if menu open
+    val openDialog = remember { mutableStateOf(false) } // for popup
+
+    CustomTopBar(isHeldDown, openDialog.value, "Mathify")
+    Column(
                         //Adds padding to button column at the top
                         modifier = Modifier
                             .fillMaxSize()
@@ -269,6 +258,4 @@ fun MyApp() {
                             }
                         }
                     }
-            }
-    )
 }
