@@ -44,6 +44,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -60,6 +61,7 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class AddActivity : ComponentActivity() {
@@ -134,11 +136,6 @@ private fun AddFunction() {
             Spacer(modifier = Modifier.height(50.dp))
         })
 
-    if (openDialog.value) { //Opens the popup
-        Popup(openDialog, isHeldDown)
-        val keyboardController = LocalSoftwareKeyboardController.current
-        keyboardController?.hide()
-    }
 
 
     Column(
@@ -191,19 +188,29 @@ private fun AddFunction() {
             }
         }
     }
+    if (openDialog.value) { //Opens the popup
+        Popup(openDialog, isHeldDown)
+        val keyboardController = LocalSoftwareKeyboardController.current
+        keyboardController?.hide()
+    }
 }
 
 @Composable
 fun Popup(openDialog: MutableState<Boolean>, isHeldDown: MutableState<Boolean>){
-        val cornerSize = 10.dp //box specs
 
+    val cornerSize = 10.dp //box specs
+    val coroutineScope = rememberCoroutineScope()
 
         Popup(
             alignment = Alignment.Center, //here we mention the pos
             properties = PopupProperties(), //popup properties
             onDismissRequest = {
-                openDialog.value = false
-                isHeldDown.value = !isHeldDown.value
+                    coroutineScope.launch {
+                        delay(200) // delay for 200 miliseconds
+                        openDialog.value = false
+                        isHeldDown.value = false
+                    }
+
             }
         )
         {
