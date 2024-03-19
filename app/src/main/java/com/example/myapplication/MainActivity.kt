@@ -61,6 +61,7 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.Purple40
 import com.example.myapplication.ui.theme.Purple80
 import kotlin.random.Random
+import androidx.compose.ui.ExperimentalComposeUiApi
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalAnimationApi::class)
@@ -148,8 +149,16 @@ fun MyApp() {
     }
     //Saving the current activity context
     val context = LocalContext.current
+    val preferencesManager = PreferencesManager(context)
     var isHeldDown by remember { mutableStateOf(false) } // to see if menu open
     val openDialog = remember { mutableStateOf(false) } // for popup
+    var totalScore by remember { mutableStateOf(0) }
+
+    // Update the total score whenever needed
+    totalScore = preferencesManager.getAdditionPoints() +
+            preferencesManager.getSubtractionPoints() +
+            preferencesManager.getMultiplicationPoints() +
+            preferencesManager.getDivisionPoints()
 
     CustomTopBar(isHeldDown, openDialog.value, "Mathify")
     Column(
@@ -309,4 +318,19 @@ fun MyApp() {
                             }
                         }
                     }
+    // Display the total score in the top right corner
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 50.dp),
+        contentAlignment = Alignment.TopEnd
+    ) {
+        Text(
+            text = "Samlede points: $totalScore",
+            modifier = Modifier
+                .padding(top = 16.dp, end = 16.dp)
+                .align(Alignment.TopEnd),
+            fontSize = 24.sp
+        )
+    }
 }
