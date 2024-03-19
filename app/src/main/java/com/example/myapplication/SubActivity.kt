@@ -80,6 +80,8 @@ private fun SubFunction() {
     val random = Random
     var question by remember { mutableStateOf(Pair(random.nextInt(10), random.nextInt(10))) }
     val correctAnswer = question.first + question.second
+    val preferencesManager = PreferencesManager(context)
+    var points by remember { mutableStateOf(preferencesManager.getSubtractionPoints()) }
 
     CustomTopBar(isHeldDown, openDialog.value, "Mathify")
     Column(
@@ -100,10 +102,13 @@ private fun SubFunction() {
             keyboardActions = KeyboardActions(onDone = {
                 if (answer.toIntOrNull() == correctAnswer) {
                     result = "Rigtigt!"
+                    points++ // increment points
+                    preferencesManager.saveSubtractionPoints(points) // save points
                 } else {
                     result = "Forkert! Prøv igen."
                 }
                 coolDownOn = true //Turns on cooldown for button and text field
+                answer = "" // clear the TextField
             }),
             enabled = !coolDownOn // Disables text field when cooldown is on
         )
@@ -111,10 +116,13 @@ private fun SubFunction() {
             onClick = {
                 if (answer.toIntOrNull() == correctAnswer) {
                     result = "Rigtigt!"
+                    points++ // increment points
+                    preferencesManager.saveSubtractionPoints(points) // save points
                 } else {
                     result = "Forkert! Prøv igen."
                 }
                 coolDownOn = true //Turns on cooldown for button and text field
+                answer = "" // clear the TextField
             },
             enabled = !coolDownOn,
             modifier = Modifier.padding(top = 16.dp)
@@ -131,6 +139,17 @@ private fun SubFunction() {
                 coolDownOn = false // Turns off cooldown for button
             }
         }
+    }
+    // Display the score in the top right corner
+    Box(
+        modifier = Modifier.fillMaxSize().padding(top = 50.dp),
+        contentAlignment = Alignment.TopEnd
+    ) {
+        Text(
+            text = "Points: $points",
+            modifier = Modifier.padding(top = 16.dp, end = 16.dp).align(Alignment.TopEnd),
+            fontSize = 24.sp
+        )
     }
 }
 

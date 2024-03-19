@@ -1,7 +1,9 @@
 package com.example.myapplication
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -75,6 +77,55 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     MyApp()
+}
+
+//Shared preferences for points in the different activities
+class PreferencesManager(context: Context) {
+    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("MyApp", Context.MODE_PRIVATE)
+
+    // Addition points
+    fun saveAdditionPoints(points: Int) {
+        val editor = sharedPreferences.edit()
+        editor.putInt("ADDITION_POINTS", points)
+        editor.apply()
+    }
+
+    fun getAdditionPoints(): Int {
+        return sharedPreferences.getInt("ADDITION_POINTS", 0)
+    }
+
+    // Subtraction points
+    fun saveSubtractionPoints(points: Int) {
+        val editor = sharedPreferences.edit()
+        editor.putInt("SUBTRACTION_POINTS", points)
+        editor.apply()
+    }
+
+    fun getSubtractionPoints(): Int {
+        return sharedPreferences.getInt("SUBTRACTION_POINTS", 0)
+    }
+
+    // Multiplication points
+    fun saveMultiplicationPoints(points: Int) {
+        val editor = sharedPreferences.edit()
+        editor.putInt("MULTIPLICATION_POINTS", points)
+        editor.apply()
+    }
+
+    fun getMultiplicationPoints(): Int {
+        return sharedPreferences.getInt("MULTIPLICATION_POINTS", 0)
+    }
+
+    // Division points
+    fun saveDivisionPoints(points: Int) {
+        val editor = sharedPreferences.edit()
+        editor.putInt("DIVISION_POINTS", points)
+        editor.apply()
+    }
+
+    fun getDivisionPoints(): Int {
+        return sharedPreferences.getInt("DIVISION_POINTS", 0)
+    }
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
