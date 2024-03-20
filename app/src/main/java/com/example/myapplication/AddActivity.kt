@@ -89,7 +89,7 @@ private fun AddFunction() {
     var coolDownOn by remember { mutableStateOf(false) }
     val cooldownTime = 1000L
     val random = Random
-    var question by remember { mutableStateOf(Pair(random.nextInt(10), random.nextInt(10))) }
+    var question by remember { mutableStateOf(Pair(random.nextInt(1, 11), random.nextInt(1, 11))) }
     val correctAnswer = question.first + question.second
     val preferencesManager = PreferencesManager(context)
     var points by remember { mutableStateOf(preferencesManager.getAdditionPoints()) }
@@ -147,7 +147,7 @@ private fun AddFunction() {
             // Coroutine to update the question after 3 seconds
             LaunchedEffect(key1 = coolDownOn) {
                 delay(cooldownTime) // delay for 3 seconds
-                question = Pair(random.nextInt(10), random.nextInt(10)) // update the question
+                question = Pair(random.nextInt(1, 11), random.nextInt(1, 11)) // update the question
                 coolDownOn = false // Turns off cooldown for button
             }
         }
