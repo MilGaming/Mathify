@@ -60,6 +60,7 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
+
 class AddActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +69,6 @@ class AddActivity : ComponentActivity() {
         }
     }
 }
-
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -85,50 +85,7 @@ private fun AddFunction() {
     var question by remember { mutableStateOf(Pair(random.nextInt(10), random.nextInt(10))) }
     val correctAnswer = question.first + question.second
 
-    Scaffold(
-        topBar = {
-            TopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.LightGray),
-                title = { Text("Mathify") },
-                actions = {
-                    IconButton(onClick = { //home button
-                        val intent = Intent(context, MainActivity::class.java)
-                        context.startActivity(intent)
-                    }) {
-                        Icon(Icons.Filled.Home, contentDescription = "Home")
-                    }
-                    Surface(
-                        color = if (isHeldDown) Color.Gray else Color.Transparent,
-
-                        shape = CircleShape
-                    ) {
-                        IconButton(
-                            onClick = { //aceivment pop up menu
-                                isHeldDown = !isHeldDown
-                                openDialog.value = !openDialog.value
-                            },
-
-                            ) {
-                            Icon(Icons.Filled.Star, contentDescription = "Trophy")
-                        }
-                    }
-                }
-            )
-        },
-        content = {
-            Column(
-                //Adds padding to button column at the top
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 100.dp),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-            }
-            Spacer(modifier = Modifier.height(50.dp))
-        })
-    if (openDialog.value) {
-        Popup(openDialog)
-    }
+    CustomTopBar(isHeldDown, openDialog.value, "Mathify")
     Column(
         //Adds padding to button column at the top
         modifier = Modifier
@@ -180,80 +137,6 @@ private fun AddFunction() {
         }
     }
 }
-
-@Composable
-fun Popup(openDialog: MutableState<Boolean>){
-        val cornerSize = 10.dp //box specs
-
-
-        Popup(
-            alignment = Alignment.Center, //here we mention the pos
-            properties = PopupProperties() //popup properties
-        )
-        {
-
-            Column {
-
-                    Box( //the box content
-
-                        modifier = Modifier
-                            .fillMaxWidth(0.8f)
-                            .fillMaxHeight(0.8f)
-                            .padding(top = 2.dp)
-                            .background(
-                                Color.Green,
-                                RoundedCornerShape(cornerSize)
-                            )
-                            .border(
-                                1.dp,
-                                Color.Black,
-                                RoundedCornerShape(cornerSize)
-                            )
-
-                    ) {
-
-                        Column(
-                            modifier = Modifier.padding(horizontal = 10.dp),
-                            verticalArrangement = Arrangement.spacedBy(5.dp)
-
-                        ) {
-                            Text(
-                                text = "Achivments1",
-                                modifier = Modifier.padding(vertical = 5.dp),
-                                fontSize = 16.sp
-                            )
-
-                            Divider(color = Color.Black, thickness = 1.dp)
-
-                            Text(
-                                text = "Achivments2",
-                                modifier = Modifier.padding(vertical = 5.dp),
-                                fontSize = 16.sp
-                            )
-
-                            Divider(color = Color.Black, thickness = 1.dp)
-
-                            Text(
-                                text = "Achivments3",
-                                modifier = Modifier.padding(vertical = 5.dp),
-                                fontSize = 16.sp
-                            )
-
-                            Divider(color = Color.Black, thickness = 1.dp)
-
-                        }
-
-
-                    }
-
-                }
-            }
-        }
-
-
-
-
-
 
 @Preview(showBackground = true)
 @Composable

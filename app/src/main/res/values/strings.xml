@@ -5,6 +5,5 @@
     <string name="title_activity_div">Div Activity</string>
     <string name="title_activity_mul">Mul Activity</string>
     <string name="title_activity_add">Add Activity</string>
-    <string name="title_activity_welcome_screen">WelcomeScreen</string>
-    <string name="title_activity_pop_up_welcome_screen">PopUpWelcomeScreen</string>
+    <string name="title_activity_top_bar">TopBar</string>
 </resources>
