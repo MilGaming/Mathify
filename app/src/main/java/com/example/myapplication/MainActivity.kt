@@ -129,6 +129,19 @@ class PreferencesManager(context: Context) {
     fun getDivisionPoints(): Int {
         return sharedPreferences.getInt("DIVISION_POINTS", 0)
     }
+
+    //emilkode//
+    fun saveMMR(mmr: Int) {
+        val editor = sharedPreferences.edit()
+        editor.putInt("MMR", mmr)
+        editor.apply()
+    }
+
+    fun getMMR(): Int {
+        return sharedPreferences.getInt("MMR", 0)
+    }
+    //emilkode//
+
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
