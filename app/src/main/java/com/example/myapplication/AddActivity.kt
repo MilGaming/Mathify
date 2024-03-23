@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -59,6 +60,12 @@ import androidx.compose.ui.window.PopupProperties
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.delay
 import kotlin.random.Random
+import android.content.SharedPreferences
+import android.util.Log
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 
 
 class AddActivity : ComponentActivity() {
@@ -71,7 +78,7 @@ class AddActivity : ComponentActivity() {
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 private fun AddFunction() {
     var isHeldDown by remember { mutableStateOf(false) } // to see if menu open
@@ -84,7 +91,10 @@ private fun AddFunction() {
     val random = Random
     var question by remember { mutableStateOf(Pair(random.nextInt(10), random.nextInt(10))) }
     val correctAnswer = question.first + question.second
+    val preferencesManager = PreferencesManager(context)
+    var points by remember { mutableStateOf(preferencesManager.getAdditionPoints()) }
 
+    // Custom top bar
     CustomTopBar(isHeldDown, openDialog.value, "Mathify")
     Column(
         //Adds padding to button column at the top
@@ -104,21 +114,27 @@ private fun AddFunction() {
             keyboardActions = KeyboardActions(onDone = {
                 if (answer.toIntOrNull() == correctAnswer) {
                     result = "Rigtigt!"
+                    points++ // increment points
+                    preferencesManager.saveAdditionPoints(points) // save points
                 } else {
                     result = "Forkert! Prøv igen."
                 }
                 coolDownOn = true //Turns on cooldown for button and text field
+                answer = "" // clear the TextField
             }),
             enabled = !coolDownOn // Disables text field when cooldown is on
-        )
+            )
         Button(
             onClick = {
                 if (answer.toIntOrNull() == correctAnswer) {
                     result = "Rigtigt!"
+                    points++ // increment points
+                    preferencesManager.saveAdditionPoints(points) // save points
                 } else {
                     result = "Forkert! Prøv igen."
                 }
                 coolDownOn = true //Turns on cooldown for button and text field
+                answer = "" // clear the TextField
             },
             enabled = !coolDownOn,
             modifier = Modifier.padding(top = 16.dp)
@@ -135,6 +151,21 @@ private fun AddFunction() {
                 coolDownOn = false // Turns off cooldown for button
             }
         }
+    }
+    // Display the score in the top right corner
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 50.dp),
+        contentAlignment = Alignment.TopEnd
+    ) {
+        Text(
+            text = "Points: $points",
+            modifier = Modifier
+                .padding(top = 16.dp, end = 16.dp)
+                .align(Alignment.TopEnd),
+            fontSize = 24.sp
+        )
     }
 }
 
