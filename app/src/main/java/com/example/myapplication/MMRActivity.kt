@@ -12,44 +12,30 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupProperties
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.delay
+import kotlin.math.log10
 import kotlin.random.Random
 import kotlin.math.min
 class MMRActivity : ComponentActivity() {
@@ -63,10 +49,9 @@ class MMRActivity : ComponentActivity() {
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MMRFunction() {
-    var isHeldDown by remember { mutableStateOf(false) } // to see if menu open
+    val isHeldDown by remember { mutableStateOf(false) } // to see if menu open
     val openDialog = remember { mutableStateOf(false) } // for popup
     val context = LocalContext.current
     var answer by remember { mutableStateOf("") }
@@ -77,12 +62,12 @@ private fun MMRFunction() {
     var question by remember { mutableStateOf(Pair(random.nextInt(10), random.nextInt(10))) }
     val correctAnswer = question.first + question.second
     val preferencesManager = PreferencesManager(context)
-    var points by remember { mutableStateOf(preferencesManager.getMultiplicationPoints()) }
+    var points by remember { mutableIntStateOf(preferencesManager.getMultiplicationPoints()) }
 
     ///////////////////EmilKode/////////////////////
-    var startTime by remember { mutableStateOf(System.currentTimeMillis())} // reset start time
-    var positiveStreak by remember { mutableStateOf(0) } // reset positive streak
-    var negativeStreak by remember { mutableStateOf(0) } // reset negative streak
+    var startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
+    var positiveStreak by remember { mutableIntStateOf(0) } // reset positive streak
+    var negativeStreak by remember { mutableIntStateOf(0) } // reset negative streak
     ///////////////////EmilKode/////////////////////
 
     CustomTopBar(isHeldDown, openDialog.value, "Mathify")
@@ -104,8 +89,8 @@ private fun MMRFunction() {
             keyboardActions = KeyboardActions(onDone = {
 
                 ///////////////////EmilKode/////////////////////
-                var endTime = System.currentTimeMillis() // get current time
-                var timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
+                val endTime = System.currentTimeMillis() // get current time
+                val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
                 ///////////////////EmilKode/////////////////////
 
                 if (answer.toIntOrNull() == correctAnswer) {
@@ -114,7 +99,7 @@ private fun MMRFunction() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    IncreaseScore(positiveStreak, timeTaken,context)
+                    increaseScore(positiveStreak, timeTaken,context)
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
@@ -125,7 +110,7 @@ private fun MMRFunction() {
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    DecreaseScore(negativeStreak, timeTaken, context) // decrease score
+                    decreaseScore(negativeStreak, timeTaken, context) // decrease score
                     ///////////////////EmilKode/////////////////////
 
                     result = "Forkert! Prøv igen."
@@ -139,8 +124,8 @@ private fun MMRFunction() {
             onClick = {
 
                 ///////////////////EmilKode/////////////////////
-                var endTime = System.currentTimeMillis() // get current time
-                var timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
+                val endTime = System.currentTimeMillis() // get current time
+                val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
                 ///////////////////EmilKode/////////////////////
 
                 if (answer.toIntOrNull() == correctAnswer) {
@@ -149,7 +134,7 @@ private fun MMRFunction() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    IncreaseScore(positiveStreak, timeTaken,context) // increase score
+                    increaseScore(positiveStreak, timeTaken,context) // increase score
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
@@ -161,7 +146,7 @@ private fun MMRFunction() {
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    DecreaseScore(negativeStreak, timeTaken, context)
+                    decreaseScore(negativeStreak, timeTaken, context)
                     ///////////////////EmilKode/////////////////////
 
                 }
@@ -203,12 +188,12 @@ private fun MMRFunction() {
 }
 
 ///////////////////EmilKode/////////////////////
-private fun IncreaseScore(streak: Int, time: Int, context: Context) {
+private fun increaseScore(streak: Int, time: Int, context: Context) {
     val preferencesManager = PreferencesManager(context)
     var points = preferencesManager.getMMR()
 
     val baseScore = 50
-    val streakMultiplier = (Math.log10((streak + 2).toDouble())+0.5) // decreases as streak increases
+    val streakMultiplier = (log10((streak + 2).toDouble()) +0.5) // decreases as streak increases
     val timeBonus = if (time <= 5) (5 - time) * 10 else 0 // larger bonus for time less than 5 seconds
 
     val score = min(((baseScore + timeBonus) * streakMultiplier).toInt(), 150)
@@ -219,12 +204,12 @@ private fun IncreaseScore(streak: Int, time: Int, context: Context) {
     println(points)
 }
 
-private fun DecreaseScore(streak: Int, time: Int, context: Context) {
+private fun decreaseScore(streak: Int, time: Int, context: Context) {
     val preferencesManager = PreferencesManager(context)
     var points = preferencesManager.getMMR()
 
     val basePenalty = 50
-    val streakPenalty = (Math.log10((streak + 2).toDouble())+0.8) // increases as streak increases
+    val streakPenalty = (log10((streak + 2).toDouble()) +0.8) // increases as streak increases
     val timePenalty = if (time <= 5) time * 2 else 10 // smaller penalty for time less than 5 seconds
 
     val penalty = min(((basePenalty + timePenalty) * streakPenalty).toInt(),100)
