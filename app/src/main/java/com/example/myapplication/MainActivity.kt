@@ -315,6 +315,7 @@ fun WelcomePopup(onDismiss: () -> Unit) {
         },
         confirmButton = {
             Button(onClick = onDismiss) {
+
                 Text("Forstået")
             }
         }
