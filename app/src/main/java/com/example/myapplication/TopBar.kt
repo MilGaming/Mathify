@@ -1,7 +1,9 @@
 package com.example.myapplication
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -54,16 +56,22 @@ public fun CustomTopBar(isHeldDown: Boolean, openDialog: Boolean, title: String)
     var isHeldDown = remember { mutableStateOf(false) } // to see if menu open
     val openDialog = remember { mutableStateOf(false) } // for popup
     val context = LocalContext.current
+    val currentActivity = context as Activity
+    val currentActivityName = currentActivity.localClassName
+
     Scaffold(
         topBar = {
             TopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.LightGray),
                 title = { Text("Mathify") },
                 actions = {
-                    IconButton(onClick = { //home button
-                        val intent = Intent(context, MainActivity::class.java)
-                        context.startActivity(intent)
-                    }) {
-                        Icon(Icons.Filled.Home, contentDescription = "Home")
+                    //Home button is not shown in the main activity
+                    if (currentActivityName != "MainActivity") {
+                        IconButton(onClick = { //home button
+                            val intent = Intent(context, MainActivity::class.java)
+                            context.startActivity(intent)
+                        }) {
+                            Icon(Icons.Filled.Home, contentDescription = "Home")
+                        }
                     }
                     Surface(
                         color = if (isHeldDown.value) Color.Gray else Color.Transparent,

@@ -78,8 +78,12 @@ private fun SubFunction() {
     var coolDownOn by remember { mutableStateOf(false) }
     val cooldownTime = 1000L
     val random = Random
-    var question by remember { mutableStateOf(Pair(random.nextInt(10), random.nextInt(10))) }
-    val correctAnswer = question.first + question.second
+    ///var question by remember { mutableStateOf(Pair(random.nextInt(10), random.nextInt(10))) }
+    var number1 by remember { mutableStateOf(random.nextInt(1,21)) }
+    var number2 by remember { mutableStateOf(random.nextInt(1, number1+1)) }
+    val correctAnswer = number1 - number2
+    val preferencesManager = PreferencesManager(context)
+    var points by remember { mutableStateOf(preferencesManager.getSubtractionPoints()) }
 
     CustomTopBar(isHeldDown, openDialog.value, "Mathify")
     Column(
@@ -90,7 +94,7 @@ private fun SubFunction() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Hvad er ${question.first} + ${question.second}?", fontSize = 24.sp)
+        Text(text = "Hvad er $number1 - $number2?", fontSize = 24.sp)
         Spacer(modifier = Modifier.height(10.dp))
         TextField(
             value = answer,
@@ -100,10 +104,13 @@ private fun SubFunction() {
             keyboardActions = KeyboardActions(onDone = {
                 if (answer.toIntOrNull() == correctAnswer) {
                     result = "Rigtigt!"
+                    points++ // increment points
+                    preferencesManager.saveSubtractionPoints(points) // save points
                 } else {
                     result = "Forkert! Prøv igen."
                 }
                 coolDownOn = true //Turns on cooldown for button and text field
+                answer = "" // clear the TextField
             }),
             enabled = !coolDownOn // Disables text field when cooldown is on
         )
@@ -111,10 +118,13 @@ private fun SubFunction() {
             onClick = {
                 if (answer.toIntOrNull() == correctAnswer) {
                     result = "Rigtigt!"
+                    points++ // increment points
+                    preferencesManager.saveSubtractionPoints(points) // save points
                 } else {
                     result = "Forkert! Prøv igen."
                 }
                 coolDownOn = true //Turns on cooldown for button and text field
+                answer = "" // clear the TextField
             },
             enabled = !coolDownOn,
             modifier = Modifier.padding(top = 16.dp)
@@ -127,10 +137,22 @@ private fun SubFunction() {
             // Coroutine to update the question after 3 seconds
             LaunchedEffect(key1 = coolDownOn) {
                 delay(cooldownTime) // delay for 3 seconds
-                question = Pair(random.nextInt(10), random.nextInt(10)) // update the question
+                number1 = random.nextInt(1,21) // update number1
+                number2 = random.nextInt(1, number1+1) // update number2
                 coolDownOn = false // Turns off cooldown for button
             }
         }
+    }
+    // Display the score in the top right corner
+    Box(
+        modifier = Modifier.fillMaxSize().padding(top = 50.dp),
+        contentAlignment = Alignment.TopEnd
+    ) {
+        Text(
+            text = "Points: $points",
+            modifier = Modifier.padding(top = 16.dp, end = 16.dp).align(Alignment.TopEnd),
+            fontSize = 24.sp
+        )
     }
 }
 
