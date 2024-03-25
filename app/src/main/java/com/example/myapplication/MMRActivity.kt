@@ -99,7 +99,7 @@ private fun MMRFunction() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    increaseScore(positiveStreak, timeTaken,context)
+                    increaseScore(positiveStreak, timeTaken, context)
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
