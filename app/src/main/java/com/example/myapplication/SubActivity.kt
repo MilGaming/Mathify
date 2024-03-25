@@ -78,8 +78,10 @@ private fun SubFunction() {
     var coolDownOn by remember { mutableStateOf(false) }
     val cooldownTime = 1000L
     val random = Random
-    var question by remember { mutableStateOf(Pair(random.nextInt(10), random.nextInt(10))) }
-    val correctAnswer = question.first + question.second
+    ///var question by remember { mutableStateOf(Pair(random.nextInt(10), random.nextInt(10))) }
+    var number1 by remember { mutableStateOf(random.nextInt(1,21)) }
+    var number2 by remember { mutableStateOf(random.nextInt(1, number1+1)) }
+    val correctAnswer = number1 - number2
     val preferencesManager = PreferencesManager(context)
     var points by remember { mutableStateOf(preferencesManager.getSubtractionPoints()) }
 
@@ -92,7 +94,7 @@ private fun SubFunction() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Hvad er ${question.first} + ${question.second}?", fontSize = 24.sp)
+        Text(text = "Hvad er $number1 - $number2?", fontSize = 24.sp)
         Spacer(modifier = Modifier.height(10.dp))
         TextField(
             value = answer,
@@ -135,7 +137,8 @@ private fun SubFunction() {
             // Coroutine to update the question after 3 seconds
             LaunchedEffect(key1 = coolDownOn) {
                 delay(cooldownTime) // delay for 3 seconds
-                question = Pair(random.nextInt(10), random.nextInt(10)) // update the question
+                number1 = random.nextInt(1,21) // update number1
+                number2 = random.nextInt(1, number1+1) // update number2
                 coolDownOn = false // Turns off cooldown for button
             }
         }
