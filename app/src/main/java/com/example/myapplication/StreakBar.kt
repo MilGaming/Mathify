@@ -13,6 +13,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -35,6 +36,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,40 +58,44 @@ fun StreakBar(streak: Int) {
             repeatMode = RepeatMode.Reverse
         ), label = ""
     )
-
     Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 50.dp, start = 16.dp),
-        contentAlignment = Alignment.TopStart
+            .fillMaxSize(), // This will make the Box fill its parent
+            contentAlignment = Alignment.TopCenter
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = "Current Streak: $streak",
-                fontSize = 24.sp
-            )
-            Image(
-                painter = painterResource(id = R.drawable.streak_icon),
-                contentDescription = "Streak Icon",
-                modifier = Modifier
-                    .size(65.dp)
-                    .graphicsLayer {
-                        rotationZ = if (streak >= streakNeeded) rotation * (streak / 5f) else 0f
-                    }
-                    .onGloballyPositioned { coordinates ->
-                        streakIconPosition.value = coordinates.positionInRoot()
-                    }
-            )
-        }
+    Box(
+        modifier = Modifier
+            .size(100.dp) // Size of streak icon
+            .padding(top = 20.dp),
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.streak_icon),
+            contentDescription = "Streak Icon",
+            modifier = Modifier
+                .fillMaxSize()
+                .graphicsLayer {
+                    rotationZ = if (streak >= 0) rotation * (streak / 10f) else 0f //Makes the icon shake
+                }
+                .onGloballyPositioned { coordinates ->
+                    streakIconPosition.value = coordinates.positionInRoot()
+                }
+        )
+        Text(
+            text = "$streak",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.align(Alignment.Center)
+                .padding(top = 40.dp),
+            color = Color.Black
+        )
+    }
     }
     // Create a list of particles
     val particles = remember { mutableStateListOf<Particle>() }
     // Define the colors
     val colors = listOf(Color.Red, Color.Yellow, Color(0xFFFFA500)) // 0xFFFFA500 is the hex code for orange
     // Get the icon's size in pixels
-    val iconSizePx = with(LocalDensity.current) { 65.dp.toPx() }
+    val iconSizePx = with(LocalDensity.current) { 100.dp.toPx() }
     // Update particles
     LaunchedEffect(streak) {
         if (streak >= streakNeeded) {
@@ -98,10 +104,10 @@ fun StreakBar(streak: Int) {
                 // Add a new particle at a random position around the center of the streak icon
                 particles.add(
                     Particle(
-                        x = streakIconPosition.value.x + iconSizePx / 2 + (Random.nextFloat() * 50f - 25f), // Add a random offset to the x coordinate
-                        y = streakIconPosition.value.y + iconSizePx / 2 + (Random.nextFloat() * 50f - 25f), // Add a random offset to the y coordinate
+                        x = streakIconPosition.value.x + iconSizePx / 2 + (Random.nextFloat() * 150f - 75f), // Add a random offset to the x coordinate
+                        y = streakIconPosition.value.y + iconSizePx / 2 + (Random.nextFloat() * 150f - 75f), // Add a random offset to the y coordinate
                         speed = Random.nextFloat() * 5f,
-                        radius = Random.nextFloat() * 5f,
+                        radius = Random.nextFloat() * 10f,
                         alpha = 1f,
                         color = colors.random()
                     )
@@ -140,3 +146,11 @@ data class Particle(
     var alpha: Float,
     var color: Color
 )
+
+@Preview(showBackground = true)
+@Composable
+private fun MulFunctionPreview() {
+    MyApplicationTheme {
+        StreakBar(5)
+    }
+}
