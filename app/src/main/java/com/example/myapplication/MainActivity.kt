@@ -171,8 +171,6 @@ fun MyApp() {
         //Saving the current activity context
         val context = LocalContext.current
         val preferencesManager = PreferencesManager(context)
-        val isHeldDown by remember { mutableStateOf(false) } // to see if menu open
-        val openDialog = remember { mutableStateOf(false) } // for popup
         var totalScore by remember { mutableIntStateOf(0) }
 
         // Update the total score whenever needed

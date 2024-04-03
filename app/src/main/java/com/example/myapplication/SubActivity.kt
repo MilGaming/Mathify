@@ -49,8 +49,6 @@ class SubActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 private fun SubFunction() {
-    val isHeldDown by remember { mutableStateOf(false) } // to see if menu open
-    val openDialog = remember { mutableStateOf(false) } // for popup
     val context = LocalContext.current
     var answer by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
