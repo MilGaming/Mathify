@@ -19,7 +19,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -55,6 +58,7 @@ import kotlinx.coroutines.launch
 public fun CustomTopBar(isHeldDown: Boolean, openDialog: Boolean, title: String) {
     var isHeldDown = remember { mutableStateOf(false) } // to see if menu open
     val openDialog = remember { mutableStateOf(false) } // for popup
+    val showInfo = remember { mutableStateOf(false) } // for Info dialog
     val context = LocalContext.current
     val currentActivity = context as Activity
     val currentActivityName = currentActivity.localClassName
@@ -71,6 +75,13 @@ public fun CustomTopBar(isHeldDown: Boolean, openDialog: Boolean, title: String)
                             context.startActivity(intent)
                         }) {
                             Icon(Icons.Filled.Home, contentDescription = "Home")
+                        }
+                    }
+                    else{
+                        IconButton(onClick = { //home button
+                            showInfo.value = !showInfo.value
+                        }) {
+                            Icon(Icons.Filled.Info, contentDescription = "Info")
                         }
                     }
                     Surface(
@@ -108,6 +119,9 @@ public fun CustomTopBar(isHeldDown: Boolean, openDialog: Boolean, title: String)
         Popup(openDialog, isHeldDown)
         val keyboardController = LocalSoftwareKeyboardController.current
         keyboardController?.hide()
+    }
+    if (showInfo.value) {
+        Info(onDismiss = { showInfo.value = false })
     }
 }
 
@@ -178,4 +192,24 @@ fun Popup(openDialog: MutableState<Boolean>,isHeldDown: MutableState<Boolean>){
             }
         }
     }
+}
+
+@Composable
+fun Info(onDismiss: () -> Unit){
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Velkommen til Mathify") },
+        text = {
+            Column {
+                Text("Denne app vil hjælpe dig med at øve dig på matematik!")
+                Spacer(modifier = Modifier.height(8.dp))
+                Text("så vælg en udfordring ved at trykke på den og regn løs!")
+            }
+        },
+        confirmButton = {
+            Button(onClick = onDismiss) {
+                Text("Forstået")
+            }
+        }
+    )
 }

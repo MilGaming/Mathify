@@ -118,23 +118,16 @@ class PreferencesManager(context: Context) {
     //emilkode//
 
     //andersKode//
-    fun saveFirstlogin(firstLogin: Boolean) {
+    fun saveFirstLogin(firstLogin: Boolean) {
         val editor=sharedPreferences.edit()
-        editor.putInt("FIRST_LOGIN", firstLogin)
+        editor.putBoolean("FIRST_LOGIN", firstLogin)
         editor.apply()
     }
 
     fun getFirstLogin(): Boolean {
         return sharedPreferences.getBoolean("FIRST_LOGIN", true)
     }
-    //forsøg 3//
-
-
             //andersKode//
-}
-
-private fun SharedPreferences.Editor.putInt(s: String, firstLogin: Boolean) {
-    TODO("Not yet implemented")
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -142,12 +135,16 @@ private fun SharedPreferences.Editor.putInt(s: String, firstLogin: Boolean) {
 @ExperimentalAnimationApi
 @Composable
 fun MyApp() {
-    var saveFirstLogin by remember { mutableStateOf(true) }
+    val context = LocalContext.current
+    val preferencesManager = PreferencesManager(context)
+    var isFirstLogin by remember { mutableStateOf(preferencesManager.getFirstLogin()) }
 
-    if (saveFirstLogin) {
-        WelcomePopup(onDismiss = { saveFirstLogin = false })
+    if (isFirstLogin) {
+        WelcomePopup(onDismiss = {
+            isFirstLogin = !isFirstLogin
+            preferencesManager.saveFirstLogin(false)
+        })
     } else
-
     {
         //Toggle variables for all 4 expand buttons
         var isExpandedB1 = rememberSaveable {
@@ -365,10 +362,10 @@ fun WelcomePopup(onDismiss: () -> Unit) {
         },
         confirmButton = {
             Button(onClick = onDismiss) {
-
                 Text("Forstået")
-
             }
         }
     )
 }
+
+
