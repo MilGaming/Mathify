@@ -1,7 +1,7 @@
+/*
 package com.example.myapplication
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -35,9 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.delay
-import kotlin.math.log10
 import kotlin.random.Random
-import kotlin.math.min
 class MMRActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +89,7 @@ private fun MMRFunction() {
                 ///////////////////EmilKode/////////////////////
                 val endTime = System.currentTimeMillis() // get current time
                 val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
+                val mmr = preferencesManager.getAddMMR()
                 ///////////////////EmilKode/////////////////////
 
                 if (answer.toIntOrNull() == correctAnswer) {
@@ -99,7 +98,7 @@ private fun MMRFunction() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    increaseScore(positiveStreak, timeTaken, context)
+                    preferencesManager.saveAddMMR(increaseScore(positiveStreak, timeTaken, mmr))
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
@@ -110,7 +109,7 @@ private fun MMRFunction() {
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    decreaseScore(negativeStreak, timeTaken, context) // decrease score
+                    preferencesManager.saveAddMMR(decreaseScore(negativeStreak, timeTaken, mmr)) // decrease score
                     ///////////////////EmilKode/////////////////////
 
                     result = "Forkert! Prøv igen."
@@ -126,6 +125,7 @@ private fun MMRFunction() {
                 ///////////////////EmilKode/////////////////////
                 val endTime = System.currentTimeMillis() // get current time
                 val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
+                val mmr = preferencesManager.getAddMMR() // get MMR
                 ///////////////////EmilKode/////////////////////
 
                 if (answer.toIntOrNull() == correctAnswer) {
@@ -134,7 +134,7 @@ private fun MMRFunction() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    increaseScore(positiveStreak, timeTaken,context) // increase score
+                    preferencesManager.saveAddMMR(increaseScore(positiveStreak, timeTaken, mmr))
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
@@ -146,7 +146,7 @@ private fun MMRFunction() {
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    decreaseScore(negativeStreak, timeTaken, context)
+                    preferencesManager.saveAddMMR(decreaseScore(negativeStreak, timeTaken, mmr))
                     ///////////////////EmilKode/////////////////////
 
                 }
@@ -187,48 +187,10 @@ private fun MMRFunction() {
     }
 }
 
-///////////////////EmilKode/////////////////////
-private fun increaseScore(streak: Int, time: Int, context: Context) {
-    val preferencesManager = PreferencesManager(context)
-    var points = preferencesManager.getMMR()
-
-    val baseScore = 50
-    val streakMultiplier = (log10((streak + 2).toDouble()) +0.5) // decreases as streak increases
-    val timeBonus = if (time <= 5) (5 - time) * 10 else 0 // larger bonus for time less than 5 seconds
-
-    val score = min(((baseScore + timeBonus) * streakMultiplier).toInt(), 150)
-
-
-    points += score
-    preferencesManager.saveMMR(points)
-    println(points)
-}
-
-private fun decreaseScore(streak: Int, time: Int, context: Context) {
-    val preferencesManager = PreferencesManager(context)
-    var points = preferencesManager.getMMR()
-
-    val basePenalty = 50
-    val streakPenalty = (log10((streak + 2).toDouble()) +0.8) // increases as streak increases
-    val timePenalty = if (time <= 5) time * 2 else 10 // smaller penalty for time less than 5 seconds
-
-    val penalty = min(((basePenalty + timePenalty) * streakPenalty).toInt(),100)
-    points -= penalty // decrease the score
-
-    if (points < 0) {
-        points = 0 // ensure the score doesn't go below zero
-    }
-
-    preferencesManager.saveMMR(points) // save the updated score
-    println(points)
-}
-///////////////////EmilKode/////////////////////
-
-
 @Preview(showBackground = true)
 @Composable
 private fun MulFunctionPreview() {
     MyApplicationTheme {
         MMRFunction()
     }
-}
+}*/
