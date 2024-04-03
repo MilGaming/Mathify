@@ -82,7 +82,7 @@ private fun Scalable() {
     var points by remember { mutableIntStateOf(preferencesManager.getMultiplicationPoints()) }
 
     ///////////////////EmilKode/////////////////////
-    var MMR = preferencesManager.getMMR()
+    var MMR = preferencesManager.getAddMMR()
     var startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
     var positiveStreak by remember { mutableIntStateOf(0) } // reset positive streak
     var negativeStreak by remember { mutableIntStateOf(0) } // reset negative streak
@@ -230,7 +230,7 @@ private fun Scalable() {
 ///////////////////EmilKode/////////////////////
 private fun increaseScore(streak: Int, time: Int, context: Context) {
     val preferencesManager = PreferencesManager(context)
-    var points = preferencesManager.getMMR()
+    var points = preferencesManager.getAddMMR()
 
     val baseScore = 50
     val streakMultiplier = (log10((streak + 2).toDouble()) +0.5) // decreases as streak increases
@@ -240,13 +240,13 @@ private fun increaseScore(streak: Int, time: Int, context: Context) {
 
 
     points += score
-    preferencesManager.saveMMR(points)
+    preferencesManager.saveAddMMR(points)
     println(points)
 }
 
 private fun decreaseScore(streak: Int, time: Int, context: Context) {
     val preferencesManager = PreferencesManager(context)
-    var points = preferencesManager.getMMR()
+    var points = preferencesManager.getAddMMR()
 
     val basePenalty = 50
     val streakPenalty = (log10((streak + 2).toDouble()) +0.8) // increases as streak increases
@@ -259,7 +259,7 @@ private fun decreaseScore(streak: Int, time: Int, context: Context) {
         points = 0 // ensure the score doesn't go below zero
     }
 
-    preferencesManager.saveMMR(points) // save the updated score
+    preferencesManager.saveAddMMR(points) // save the updated score
     println(points)
 }
 ///////////////////EmilKode/////////////////////
