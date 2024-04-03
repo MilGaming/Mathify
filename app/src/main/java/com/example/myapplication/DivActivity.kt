@@ -68,9 +68,11 @@ private fun DivFunction() {
     val startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
     var positiveStreak by remember { mutableIntStateOf(0) } // reset positive streak
     var negativeStreak by remember { mutableIntStateOf(0) } // reset negative streak
+    val mmr = preferencesManager.getAddMMR() // get MMR
     ///////////////////EmilKode/////////////////////
 
     CustomTopBar(isHeldDown, openDialog.value, "Mathify")
+    StreakBar(positiveStreak) //Add streak score to screen
     Column(
         //Adds padding to button column at the top
         modifier = Modifier

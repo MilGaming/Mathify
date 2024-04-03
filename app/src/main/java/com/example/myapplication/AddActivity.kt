@@ -56,8 +56,6 @@ private fun MMRFunction() {
     var coolDownOn by remember { mutableStateOf(false) }
     val cooldownTime = 1000L
     val random = Random
-    var question by remember { mutableStateOf(Pair(random.nextInt(10), random.nextInt(10))) }
-    val correctAnswer = question.first + question.second
     val preferencesManager = PreferencesManager(context)
     var points by remember { mutableIntStateOf(preferencesManager.getMultiplicationPoints()) }
 
@@ -65,9 +63,25 @@ private fun MMRFunction() {
     var startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
     var positiveStreak by remember { mutableIntStateOf(0) } // reset positive streak
     var negativeStreak by remember { mutableIntStateOf(0) } // reset negative streak
+    val mmr = preferencesManager.getAddMMR() // get MMR
     ///////////////////EmilKode/////////////////////
 
+    //Question scalabililty------------------------------------------------------------
+    var question by remember {
+        mutableStateOf(
+            when {
+                mmr >= 1500 -> Pair(random.nextInt(50,100), random.nextInt(50,100))
+                mmr >= 1150 -> Pair(random.nextInt(25,50), random.nextInt(25,50))
+                mmr >= 800 -> Pair(random.nextInt(10,25), random.nextInt(10,25))
+                mmr >= 350 -> Pair(random.nextInt(5,10), random.nextInt(5,10))
+                else -> Pair(random.nextInt(5), random.nextInt(5))
+            }
+        )
+    }
+    val correctAnswer = question.first + question.second
+
     CustomTopBar(isHeldDown, openDialog.value, "Mathify")
+    StreakBar(positiveStreak) //Add streak score to screen
     Column(
         //Adds padding to button column at the top
         modifier = Modifier
@@ -90,6 +104,8 @@ private fun MMRFunction() {
                 val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
                 val mmr = preferencesManager.getAddMMR()
                 ///////////////////EmilKode/////////////////////
+
+
 
                 if (answer.toIntOrNull() == correctAnswer) {
 
@@ -168,7 +184,9 @@ private fun MMRFunction() {
                 startTime = System.currentTimeMillis() // reset start time
                 ///////////////////EmilKode/////////////////////
 
-                question = Pair(random.nextInt(10), random.nextInt(10)) // update the question
+                //Question scalabililty------------------------------------------------------------
+                question = updateAddQuestion(mmr, random) // update the question according to MMR
+
                 coolDownOn = false // Turns off cooldown for button
             }
         }

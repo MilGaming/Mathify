@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import kotlin.math.log10
 import kotlin.math.min
+import kotlin.random.Random
 
 fun increaseScore(streak: Int, time: Int, mmr: Int): Int {
 
@@ -30,4 +31,16 @@ fun decreaseScore(streak: Int, time: Int, mmr: Int): Int {
         points = 0 // ensure the score doesn't go below zero
     }
     return points
+}
+
+//Update math question based on MMR
+//Question scalabililty------------------------------------------------------------
+fun updateAddQuestion(mmr: Int, random: Random): Pair<Int, Int> {
+    return when {
+        mmr >= 1500 -> Pair(random.nextInt(50,100), random.nextInt(50,100))
+        mmr >= 1150 -> Pair(random.nextInt(25,50), random.nextInt(25,50))
+        mmr >= 800 -> Pair(random.nextInt(10,25), random.nextInt(10,25))
+        mmr >= 350 -> Pair(random.nextInt(5,10), random.nextInt(5,10))
+        else -> Pair(random.nextInt(5), random.nextInt(5))
+    }
 }

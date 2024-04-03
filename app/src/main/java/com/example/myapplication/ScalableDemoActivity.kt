@@ -3,8 +3,6 @@ package com.example.myapplication
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.os.Debug
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +10,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
@@ -39,22 +36,8 @@ import androidx.compose.ui.unit.sp
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.delay
 import kotlin.math.log10
-import kotlin.random.Random
 import kotlin.math.min
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.size
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInRoot
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.platform.LocalDensity
+import kotlin.random.Random
 
 class ScalableDemoActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +65,7 @@ private fun Scalable() {
     var points by remember { mutableIntStateOf(preferencesManager.getMultiplicationPoints()) }
 
     ///////////////////EmilKode/////////////////////
-    var MMR = preferencesManager.getAddMMR()
+    val mmr = preferencesManager.getAddMMR()
     var startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
     var positiveStreak by remember { mutableIntStateOf(0) } // reset positive streak
     var negativeStreak by remember { mutableIntStateOf(0) } // reset negative streak
@@ -92,10 +75,10 @@ private fun Scalable() {
     var question by remember {
         mutableStateOf(
             when {
-                MMR >= 1500 -> Pair(random.nextInt(50,100), random.nextInt(50,100))
-                MMR >= 1150 -> Pair(random.nextInt(25,50), random.nextInt(25,50))
-                MMR >= 800 -> Pair(random.nextInt(10,25), random.nextInt(10,25))
-                MMR >= 350 -> Pair(random.nextInt(5,10), random.nextInt(5,10))
+                mmr >= 1500 -> Pair(random.nextInt(50,100), random.nextInt(50,100))
+                mmr >= 1150 -> Pair(random.nextInt(25,50), random.nextInt(25,50))
+                mmr >= 800 -> Pair(random.nextInt(10,25), random.nextInt(10,25))
+                mmr >= 350 -> Pair(random.nextInt(5,10), random.nextInt(5,10))
                 else -> Pair(random.nextInt(5), random.nextInt(5))
             }
         )
@@ -204,7 +187,7 @@ private fun Scalable() {
                 ///////////////////EmilKode/////////////////////
 
                 //Question scalabililty------------------------------------------------------------
-                question = updateQuestion(MMR, random) // update the question according to MMR
+                question = updateQuestion(mmr, random) // update the question according to MMR
 
                 coolDownOn = false // Turns off cooldown for button
             }
@@ -218,7 +201,7 @@ private fun Scalable() {
         contentAlignment = Alignment.TopEnd
     ) {
         Text(
-            text = "MMR: $MMR",
+            text = "MMR: $mmr",
             modifier = Modifier
                 .padding(top = 16.dp, end = 16.dp)
                 .align(Alignment.TopEnd),
@@ -265,17 +248,7 @@ private fun decreaseScore(streak: Int, time: Int, context: Context) {
 ///////////////////EmilKode/////////////////////
 
 
-//Update math question based on MMR
-//Question scalabililty------------------------------------------------------------
-private fun updateQuestion(mmr: Int, random: Random): Pair<Int, Int> {
-    return when {
-        mmr >= 1500 -> Pair(random.nextInt(50,100), random.nextInt(50,100))
-        mmr >= 1150 -> Pair(random.nextInt(25,50), random.nextInt(25,50))
-        mmr >= 800 -> Pair(random.nextInt(10,25), random.nextInt(10,25))
-        mmr >= 350 -> Pair(random.nextInt(5,10), random.nextInt(5,10))
-        else -> Pair(random.nextInt(5), random.nextInt(5))
-    }
-}
+
 
 @Preview(showBackground = true)
 @Composable
