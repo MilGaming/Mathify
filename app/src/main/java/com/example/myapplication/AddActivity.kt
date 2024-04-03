@@ -102,7 +102,7 @@ private fun MMRFunction() {
 
                     result = "Rigtigt!"
                     points++ // increment points
-                    preferencesManager.saveMultiplicationPoints(points) // save points
+                    preferencesManager.saveAdditionPoints(points) // save points
                 } else {
 
                     ///////////////////EmilKode/////////////////////
@@ -138,7 +138,7 @@ private fun MMRFunction() {
 
                     result = "Rigtigt!"
                     points++ // increment points
-                    preferencesManager.saveMultiplicationPoints(points) // save points
+                    preferencesManager.saveAdditionPoints(points) // save points
                 } else {
                     result = "Forkert! Prøv igen."
 

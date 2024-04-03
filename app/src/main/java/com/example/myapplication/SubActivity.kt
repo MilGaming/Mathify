@@ -105,7 +105,7 @@ private fun SubFunction() {
 
                     result = "Rigtigt!"
                     points++ // increment points
-                    preferencesManager.saveMultiplicationPoints(points) // save points
+                    preferencesManager.saveSubtractionPoints(points) // save points
                 } else {
 
                     ///////////////////EmilKode/////////////////////
@@ -141,7 +141,7 @@ private fun SubFunction() {
 
                     result = "Rigtigt!"
                     points++ // increment points
-                    preferencesManager.saveMultiplicationPoints(points) // save points
+                    preferencesManager.saveSubtractionPoints(points) // save points
                 } else {
                     result = "Forkert! Prøv igen."
 
