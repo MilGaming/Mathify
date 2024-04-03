@@ -21,10 +21,10 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -106,65 +106,72 @@ class PreferencesManager(context: Context) {
     }
 
     //emilkode//
-    fun saveMMR(mmr: Int) {
+    fun saveAddMMR(mmr: Int) {
         val editor = sharedPreferences.edit()
-        editor.putInt("MMR", mmr)
+        editor.putInt("AddMMR", mmr)
         editor.apply()
     }
 
-    fun getMMR(): Int {
-        return sharedPreferences.getInt("MMR", 0)
+    fun getAddMMR(): Int {
+        return sharedPreferences.getInt("AddMMR", 0)
+    }
+    fun saveMulMMR(mmr: Int) {
+        val editor = sharedPreferences.edit()
+        editor.putInt("MulMMR", mmr)
+        editor.apply()
+    }
+
+    fun getMulMMR(): Int {
+        return sharedPreferences.getInt("MulMMR", 0)
+    }
+    fun saveSubMMR(mmr: Int) {
+        val editor = sharedPreferences.edit()
+        editor.putInt("SubMMR", mmr)
+        editor.apply()
+    }
+
+    fun getSubMMR(): Int {
+        return sharedPreferences.getInt("SubMMR", 0)
+    }
+    fun saveDivMMR(mmr: Int) {
+        val editor = sharedPreferences.edit()
+        editor.putInt("DivMMR", mmr)
+        editor.apply()
+    }
+    fun getDivMMR(): Int {
+        return sharedPreferences.getInt("DivMMR", 0)
     }
     //emilkode//
 
-    //andersKode//
-    fun saveFirstLogin(firstLogin: Boolean) {
-        val editor=sharedPreferences.edit()
-        editor.putBoolean("FIRST_LOGIN", firstLogin)
-        editor.apply()
-    }
-
-    fun getFirstLogin(): Boolean {
-        return sharedPreferences.getBoolean("FIRST_LOGIN", true)
-    }
-            //andersKode//
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @ExperimentalAnimationApi
 @Composable
 fun MyApp() {
-    val context = LocalContext.current
-    val preferencesManager = PreferencesManager(context)
-    var isFirstLogin by remember { mutableStateOf(preferencesManager.getFirstLogin()) }
+    var welcomeShown by remember { mutableStateOf(true) }
 
-    if (isFirstLogin) {
-        WelcomePopup(onDismiss = {
-            isFirstLogin = !isFirstLogin
-            preferencesManager.saveFirstLogin(false)
-        })
+    if (welcomeShown) {
+        WelcomePopup(onDismiss = { welcomeShown = false })
     } else
     {
         //Toggle variables for all 4 expand buttons
-        var isExpandedB1 = rememberSaveable {
+        val isExpandedB1 = rememberSaveable {
             mutableStateOf(false)
         }
-        var isExpandedB2 = rememberSaveable {
+        val isExpandedB2 = rememberSaveable {
             mutableStateOf(false)
         }
-        var isExpandedB3 = rememberSaveable {
+        val isExpandedB3 = rememberSaveable {
             mutableStateOf(false)
         }
-        var isExpandedB4 = rememberSaveable {
+        val isExpandedB4 = rememberSaveable {
             mutableStateOf(false)
         }
         //Saving the current activity context
         val context = LocalContext.current
         val preferencesManager = PreferencesManager(context)
-        var isHeldDown by remember { mutableStateOf(false) } // to see if menu open
-        val openDialog = remember { mutableStateOf(false) } // for popup
-        var totalScore by remember { mutableStateOf(0) }
+        var totalScore by remember { mutableIntStateOf(0) }
 
         // Update the total score whenever needed
         totalScore = preferencesManager.getAdditionPoints() +
@@ -172,7 +179,7 @@ fun MyApp() {
                 preferencesManager.getMultiplicationPoints() +
                 preferencesManager.getDivisionPoints()
 
-        CustomTopBar(isHeldDown, openDialog.value, "Mathify")
+        CustomTopBar()
         Column(
                             //Adds padding to button column at the top
                             modifier = Modifier
@@ -203,7 +210,7 @@ fun MyApp() {
                                 }
                             }
                             //Whatever needs to be under button 1 to has to be added below here--------
-                            this@Column.AnimatedVisibility(visible = isExpandedB1.value) {
+                            this.AnimatedVisibility(visible = isExpandedB1.value) {
                                 Text(text = "Addition Statistics will be shown here!!!",
                                     modifier = Modifier
                                         .padding(4.dp)
@@ -237,7 +244,7 @@ fun MyApp() {
                                 }
                             }
                             //Whatever needs to be under button 2 to has to be added below here--------
-                            this@Column.AnimatedVisibility(visible = isExpandedB2.value) {
+                            this.AnimatedVisibility(visible = isExpandedB2.value) {
                                 Text(text = "Subtraction Statistics will be shown here!!!",
                                     modifier = Modifier
                                         .padding(4.dp)
@@ -277,7 +284,7 @@ fun MyApp() {
                                     }
                                 }
                                 //Whatever needs to be under button 3 to has to be added below here--------
-                                this@Column.AnimatedVisibility(visible = isExpandedB3.value) {
+                                this.AnimatedVisibility(visible = isExpandedB3.value) {
                                     Text(
                                         text = "Multiplication Statistics will be shown here!!!",
                                         modifier = Modifier
@@ -319,7 +326,7 @@ fun MyApp() {
                                     }
                                 }
                                 //Whatever needs to be under button 4 to has to be added below here--------
-                                this@Column.AnimatedVisibility(visible = isExpandedB4.value) {
+                                this.AnimatedVisibility(visible = isExpandedB4.value) {
                                     Text(
                                         text = "Division Statistics will be shown here!!!",
                                         modifier = Modifier
@@ -362,10 +369,9 @@ fun WelcomePopup(onDismiss: () -> Unit) {
         },
         confirmButton = {
             Button(onClick = onDismiss) {
+
                 Text("Forstået")
             }
         }
     )
 }
-
-
