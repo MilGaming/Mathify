@@ -7,4 +7,5 @@
     <string name="title_activity_add">Add Activity</string>
     <string name="title_activity_top_bar">TopBar</string>
     <string name="title_activity_mmractivity">MMRActivity</string>
+    <string name="title_activity_mmrfuncitons">MMRFuncitons</string>
 </resources>
