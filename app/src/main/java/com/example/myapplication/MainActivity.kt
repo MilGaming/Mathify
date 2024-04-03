@@ -143,16 +143,32 @@ class PreferencesManager(context: Context) {
     }
     //emilkode//
 
+    //andersKode//
+    fun saveFirstLogin(firstLogin: Boolean) {
+        val editor=sharedPreferences.edit()
+        editor.putBoolean("FIRST_LOGIN", firstLogin)
+        editor.apply()
+    }
+
+    fun getFirstLogin(): Boolean {
+        return sharedPreferences.getBoolean("FIRST_LOGIN", true)
+    }
+    //andersKode//
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @ExperimentalAnimationApi
 @Composable
 fun MyApp() {
-    var welcomeShown by remember { mutableStateOf(true) }
+    val context = LocalContext.current
+    val preferencesManager = PreferencesManager(context)
+    var isFirstLogin by remember { mutableStateOf(preferencesManager.getFirstLogin()) }
 
-    if (welcomeShown) {
-        WelcomePopup(onDismiss = { welcomeShown = false })
+    if (isFirstLogin) {
+        WelcomePopup(onDismiss = {
+            isFirstLogin = !isFirstLogin
+            preferencesManager.saveFirstLogin(false)
+        })
     } else
     {
         //Toggle variables for all 4 expand buttons
@@ -369,7 +385,6 @@ fun WelcomePopup(onDismiss: () -> Unit) {
         },
         confirmButton = {
             Button(onClick = onDismiss) {
-
                 Text("Forstået")
             }
         }
