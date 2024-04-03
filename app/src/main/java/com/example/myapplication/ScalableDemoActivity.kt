@@ -267,12 +267,12 @@ private fun decreaseScore(streak: Int, time: Int, context: Context) {
 
 //Update math question based on MMR
 //Question scalabililty------------------------------------------------------------
-private fun updateQuestion(MMR: Int, random: Random): Pair<Int, Int> {
+private fun updateQuestion(mmr: Int, random: Random): Pair<Int, Int> {
     return when {
-        MMR >= 150 -> Pair(random.nextInt(50,100), random.nextInt(50,100))
-        MMR >= 100 -> Pair(random.nextInt(25,50), random.nextInt(25,50))
-        MMR >= 75 -> Pair(random.nextInt(10,25), random.nextInt(10,25))
-        MMR >= 50 -> Pair(random.nextInt(5,10), random.nextInt(5,10))
+        mmr >= 150 -> Pair(random.nextInt(50,100), random.nextInt(50,100))
+        mmr >= 100 -> Pair(random.nextInt(25,50), random.nextInt(25,50))
+        mmr >= 75 -> Pair(random.nextInt(10,25), random.nextInt(10,25))
+        mmr >= 50 -> Pair(random.nextInt(5,10), random.nextInt(5,10))
         else -> Pair(random.nextInt(5), random.nextInt(5))
     }
 }
