@@ -92,10 +92,10 @@ private fun Scalable() {
     var question by remember {
         mutableStateOf(
             when {
-                MMR >= 150 -> Pair(random.nextInt(50,100), random.nextInt(50,100))
-                MMR >= 100 -> Pair(random.nextInt(25,50), random.nextInt(25,50))
-                MMR >= 75 -> Pair(random.nextInt(10,25), random.nextInt(10,25))
-                MMR >= 50 -> Pair(random.nextInt(5,10), random.nextInt(5,10))
+                MMR >= 1500 -> Pair(random.nextInt(50,100), random.nextInt(50,100))
+                MMR >= 1150 -> Pair(random.nextInt(25,50), random.nextInt(25,50))
+                MMR >= 800 -> Pair(random.nextInt(10,25), random.nextInt(10,25))
+                MMR >= 350 -> Pair(random.nextInt(5,10), random.nextInt(5,10))
                 else -> Pair(random.nextInt(5), random.nextInt(5))
             }
         )
@@ -269,10 +269,10 @@ private fun decreaseScore(streak: Int, time: Int, context: Context) {
 //Question scalabililty------------------------------------------------------------
 private fun updateQuestion(mmr: Int, random: Random): Pair<Int, Int> {
     return when {
-        mmr >= 150 -> Pair(random.nextInt(50,100), random.nextInt(50,100))
-        mmr >= 100 -> Pair(random.nextInt(25,50), random.nextInt(25,50))
-        mmr >= 75 -> Pair(random.nextInt(10,25), random.nextInt(10,25))
-        mmr >= 50 -> Pair(random.nextInt(5,10), random.nextInt(5,10))
+        mmr >= 1500 -> Pair(random.nextInt(50,100), random.nextInt(50,100))
+        mmr >= 1150 -> Pair(random.nextInt(25,50), random.nextInt(25,50))
+        mmr >= 800 -> Pair(random.nextInt(10,25), random.nextInt(10,25))
+        mmr >= 350 -> Pair(random.nextInt(5,10), random.nextInt(5,10))
         else -> Pair(random.nextInt(5), random.nextInt(5))
     }
 }

@@ -47,7 +47,7 @@ import kotlin.random.Random
 //Streak bar
 @Composable
 fun StreakBar(streak: Int) {
-    val streakNeeded = 5
+    val streakNeeded = 1
     val infiniteTransition = rememberInfiniteTransition()
     val streakIconPosition = remember { mutableStateOf(Offset.Zero) }
     val rotation by infiniteTransition.animateFloat(
@@ -124,6 +124,7 @@ fun StreakBar(streak: Int) {
                 delay((Random.nextFloat() * 200).toLong())  // Delay to create a new particle multiple times per second
             }
         }
+        particles.removeAll {true} // Remove particles when streak is less than or equal to 0
     }
 
     // Draw particles
