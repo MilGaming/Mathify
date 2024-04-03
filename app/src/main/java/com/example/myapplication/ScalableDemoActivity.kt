@@ -187,7 +187,7 @@ private fun Scalable() {
                 ///////////////////EmilKode/////////////////////
 
                 //Question scalabililty------------------------------------------------------------
-                question = updateQuestion(mmr, random) // update the question according to MMR
+                question = updateAddQuestion(mmr, random) // update the question according to MMR
 
                 coolDownOn = false // Turns off cooldown for button
             }
