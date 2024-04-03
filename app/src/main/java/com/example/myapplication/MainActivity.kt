@@ -212,7 +212,7 @@ fun MyApp() {
                                 }
                             }
                             //Whatever needs to be under button 1 to has to be added below here--------
-                            this@Column.AnimatedVisibility(visible = isExpandedB1.value) {
+                            this.AnimatedVisibility(visible = isExpandedB1.value) {
                                 Text(text = "Addition Statistics will be shown here!!!",
                                     modifier = Modifier
                                         .padding(4.dp)
@@ -246,7 +246,7 @@ fun MyApp() {
                                 }
                             }
                             //Whatever needs to be under button 2 to has to be added below here--------
-                            this@Column.AnimatedVisibility(visible = isExpandedB2.value) {
+                            this.AnimatedVisibility(visible = isExpandedB2.value) {
                                 Text(text = "Subtraction Statistics will be shown here!!!",
                                     modifier = Modifier
                                         .padding(4.dp)
@@ -286,7 +286,7 @@ fun MyApp() {
                                     }
                                 }
                                 //Whatever needs to be under button 3 to has to be added below here--------
-                                this@Column.AnimatedVisibility(visible = isExpandedB3.value) {
+                                this.AnimatedVisibility(visible = isExpandedB3.value) {
                                     Text(
                                         text = "Multiplication Statistics will be shown here!!!",
                                         modifier = Modifier
@@ -328,7 +328,7 @@ fun MyApp() {
                                     }
                                 }
                                 //Whatever needs to be under button 4 to has to be added below here--------
-                                this@Column.AnimatedVisibility(visible = isExpandedB4.value) {
+                                this.AnimatedVisibility(visible = isExpandedB4.value) {
                                     Text(
                                         text = "Division Statistics will be shown here!!!",
                                         modifier = Modifier
