@@ -3,7 +3,6 @@ package com.example.myapplication
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -31,11 +30,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -52,8 +49,8 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-public fun CustomTopBar(isHeldDown: Boolean, openDialog: Boolean, title: String) {
-    var isHeldDown = remember { mutableStateOf(false) } // to see if menu open
+fun CustomTopBar() {
+    val isHeldDown = remember { mutableStateOf(false) } // to see if menu open
     val openDialog = remember { mutableStateOf(false) } // for popup
     val context = LocalContext.current
     val currentActivity = context as Activity

@@ -69,7 +69,7 @@ private fun MulFunction() {
     val mmr = preferencesManager.getAddMMR() // get MMR
     ///////////////////EmilKode/////////////////////
 
-    CustomTopBar(isHeldDown, openDialog.value, "Mathify")
+    CustomTopBar()
     StreakBar(positiveStreak) //Add streak score to screen
     Column(
         //Adds padding to button column at the top

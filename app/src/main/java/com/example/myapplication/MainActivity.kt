@@ -181,7 +181,7 @@ fun MyApp() {
                 preferencesManager.getMultiplicationPoints() +
                 preferencesManager.getDivisionPoints()
 
-        CustomTopBar(isHeldDown, openDialog.value, "Mathify")
+        CustomTopBar()
         Column(
                             //Adds padding to button column at the top
                             modifier = Modifier

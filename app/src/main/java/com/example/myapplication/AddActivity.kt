@@ -80,7 +80,7 @@ private fun MMRFunction() {
     }
     val correctAnswer = question.first + question.second
 
-    CustomTopBar(isHeldDown, openDialog.value, "Mathify")
+    CustomTopBar()
     StreakBar(positiveStreak) //Add streak score to screen
     Column(
         //Adds padding to button column at the top
