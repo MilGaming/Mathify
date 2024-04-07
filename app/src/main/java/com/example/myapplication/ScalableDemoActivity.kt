@@ -27,6 +27,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -63,6 +66,7 @@ private fun Scalable() {
     //var question by remember { mutableStateOf(Pair(random.nextInt(10), random.nextInt(10))) }
     val preferencesManager = PreferencesManager(context)
     var points by remember { mutableIntStateOf(preferencesManager.getMultiplicationPoints()) }
+    val focusRequester = remember { FocusRequester() }
 
     ///////////////////EmilKode/////////////////////
     val mmr = preferencesManager.getAddMMR()
@@ -70,7 +74,6 @@ private fun Scalable() {
     var positiveStreak by remember { mutableIntStateOf(0) } // reset positive streak
     var negativeStreak by remember { mutableIntStateOf(0) } // reset negative streak
     ///////////////////EmilKode/////////////////////
-
     //Question scalabililty------------------------------------------------------------
     var question by remember {
         mutableStateOf(
@@ -103,6 +106,7 @@ private fun Scalable() {
             onValueChange = { answer = it },
             label = { Text("Skriv svar her") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+            modifier = Modifier.focusRequester(focusRequester).focusProperties { canFocus = true },
             keyboardActions = KeyboardActions(onDone = {
 
                 ///////////////////EmilKode/////////////////////

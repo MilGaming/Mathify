@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.delay
+import kotlin.math.min
 import kotlin.random.Random
 
 class SubActivity : ComponentActivity() {
@@ -56,9 +57,9 @@ private fun SubFunction() {
     val cooldownTime = 1000L
     val random = Random
     ///var question by remember { mutableStateOf(Pair(random.nextInt(10), random.nextInt(10))) }
-    var number1 by remember { mutableIntStateOf(random.nextInt(1,21)) }
-    var number2 by remember { mutableIntStateOf(random.nextInt(1, number1+1)) }
-    val correctAnswer = number1 - number2
+    //var number1 by remember { mutableIntStateOf(random.nextInt(1,21)) }
+    //var number2 by remember { mutableIntStateOf(random.nextInt(1, number1+1)) }
+    //val correctAnswer = number1 - number2
     val preferencesManager = PreferencesManager(context)
     var points by remember { mutableIntStateOf(preferencesManager.getSubtractionPoints()) }
 
@@ -68,6 +69,40 @@ private fun SubFunction() {
     var negativeStreak by remember { mutableIntStateOf(0) } // reset negative streak
     val mmr = preferencesManager.getAddMMR() // get MMR
     ///////////////////EmilKode/////////////////////
+
+    //Question scalabililty------------------------------------------------------------
+    var question by remember {
+        mutableStateOf(
+            when {
+                mmr >= 1500 -> {
+                    val num1 = random.nextInt(100, 150)
+                    val num2 = random.nextInt(50, min(num1, 100))
+                    Pair(num1, num2)
+                }
+                mmr >= 1150 -> {
+                    val num1 = random.nextInt(50, 100)
+                    val num2 = random.nextInt(25, min(num1, 50))
+                    Pair(num1, num2)
+                }
+                mmr >= 800 -> {
+                    val num1 = random.nextInt(25, 50)
+                    val num2 = random.nextInt(10, min(num1, 25))
+                    Pair(num1, num2)
+                }
+                mmr >= 350 -> {
+                    val num1 = random.nextInt(10, 25)
+                    val num2 = random.nextInt(5, min(num1, 10))
+                    Pair(num1, num2)
+                }
+                else -> {
+                    val num1 = random.nextInt(10)
+                    val num2 = random.nextInt(min(num1, 5))
+                    Pair(num1, num2) //Convert into pair
+                }
+            }
+        )
+    }
+    val correctAnswer = question.first + question.second
 
     CustomTopBar()
     StreakBar(positiveStreak) //Add streak score to screen
@@ -79,7 +114,7 @@ private fun SubFunction() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Hvad er $number1 - $number2?", fontSize = 24.sp)
+        Text(text = "Hvad er ${question.first} - ${question.second}?", fontSize = 24.sp)
         Spacer(modifier = Modifier.height(10.dp))
         TextField(
             value = answer,
@@ -166,8 +201,9 @@ private fun SubFunction() {
             // Coroutine to update the question after 3 seconds
             LaunchedEffect(key1 = coolDownOn) {
                 delay(cooldownTime) // delay for 3 seconds
-                number1 = random.nextInt(1,21) // update number1
-                number2 = random.nextInt(1, number1+1) // update number2
+
+                //Question scalabililty------------------------------------------------------------
+                question = updateSubQuestion(mmr, random) // update the question according to MMR
                 coolDownOn = false // Turns off cooldown for button
             }
         }
@@ -178,7 +214,7 @@ private fun SubFunction() {
         contentAlignment = Alignment.TopEnd
     ) {
         Text(
-            text = "Points: $points",
+            text = "Points: $mmr",
             modifier = Modifier.padding(top = 16.dp, end = 16.dp).align(Alignment.TopEnd),
             fontSize = 24.sp
         )

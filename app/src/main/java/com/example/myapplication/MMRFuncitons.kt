@@ -44,3 +44,76 @@ fun updateAddQuestion(mmr: Int, random: Random): Pair<Int, Int> {
         else -> Pair(random.nextInt(5), random.nextInt(5))
     }
 }
+
+// Update subtraction question based on MMR
+fun updateSubQuestion(mmr: Int, random: Random): Pair<Int, Int> {
+    return when {
+        mmr >= 1500 -> {
+            val num1 = random.nextInt(100, 150)
+            val num2 = random.nextInt(50, min(num1, 100))
+            Pair(num1, num2)
+        }
+        mmr >= 1150 -> {
+            val num1 = random.nextInt(50, 100)
+            val num2 = random.nextInt(25, min(num1, 50))
+            Pair(num1, num2)
+        }
+        mmr >= 800 -> {
+            val num1 = random.nextInt(25, 50)
+            val num2 = random.nextInt(10, min(num1, 25))
+            Pair(num1, num2)
+        }
+        mmr >= 350 -> {
+            val num1 = random.nextInt(10, 25)
+            val num2 = random.nextInt(5, min(num1, 10))
+            Pair(num1, num2)
+        }
+        else -> {
+            val num1 = random.nextInt(10)
+            val num2 = random.nextInt(min(num1, 5))
+            Pair(num1, num2)
+        }
+    }
+}
+
+// Update multiplication question based on MMR
+fun updateMulQuestion(mmr: Int, random: Random): Pair<Int, Int> {
+    return when {
+        mmr >= 1500 -> Pair(random.nextInt(10, 20), random.nextInt(10, 20))
+        mmr >= 1150 -> Pair(random.nextInt(5, 10), random.nextInt(5, 10))
+        mmr >= 800 -> Pair(random.nextInt(2, 5), random.nextInt(2, 5))
+        mmr >= 350 -> Pair(random.nextInt(1, 3), random.nextInt(1, 3))
+        else -> Pair(random.nextInt(1, 3), random.nextInt(1, 3))
+    }
+}
+
+// Update division question based on MMR
+fun updateDivQuestion(mmr: Int, random: Random): Pair<Int, Int> {
+    return when {
+        mmr >= 1500 -> {
+            val num2 = random.nextInt(10, 20)
+            val num1 = num2 * random.nextInt(10, 20)
+            Pair(num1, num2)
+        }
+        mmr >= 1150 -> {
+            val num2 = random.nextInt(5, 10)
+            val num1 = num2 * random.nextInt(10, 20)
+            Pair(num1, num2)
+        }
+        mmr >= 800 -> {
+            val num2 = random.nextInt(2, 5)
+            val num1 = num2 * random.nextInt(10, 20)
+            Pair(num1, num2)
+        }
+        mmr >= 350 -> {
+            val num2 = random.nextInt(1, 3)
+            val num1 = num2 * random.nextInt(10, 20)
+            Pair(num1, num2)
+        }
+        else -> {
+            val num2 = random.nextInt(1, 3)
+            val num1 = num2 * random.nextInt(5, 10)
+            Pair(num1, num2)
+        }
+    }
+}
