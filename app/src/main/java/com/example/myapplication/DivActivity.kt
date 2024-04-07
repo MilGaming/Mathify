@@ -55,10 +55,10 @@ private fun DivFunction() {
     var coolDownOn by remember { mutableStateOf(false) }
     val cooldownTime = 1000L
     val random = Random
-    var divisor by remember { mutableIntStateOf(random.nextInt(9) + 1) } // Avoid zero
-    var multiplier by remember { mutableIntStateOf(random.nextInt(10)) }
-    var dividend by remember { mutableIntStateOf(divisor * multiplier) }
-    val correctAnswer = dividend / divisor
+    //var divisor by remember { mutableIntStateOf(random.nextInt(9) + 1) } // Avoid zero
+    //var multiplier by remember { mutableIntStateOf(random.nextInt(10)) }
+    //var dividend by remember { mutableIntStateOf(divisor * multiplier) }
+    //val correctAnswer = dividend / divisor
     val preferencesManager = PreferencesManager(context)
     var points by remember { mutableIntStateOf(preferencesManager.getDivisionPoints()) }
 
@@ -68,6 +68,40 @@ private fun DivFunction() {
     var negativeStreak by remember { mutableIntStateOf(0) } // reset negative streak
     val mmr = preferencesManager.getAddMMR() // get MMR
     ///////////////////EmilKode/////////////////////
+
+    //Question scalabililty------------------------------------------------------------
+    var question by remember {
+        mutableStateOf(
+            when {
+                mmr >= 1500 -> {
+                    val num2 = random.nextInt(10, 20)
+                    val num1 = num2 * random.nextInt(10, 20)
+                    Pair(num1, num2)
+                }
+                mmr >= 1150 -> {
+                    val num2 = random.nextInt(5, 10)
+                    val num1 = num2 * random.nextInt(10, 20)
+                    Pair(num1, num2)
+                }
+                mmr >= 800 -> {
+                    val num2 = random.nextInt(2, 5)
+                    val num1 = num2 * random.nextInt(10, 20)
+                    Pair(num1, num2)
+                }
+                mmr >= 350 -> {
+                    val num2 = random.nextInt(1, 3)
+                    val num1 = num2 * random.nextInt(10, 20)
+                    Pair(num1, num2)
+                }
+                else -> {
+                    val num2 = random.nextInt(1, 3)
+                    val num1 = num2 * random.nextInt(5, 10)
+                    Pair(num1, num2)
+                }
+            }
+        )
+    }
+    val correctAnswer = question.first / question.second
 
     CustomTopBar()
     StreakBar(positiveStreak) //Add streak score to screen
@@ -79,7 +113,7 @@ private fun DivFunction() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Hvad er $dividend ÷ $divisor?", fontSize = 24.sp)
+        Text(text = "Hvad er ${question.first} ÷ ${question.second}?", fontSize = 24.sp)
         Spacer(modifier = Modifier.height(10.dp))
         TextField(
             value = answer,
@@ -166,21 +200,29 @@ private fun DivFunction() {
             // Coroutine to update the question after 3 seconds
             LaunchedEffect(key1 = coolDownOn) {
                 delay(cooldownTime) // delay for 3 seconds
-                divisor = random.nextInt(7) + 1 // Avoid zero
-                multiplier = random.nextInt(10)
-                dividend = divisor * multiplier // update the question
+                //divisor = random.nextInt(7) + 1 // Avoid zero
+                //multiplier = random.nextInt(10)
+                //dividend = divisor * multiplier // update the question
+
+                //Question scalabililty------------------------------------------------------------
+                question = updateDivQuestion(mmr, random) // update the question according to MMR
+
                 coolDownOn = false // Turns off cooldown for button
             }
         }
     }
     // Display the score in the top right corner
     Box(
-        modifier = Modifier.fillMaxSize().padding(top = 50.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 50.dp),
         contentAlignment = Alignment.TopEnd
     ) {
         Text(
             text = "Points: $points",
-            modifier = Modifier.padding(top = 16.dp, end = 16.dp).align(Alignment.TopEnd),
+            modifier = Modifier
+                .padding(top = 16.dp, end = 16.dp)
+                .align(Alignment.TopEnd),
             fontSize = 24.sp
         )
     }

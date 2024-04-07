@@ -102,7 +102,7 @@ private fun SubFunction() {
             }
         )
     }
-    val correctAnswer = question.first + question.second
+    val correctAnswer = question.first - question.second
 
     CustomTopBar()
     StreakBar(positiveStreak) //Add streak score to screen

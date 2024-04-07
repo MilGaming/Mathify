@@ -55,8 +55,8 @@ private fun MulFunction() {
     var coolDownOn by remember { mutableStateOf(false) }
     val cooldownTime = 1000L
     val random = Random
-    var question by remember { mutableStateOf(Pair(random.nextInt(1,6), random.nextInt(1,6))) }
-    val correctAnswer = question.first * question.second
+    //var question by remember { mutableStateOf(Pair(random.nextInt(1,6), random.nextInt(1,6))) }
+    //val correctAnswer = question.first * question.second
     val preferencesManager = PreferencesManager(context)
     var points by remember { mutableIntStateOf(preferencesManager.getMultiplicationPoints()) }
 
@@ -66,6 +66,20 @@ private fun MulFunction() {
     var negativeStreak by remember { mutableIntStateOf(0) } // reset negative streak
     val mmr = preferencesManager.getAddMMR() // get MMR
     ///////////////////EmilKode/////////////////////
+
+    //Question scalabililty------------------------------------------------------------
+    var question by remember {
+        mutableStateOf(
+            when {
+                mmr >= 1500 -> Pair(random.nextInt(10, 20), random.nextInt(10, 20))
+                mmr >= 1150 -> Pair(random.nextInt(5, 10), random.nextInt(5, 10))
+                mmr >= 800 -> Pair(random.nextInt(2, 5), random.nextInt(2, 5))
+                mmr >= 350 -> Pair(random.nextInt(1, 3), random.nextInt(1, 3))
+                else -> Pair(random.nextInt(1, 3), random.nextInt(1, 3))
+            }
+        )
+    }
+    val correctAnswer = question.first * question.second
 
     CustomTopBar()
     StreakBar(positiveStreak) //Add streak score to screen
@@ -165,6 +179,10 @@ private fun MulFunction() {
             LaunchedEffect(key1 = coolDownOn) {
                 delay(cooldownTime) // delay for 3 seconds
                 question = Pair(random.nextInt(1,6), random.nextInt(1,6)) // update the question
+
+                //Question scalabililty------------------------------------------------------------
+                question = updateMulQuestion(mmr, random) // update the question according to MMR
+
                 coolDownOn = false // Turns off cooldown for button
             }
         }
