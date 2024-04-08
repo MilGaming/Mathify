@@ -2,7 +2,13 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="DivActivity">
+        <State />
+      </entry>
       <entry key="ScalableDemoActivity">
+        <State />
+      </entry>
+      <entry key="SubActivity">
         <State />
       </entry>
       <entry key="app">

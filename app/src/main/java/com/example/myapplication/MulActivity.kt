@@ -61,10 +61,10 @@ private fun MulFunction() {
     var points by remember { mutableIntStateOf(preferencesManager.getMultiplicationPoints()) }
 
     ///////////////////EmilKode/////////////////////
-    val startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
+    var startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
     var positiveStreak by remember { mutableIntStateOf(0) } // reset positive streak
     var negativeStreak by remember { mutableIntStateOf(0) } // reset negative streak
-    val mmr = preferencesManager.getAddMMR() // get MMR
+    val mmr = preferencesManager.getMulMMR() // get MMR
     ///////////////////EmilKode/////////////////////
 
     //Question scalabililty------------------------------------------------------------
@@ -180,6 +180,10 @@ private fun MulFunction() {
                 delay(cooldownTime) // delay for 3 seconds
                 question = Pair(random.nextInt(1,6), random.nextInt(1,6)) // update the question
 
+                ///////////////////EmilKode/////////////////////
+                startTime = System.currentTimeMillis() // reset start time
+                ///////////////////EmilKode/////////////////////
+
                 //Question scalabililty------------------------------------------------------------
                 question = updateMulQuestion(mmr, random) // update the question according to MMR
 
@@ -193,7 +197,7 @@ private fun MulFunction() {
         contentAlignment = Alignment.TopEnd
     ) {
         Text(
-            text = "Points: $points",
+            text = "Points: $mmr",
             modifier = Modifier.padding(top = 16.dp, end = 16.dp).align(Alignment.TopEnd),
             fontSize = 24.sp
         )

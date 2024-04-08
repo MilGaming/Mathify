@@ -195,7 +195,7 @@ private fun MMRFunction() {
         contentAlignment = Alignment.TopEnd
     ) {
         Text(
-            text = "Points: $points",
+            text = "Points: $mmr",
             modifier = Modifier.padding(top = 16.dp, end = 16.dp).align(Alignment.TopEnd),
             fontSize = 24.sp
         )

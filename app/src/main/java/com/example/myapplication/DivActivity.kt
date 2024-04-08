@@ -63,10 +63,10 @@ private fun DivFunction() {
     var points by remember { mutableIntStateOf(preferencesManager.getDivisionPoints()) }
 
     ///////////////////EmilKode/////////////////////
-    val startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
+    var startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
     var positiveStreak by remember { mutableIntStateOf(0) } // reset positive streak
     var negativeStreak by remember { mutableIntStateOf(0) } // reset negative streak
-    val mmr = preferencesManager.getAddMMR() // get MMR
+    val mmr = preferencesManager.getDivMMR() // get MMR
     ///////////////////EmilKode/////////////////////
 
     //Question scalabililty------------------------------------------------------------
@@ -204,6 +204,10 @@ private fun DivFunction() {
                 //multiplier = random.nextInt(10)
                 //dividend = divisor * multiplier // update the question
 
+                ///////////////////EmilKode/////////////////////
+                startTime = System.currentTimeMillis() // reset start time
+                ///////////////////EmilKode/////////////////////
+
                 //Question scalabililty------------------------------------------------------------
                 question = updateDivQuestion(mmr, random) // update the question according to MMR
 
@@ -219,7 +223,7 @@ private fun DivFunction() {
         contentAlignment = Alignment.TopEnd
     ) {
         Text(
-            text = "Points: $points",
+            text = "Points: $mmr",
             modifier = Modifier
                 .padding(top = 16.dp, end = 16.dp)
                 .align(Alignment.TopEnd),

@@ -64,10 +64,10 @@ private fun SubFunction() {
     var points by remember { mutableIntStateOf(preferencesManager.getSubtractionPoints()) }
 
     ///////////////////EmilKode/////////////////////
-    val startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
+    var startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
     var positiveStreak by remember { mutableIntStateOf(0) } // reset positive streak
     var negativeStreak by remember { mutableIntStateOf(0) } // reset negative streak
-    val mmr = preferencesManager.getAddMMR() // get MMR
+    val mmr = preferencesManager.getSubMMR() // get MMR
     ///////////////////EmilKode/////////////////////
 
     //Question scalabililty------------------------------------------------------------
@@ -201,6 +201,10 @@ private fun SubFunction() {
             // Coroutine to update the question after 3 seconds
             LaunchedEffect(key1 = coolDownOn) {
                 delay(cooldownTime) // delay for 3 seconds
+
+                ///////////////////EmilKode/////////////////////
+                startTime = System.currentTimeMillis() // reset start time
+                ///////////////////EmilKode/////////////////////
 
                 //Question scalabililty------------------------------------------------------------
                 question = updateSubQuestion(mmr, random) // update the question according to MMR
