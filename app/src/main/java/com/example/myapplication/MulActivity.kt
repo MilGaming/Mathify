@@ -71,11 +71,11 @@ private fun MulFunction() {
     var question by remember {
         mutableStateOf(
             when {
-                mmr >= 1500 -> Pair(random.nextInt(10, 20), random.nextInt(10, 20))
-                mmr >= 1150 -> Pair(random.nextInt(5, 10), random.nextInt(5, 10))
-                mmr >= 800 -> Pair(random.nextInt(2, 5), random.nextInt(2, 5))
-                mmr >= 350 -> Pair(random.nextInt(1, 3), random.nextInt(1, 3))
-                else -> Pair(random.nextInt(1, 3), random.nextInt(1, 3))
+                mmr >= 1500 -> Pair(random.nextInt(1, 20), random.nextInt(1, 20))
+                mmr >= 1150 -> Pair(random.nextInt(1, 15), random.nextInt(1, 15))
+                mmr >= 800 -> Pair(random.nextInt(1, 10), random.nextInt(1, 10))
+                mmr >= 350 -> Pair(random.nextInt(1, 8), random.nextInt(1, 8))
+                else -> Pair(random.nextInt(1, 6), random.nextInt(1, 6))
             }
         )
     }
