@@ -1,3 +1,5 @@
+@file:Suppress("NAME_SHADOWING")
+
 package com.example.myapplication
 
 import android.annotation.SuppressLint
@@ -199,10 +201,10 @@ fun MyAppTest() {
         val preferencesManager = PreferencesManager(context)
         var totalScore by remember { mutableIntStateOf(0) }
         // Animate the rotation
-        val rotationB1 by animateFloatAsState(if (isExpandedB1.value) 45f else 0f)
-        val rotationB2 by animateFloatAsState(if (isExpandedB2.value) 45f else 0f)
-        val rotationB3 by animateFloatAsState(if (isExpandedB3.value) 45f else 0f)
-        val rotationB4 by animateFloatAsState(if (isExpandedB4.value) 45f else 0f)
+        val rotationB1 by animateFloatAsState(if (isExpandedB1.value) 45f else 0f, label = "")
+        val rotationB2 by animateFloatAsState(if (isExpandedB2.value) 45f else 0f, label = "")
+        val rotationB3 by animateFloatAsState(if (isExpandedB3.value) 45f else 0f, label = "")
+        val rotationB4 by animateFloatAsState(if (isExpandedB4.value) 45f else 0f, label = "")
 
         // Update the total score whenever needed
         totalScore = preferencesManager.getAdditionPoints() +
