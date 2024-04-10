@@ -68,6 +68,7 @@ fun DefaultPreview() {
 class PreferencesManager(context: Context) {
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("MyApp", Context.MODE_PRIVATE)
 
+
     // Addition points
     fun saveAdditionPoints(points: Int) {
         val editor = sharedPreferences.edit()
@@ -161,6 +162,11 @@ class PreferencesManager(context: Context) {
         return sharedPreferences.getBoolean("FIRST_LOGIN", true)
     }
     //andersKode//
+    /*fun clearPreferences() {
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+    }*/
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -170,7 +176,7 @@ fun MyApp() {
     val context = LocalContext.current
     val preferencesManager = PreferencesManager(context)
     var isFirstLogin by remember { mutableStateOf(preferencesManager.getFirstLogin()) }
-
+    //preferencesManager.clearPreferences()
     if (isFirstLogin) {
         WelcomePopup(onDismiss = {
             isFirstLogin = !isFirstLogin
