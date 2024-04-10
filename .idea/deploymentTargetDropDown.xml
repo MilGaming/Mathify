@@ -2,16 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="DivActivity">
-        <State />
-      </entry>
-      <entry key="MainActivityTest">
+      <entry key="AddActivity">
         <State />
       </entry>
       <entry key="MMRActivity">
-        <State />
-      </entry>
-      <entry key="SubActivity">
         <State />
       </entry>
       <entry key="app">

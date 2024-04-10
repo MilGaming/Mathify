@@ -11,13 +11,13 @@ fun increaseScore(streak: Int, time: Int, mmr: Int, placePoint :Int): Int {
     val timeBonus = if (time <= 5) (5 - time) * 10 else 0 // larger bonus for time less than 5 seconds
     var points = mmr
 
-    val score = min(((baseScore + timeBonus) * streakMultiplier).toInt(), 150)
-
-    points += score
+    var score = min(((baseScore + timeBonus) * streakMultiplier).toInt(), 150)
 
     if(placePoint < 5) {
-        points = (points * scoreAvg).toInt()
+        score = (score * scoreAvg).toInt()
     }
+
+    points += score
 
     return points
 }

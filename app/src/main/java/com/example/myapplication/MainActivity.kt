@@ -164,11 +164,11 @@ class PreferencesManager(context: Context) {
         return sharedPreferences.getBoolean("FIRST_LOGIN", true)
     }
     //andersKode//
-    /*fun clearPreferences() {
+    fun clearPreferences() {
         val editor = sharedPreferences.edit()
         editor.clear()
         editor.apply()
-    }*/
+    }
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
