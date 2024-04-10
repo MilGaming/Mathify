@@ -16,31 +16,37 @@
             android:name=".ScalableDemoActivity"
             android:exported="true"
             android:label="@string/title_activity_scalable_demo"
-            android:theme="@style/Theme.MyApplication" />
+            android:theme="@style/Theme.MyApplication"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SubActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_sub"
-            android:theme="@style/Theme.MyApplication" />
+            android:theme="@style/Theme.MyApplication"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".DivActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_div"
-            android:theme="@style/Theme.MyApplication" />
+            android:theme="@style/Theme.MyApplication"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MulActivity"
             android:exported="false"
             android:label="@string/title_activity_mul"
-            android:theme="@style/Theme.MyApplication" />
+            android:theme="@style/Theme.MyApplication"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AddActivity"
             android:exported="false"
             android:label="@string/title_activity_add"
-            android:theme="@style/Theme.MyApplication" />
+            android:theme="@style/Theme.MyApplication"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.MyApplication">
+            android:theme="@style/Theme.MyApplication"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

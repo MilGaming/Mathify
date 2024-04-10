@@ -55,17 +55,31 @@ private fun MulFunction() {
     var coolDownOn by remember { mutableStateOf(false) }
     val cooldownTime = 1000L
     val random = Random
-    var question by remember { mutableStateOf(Pair(random.nextInt(1,6), random.nextInt(1,6))) }
-    val correctAnswer = question.first * question.second
+    //var question by remember { mutableStateOf(Pair(random.nextInt(1,6), random.nextInt(1,6))) }
+    //val correctAnswer = question.first * question.second
     val preferencesManager = PreferencesManager(context)
     var points by remember { mutableIntStateOf(preferencesManager.getMultiplicationPoints()) }
 
     ///////////////////EmilKode/////////////////////
-    val startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
+    var startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
     var positiveStreak by remember { mutableIntStateOf(0) } // reset positive streak
     var negativeStreak by remember { mutableIntStateOf(0) } // reset negative streak
-    val mmr = preferencesManager.getAddMMR() // get MMR
+    val mmr = preferencesManager.getMulMMR() // get MMR
     ///////////////////EmilKode/////////////////////
+
+    //Question scalabililty------------------------------------------------------------
+    var question by remember {
+        mutableStateOf(
+            when {
+                mmr >= 1500 -> Pair(random.nextInt(1, 20), random.nextInt(1, 20))
+                mmr >= 1150 -> Pair(random.nextInt(1, 15), random.nextInt(1, 15))
+                mmr >= 800 -> Pair(random.nextInt(1, 10), random.nextInt(1, 10))
+                mmr >= 350 -> Pair(random.nextInt(1, 8), random.nextInt(1, 8))
+                else -> Pair(random.nextInt(1, 6), random.nextInt(1, 6))
+            }
+        )
+    }
+    val correctAnswer = question.first * question.second
 
     CustomTopBar()
     StreakBar(positiveStreak) //Add streak score to screen
@@ -165,6 +179,14 @@ private fun MulFunction() {
             LaunchedEffect(key1 = coolDownOn) {
                 delay(cooldownTime) // delay for 3 seconds
                 question = Pair(random.nextInt(1,6), random.nextInt(1,6)) // update the question
+
+                ///////////////////EmilKode/////////////////////
+                startTime = System.currentTimeMillis() // reset start time
+                ///////////////////EmilKode/////////////////////
+
+                //Question scalabililty------------------------------------------------------------
+                question = updateMulQuestion(mmr, random) // update the question according to MMR
+
                 coolDownOn = false // Turns off cooldown for button
             }
         }
@@ -175,7 +197,7 @@ private fun MulFunction() {
         contentAlignment = Alignment.TopEnd
     ) {
         Text(
-            text = "Points: $points",
+            text = "Points: $mmr",
             modifier = Modifier.padding(top = 16.dp, end = 16.dp).align(Alignment.TopEnd),
             fontSize = 24.sp
         )
