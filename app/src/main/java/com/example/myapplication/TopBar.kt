@@ -126,6 +126,7 @@ fun CustomTopBar() {
 fun Popup(openDialog: MutableState<Boolean>,isHeldDown: MutableState<Boolean>){
     val cornerSize = 10.dp //box specs
     val coroutineScope = rememberCoroutineScope()
+    val achievements = listOf("Achivments1", "Achivments2", "Achivments3", "Achivments4")
 
     androidx.compose.ui.window.Popup(
         alignment = Alignment.Center, //here we mention the pos
@@ -162,7 +163,15 @@ fun Popup(openDialog: MutableState<Boolean>,isHeldDown: MutableState<Boolean>){
                     verticalArrangement = Arrangement.spacedBy(5.dp)
 
                 ) {
-                    Text(
+                    /*for (achievement in achievements) {
+                        Text(
+                            text = achievement,
+                            modifier = Modifier.padding(vertical = 5.dp),
+                            fontSize = 16.sp
+                        )
+                        Divider(color = Color.Black, thickness = 1.dp)
+                    }*/
+                    /*Text(
                         text = "Achivments1",
                         modifier = Modifier.padding(vertical = 5.dp),
                         fontSize = 16.sp
@@ -184,7 +193,7 @@ fun Popup(openDialog: MutableState<Boolean>,isHeldDown: MutableState<Boolean>){
                         fontSize = 16.sp
                     )
 
-                    Divider(color = Color.Black, thickness = 1.dp)
+                    Divider(color = Color.Black, thickness = 1.dp)*/
                 }
             }
         }

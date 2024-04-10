@@ -14,9 +14,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
@@ -213,261 +215,278 @@ fun MyApp() {
                 preferencesManager.getDivisionPoints()
 
         CustomTopBar()
-        Column(
-            //Adds padding to button column at the top
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(top = 150.dp),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            //Button 1 with expanding button
-            Column {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                ) {
-                    Button(
-                        onClick = {
-                            val intent = Intent(context, AddActivity::class.java)
-                            context.startActivity(intent)
-                        },
-                        modifier = Modifier
-                            .wrapContentSize(Alignment.CenterStart)
-                            .fillMaxWidth(0.9f)
-                    ) {
-                        Text("+", fontSize = 50.sp, textAlign = TextAlign.Center)
-                    }
+        Column {
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+            ) {
+
+            }
+
+            Column(
+                //Adds padding to button column at the top
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                //Button 1 with expanding button
+                Column {
                     Box(
                         modifier = Modifier
-                            .align(Alignment.CenterEnd)
-                            .fillMaxWidth(0.1f),
+                            .fillMaxWidth(0.8f)
                     ) {
-                        Button(
-                            onClick = { isExpandedB1.value = !isExpandedB1.value },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Purple80,
-                                contentColor = Purple40
-                            ),
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .size(30.dp),
-                            shape = CircleShape
-                        ) {
-                        }
                         Text(
-                            "＋",
+                            text = "Vælg en udfordring ved at trykke på den og regn løs!",
                             modifier = Modifier
-                                .align(Alignment.Center)
-                                .rotate(rotationB1),
-                            fontSize = 25.sp,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                            color = Purple40,
+                                .padding(16.dp)
+                                .align(Alignment.CenterStart),
+                            fontSize = 24.sp
+                        )
+                        Button(
+                            onClick = {
+                                val intent = Intent(context, AddActivity::class.java)
+                                context.startActivity(intent)
+                            },
+                            modifier = Modifier
+                                .wrapContentSize(Alignment.CenterStart)
+                                .fillMaxWidth(0.9f)
+                        ) {
+                            Text("+", fontSize = 50.sp, textAlign = TextAlign.Center)
+                        }
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .fillMaxWidth(0.1f),
+                        ) {
+                            Button(
+                                onClick = { isExpandedB1.value = !isExpandedB1.value },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Purple80,
+                                    contentColor = Purple40
+                                ),
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .size(30.dp),
+                                shape = CircleShape
+                            ) {
+                            }
+                            Text(
+                                "＋",
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .rotate(rotationB1),
+                                fontSize = 25.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                color = Purple40,
+                            )
+                        }
+                    }
+                    //Whatever needs to be under button 1 to has to be added below here--------
+                    this.AnimatedVisibility(visible = isExpandedB1.value) {
+                        Text(
+                            text = "Addition Statistics will be shown here!!!" +
+                                    "\nPoints: ${preferencesManager.getAdditionPoints()}" +
+                                    "\nMMR: ${preferencesManager.getAddMMR()}",
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .fillMaxWidth(0.8f),
+                            fontSize = 5.em
                         )
                     }
                 }
-                //Whatever needs to be under button 1 to has to be added below here--------
-                this.AnimatedVisibility(visible = isExpandedB1.value) {
-                    Text(
-                        text = "Addition Statistics will be shown here!!!" +
-                                "\nPoints: ${preferencesManager.getAdditionPoints()}" +
-                                "\nMMR: ${preferencesManager.getAddMMR()}",
-                        modifier = Modifier
-                            .padding(4.dp)
-                            .fillMaxWidth(0.8f),
-                        fontSize = 5.em
-                    )
-                }
-            }
 
-            Spacer(modifier = Modifier.height(50.dp))
+                Spacer(modifier = Modifier.height(50.dp))
 
-            //Button 2 with expanding button
-            Column {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                ) {
-                    Button(
-                        onClick = {
-                            val intent = Intent(context, SubActivity::class.java)
-                            context.startActivity(intent)
-                        },
-                        modifier = Modifier
-                            .wrapContentSize(Alignment.CenterStart)
-                            .fillMaxWidth(0.9f)
-                    ) {
-                        Text("−", fontSize = 50.sp, textAlign = TextAlign.Center)
-                    }
+                //Button 2 with expanding button
+                Column {
                     Box(
                         modifier = Modifier
-                            .align(Alignment.CenterEnd)
-                            .fillMaxWidth(0.1f),
+                            .fillMaxWidth(0.8f)
                     ) {
                         Button(
-                            onClick = { isExpandedB2.value = !isExpandedB2.value },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Purple80,
-                                contentColor = Purple40
-                            ),
+                            onClick = {
+                                val intent = Intent(context, SubActivity::class.java)
+                                context.startActivity(intent)
+                            },
                             modifier = Modifier
-                                .align(Alignment.Center)
-                                .size(30.dp),
-                            shape = CircleShape
+                                .wrapContentSize(Alignment.CenterStart)
+                                .fillMaxWidth(0.9f)
                         ) {
+                            Text("−", fontSize = 50.sp, textAlign = TextAlign.Center)
                         }
-                        Text(
-                            "＋",
+                        Box(
                             modifier = Modifier
-                                .align(Alignment.Center)
-                                .rotate(rotationB2),
-                            fontSize = 25.sp,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                            color = Purple40,
+                                .align(Alignment.CenterEnd)
+                                .fillMaxWidth(0.1f),
+                        ) {
+                            Button(
+                                onClick = { isExpandedB2.value = !isExpandedB2.value },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Purple80,
+                                    contentColor = Purple40
+                                ),
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .size(30.dp),
+                                shape = CircleShape
+                            ) {
+                            }
+                            Text(
+                                "＋",
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .rotate(rotationB2),
+                                fontSize = 25.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                color = Purple40,
+                            )
+                        }
+                    }
+                    //Whatever needs to be under button 2 to has to be added below here--------
+                    this.AnimatedVisibility(visible = isExpandedB2.value) {
+                        Text(
+                            text = "Subtraction Statistics will be shown here!!!" +
+                                    "\nPoints: ${preferencesManager.getSubtractionPoints()}" +
+                                    "\nMMR: ${preferencesManager.getSubMMR()}",
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .fillMaxWidth(0.8f),
+                            fontSize = 5.em
                         )
                     }
                 }
-                //Whatever needs to be under button 2 to has to be added below here--------
-                this.AnimatedVisibility(visible = isExpandedB2.value) {
-                    Text(
-                        text = "Subtraction Statistics will be shown here!!!" +
-                                "\nPoints: ${preferencesManager.getSubtractionPoints()}" +
-                                "\nMMR: ${preferencesManager.getSubMMR()}",
-                        modifier = Modifier
-                            .padding(4.dp)
-                            .fillMaxWidth(0.8f),
-                        fontSize = 5.em
-                    )
-                }
-            }
 
-            Spacer(modifier = Modifier.height(50.dp))
+                Spacer(modifier = Modifier.height(50.dp))
 
-            //Button 3 with expanding button
-            Column {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                ) {
-                    Button(
-                        onClick = {
-                            val intent = Intent(context, MulActivity::class.java)
-                            context.startActivity(intent)
-                        },
-                        modifier = Modifier
-                            .wrapContentSize(Alignment.CenterStart)
-                            .fillMaxWidth(0.9f)
-                    ) {
-                        Text("×", fontSize = 50.sp, textAlign = TextAlign.Center)
-                    }
+                //Button 3 with expanding button
+                Column {
                     Box(
                         modifier = Modifier
-                            .align(Alignment.CenterEnd)
-                            .fillMaxWidth(0.1f),
+                            .fillMaxWidth(0.8f)
                     ) {
                         Button(
-                            onClick = { isExpandedB3.value = !isExpandedB3.value },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Purple80,
-                                contentColor = Purple40
-                            ),
+                            onClick = {
+                                val intent = Intent(context, MulActivity::class.java)
+                                context.startActivity(intent)
+                            },
                             modifier = Modifier
-                                .align(Alignment.Center)
-                                .size(30.dp),
-                            shape = CircleShape
+                                .wrapContentSize(Alignment.CenterStart)
+                                .fillMaxWidth(0.9f)
                         ) {
+                            Text("×", fontSize = 50.sp, textAlign = TextAlign.Center)
                         }
-                        Text(
-                            "＋",
+                        Box(
                             modifier = Modifier
-                                .align(Alignment.Center)
-                                .rotate(rotationB3),
-                            fontSize = 25.sp,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                            color = Purple40,
+                                .align(Alignment.CenterEnd)
+                                .fillMaxWidth(0.1f),
+                        ) {
+                            Button(
+                                onClick = { isExpandedB3.value = !isExpandedB3.value },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Purple80,
+                                    contentColor = Purple40
+                                ),
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .size(30.dp),
+                                shape = CircleShape
+                            ) {
+                            }
+                            Text(
+                                "＋",
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .rotate(rotationB3),
+                                fontSize = 25.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                color = Purple40,
+                            )
+                        }
+                    }
+                    //Whatever needs to be under button 3 to has to be added below here--------
+                    this.AnimatedVisibility(visible = isExpandedB3.value) {
+                        Text(
+                            text = "Multiplication Statistics will be shown here!!!" +
+                                    "\nPoints: ${preferencesManager.getMultiplicationPoints()}" +
+                                    "\nMMR: ${preferencesManager.getMulMMR()}",
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .fillMaxWidth(0.8f),
+                            fontSize = 5.em
                         )
                     }
                 }
-                //Whatever needs to be under button 3 to has to be added below here--------
-                this.AnimatedVisibility(visible = isExpandedB3.value) {
-                    Text(
-                        text = "Multiplication Statistics will be shown here!!!" +
-                                "\nPoints: ${preferencesManager.getMultiplicationPoints()}" +
-                                "\nMMR: ${preferencesManager.getMulMMR()}",
-                        modifier = Modifier
-                            .padding(4.dp)
-                            .fillMaxWidth(0.8f),
-                        fontSize = 5.em
-                    )
-                }
-            }
 
 
-            Spacer(modifier = Modifier.height(50.dp))
+                Spacer(modifier = Modifier.height(50.dp))
 
-            //Button 4 with expanding button
-            Column {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                ) {
-                    Button(
-                        onClick = {
-                            val intent = Intent(context, DivActivity::class.java)
-                            context.startActivity(intent)
-                        },
-                        modifier = Modifier
-                            .wrapContentSize(Alignment.CenterStart)
-                            .fillMaxWidth(0.9f)
-                    ) {
-                        Text("÷", fontSize = 50.sp, textAlign = TextAlign.Center)
-                    }
+                //Button 4 with expanding button
+                Column {
                     Box(
                         modifier = Modifier
-                            .align(Alignment.CenterEnd)
-                            .fillMaxWidth(0.1f),
+                            .fillMaxWidth(0.8f)
                     ) {
                         Button(
-                            onClick = { isExpandedB4.value = !isExpandedB4.value },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Purple80,
-                                contentColor = Purple40
-                            ),
+                            onClick = {
+                                val intent = Intent(context, DivActivity::class.java)
+                                context.startActivity(intent)
+                            },
                             modifier = Modifier
-                                .align(Alignment.Center)
-                                .size(30.dp),
-                            shape = CircleShape
+                                .wrapContentSize(Alignment.CenterStart)
+                                .fillMaxWidth(0.9f)
                         ) {
+                            Text("÷", fontSize = 50.sp, textAlign = TextAlign.Center)
                         }
-                        Text(
-                            "＋",
+                        Box(
                             modifier = Modifier
-                                .align(Alignment.Center)
-                                .rotate(rotationB4),
-                            fontSize = 25.sp,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                            color = Purple40,
+                                .align(Alignment.CenterEnd)
+                                .fillMaxWidth(0.1f),
+                        ) {
+                            Button(
+                                onClick = { isExpandedB4.value = !isExpandedB4.value },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Purple80,
+                                    contentColor = Purple40
+                                ),
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .size(30.dp),
+                                shape = CircleShape
+                            ) {
+                            }
+                            Text(
+                                "＋",
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .rotate(rotationB4),
+                                fontSize = 25.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                color = Purple40,
+                            )
+                        }
+                    }
+                    //Whatever needs to be under button 4 to has to be added below here--------
+                    this.AnimatedVisibility(visible = isExpandedB4.value) {
+                        Text(
+                            text = "Division Statistics will be shown here!!!" +
+                                    "\nPoints: ${preferencesManager.getDivisionPoints()}" +
+                                    "\nMMR: ${preferencesManager.getDivMMR()}",
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .fillMaxWidth(0.8f),
+                            fontSize = 5.em
                         )
                     }
                 }
-                //Whatever needs to be under button 4 to has to be added below here--------
-                this.AnimatedVisibility(visible = isExpandedB4.value) {
-                    Text(
-                        text = "Division Statistics will be shown here!!!" +
-                                "\nPoints: ${preferencesManager.getDivisionPoints()}" +
-                                "\nMMR: ${preferencesManager.getDivMMR()}",
-                        modifier = Modifier
-                            .padding(4.dp)
-                            .fillMaxWidth(0.8f),
-                        fontSize = 5.em
-                    )
-                }
             }
+
         }
         // Display the total score in the top right corner
         Box(
