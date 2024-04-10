@@ -264,8 +264,6 @@ fun MyAppTest() {
                             fontSize = 25.sp,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,
-                            softWrap = false,
-                            overflow = TextOverflow.Visible,
                             color = Purple40,
                         )
                     }
@@ -328,8 +326,6 @@ fun MyAppTest() {
                             fontSize = 25.sp,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,
-                            softWrap = false,
-                            overflow = TextOverflow.Visible,
                             color = Purple40,
                         )
                     }
@@ -392,8 +388,6 @@ fun MyAppTest() {
                             fontSize = 25.sp,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,
-                            softWrap = false,
-                            overflow = TextOverflow.Visible,
                             color = Purple40,
                         )
                     }
@@ -457,8 +451,6 @@ fun MyAppTest() {
                             fontSize = 25.sp,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,
-                            softWrap = false,
-                            overflow = TextOverflow.Visible,
                             color = Purple40,
                         )
                     }
