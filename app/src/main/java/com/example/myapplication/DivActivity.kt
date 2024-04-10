@@ -72,33 +72,7 @@ private fun DivFunction() {
     //Question scalabililty------------------------------------------------------------
     var question by remember {
         mutableStateOf(
-            when {
-                mmr >= 1500 -> {
-                    val num2 = random.nextInt(10, 20)
-                    val num1 = num2 * random.nextInt(10, 20)
-                    Pair(num1, num2)
-                }
-                mmr >= 1150 -> {
-                    val num2 = random.nextInt(5, 10)
-                    val num1 = num2 * random.nextInt(10, 20)
-                    Pair(num1, num2)
-                }
-                mmr >= 800 -> {
-                    val num2 = random.nextInt(2, 5)
-                    val num1 = num2 * random.nextInt(10, 20)
-                    Pair(num1, num2)
-                }
-                mmr >= 350 -> {
-                    val num2 = random.nextInt(1, 3)
-                    val num1 = num2 * random.nextInt(10, 20)
-                    Pair(num1, num2)
-                }
-                else -> {
-                    val num2 = random.nextInt(1, 3)
-                    val num1 = num2 * random.nextInt(5, 10)
-                    Pair(num1, num2)
-                }
-            }
+            updateDivQuestion(mmr, random)
         )
     }
     val correctAnswer = question.first / question.second

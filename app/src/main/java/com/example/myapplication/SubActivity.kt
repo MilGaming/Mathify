@@ -73,33 +73,7 @@ private fun SubFunction() {
     //Question scalabililty------------------------------------------------------------
     var question by remember {
         mutableStateOf(
-            when {
-                mmr >= 1500 -> {
-                    val num1 = random.nextInt(100, 150)
-                    val num2 = random.nextInt(50, min(num1, 100))
-                    Pair(num1, num2)
-                }
-                mmr >= 1150 -> {
-                    val num1 = random.nextInt(50, 100)
-                    val num2 = random.nextInt(25, min(num1, 50))
-                    Pair(num1, num2)
-                }
-                mmr >= 800 -> {
-                    val num1 = random.nextInt(25, 50)
-                    val num2 = random.nextInt(10, min(num1, 25))
-                    Pair(num1, num2)
-                }
-                mmr >= 350 -> {
-                    val num1 = random.nextInt(10, 25)
-                    val num2 = random.nextInt(5, min(num1, 10))
-                    Pair(num1, num2)
-                }
-                else -> {
-                    val num1 = random.nextInt(10)
-                    val num2 = random.nextInt(min(num1, 5))
-                    Pair(num1, num2) //Convert into pair
-                }
-            }
+            updateSubQuestion(mmr, random)
         )
     }
     val correctAnswer = question.first - question.second

@@ -70,13 +70,7 @@ private fun MulFunction() {
     //Question scalabililty------------------------------------------------------------
     var question by remember {
         mutableStateOf(
-            when {
-                mmr >= 1500 -> Pair(random.nextInt(1, 20), random.nextInt(1, 20))
-                mmr >= 1150 -> Pair(random.nextInt(1, 15), random.nextInt(1, 15))
-                mmr >= 800 -> Pair(random.nextInt(1, 10), random.nextInt(1, 10))
-                mmr >= 350 -> Pair(random.nextInt(1, 8), random.nextInt(1, 8))
-                else -> Pair(random.nextInt(1, 6), random.nextInt(1, 6))
-            }
+            updateMulQuestion(mmr, random)
         )
     }
     val correctAnswer = question.first * question.second

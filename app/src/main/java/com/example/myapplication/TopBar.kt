@@ -63,7 +63,7 @@ fun CustomTopBar() {
     Scaffold(
         topBar = {
             TopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.LightGray),
-                title = { Text("Mathify") },
+                title = { Text("MathTech") },
                 actions = {
                     //Home button is not shown in the main activity
                     if (currentActivityName != "MainActivity") {

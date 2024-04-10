@@ -67,13 +67,7 @@ private fun MMRFunction() {
     //Question scalabililty------------------------------------------------------------
     var question by remember {
         mutableStateOf(
-            when {
-                mmr >= 1500 -> Pair(random.nextInt(50,100), random.nextInt(50,100))
-                mmr >= 1150 -> Pair(random.nextInt(25,50), random.nextInt(25,50))
-                mmr >= 800 -> Pair(random.nextInt(10,25), random.nextInt(10,25))
-                mmr >= 350 -> Pair(random.nextInt(5,10), random.nextInt(5,10))
-                else -> Pair(random.nextInt(5), random.nextInt(5))
-            }
+            updateAddQuestion(mmr, random)
         )
     }
     val correctAnswer = question.first + question.second
