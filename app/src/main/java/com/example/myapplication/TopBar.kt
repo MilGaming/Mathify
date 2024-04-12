@@ -289,8 +289,8 @@ fun AchievementPopup(openDialog: MutableState<Boolean>,isHeldDown: MutableState<
                                 )
                         }
                     }
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
                             .fillMaxWidth()
                     ) {
