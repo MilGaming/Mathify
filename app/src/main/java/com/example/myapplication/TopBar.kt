@@ -2,12 +2,15 @@ package com.example.myapplication
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,8 +18,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
@@ -35,6 +40,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,7 +64,37 @@ import com.example.myapplication.ui.theme.Purple80
 import com.example.myapplication.ui.theme.PurpleGrey80
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import kotlin.random.Random
 
+data class Achievement(val index: Int, val name: String, val currentProgress: Int, val goalProgress: Int)
+class SharedPreferencesManager(context: Context) {
+    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("AchievementsPrefs", Context.MODE_PRIVATE)
+
+    fun saveAchievements(achievements: List<Achievement>) {
+        val editor = sharedPreferences.edit()
+        val gson = Gson()
+        val json = gson.toJson(achievements)
+        editor.putString("achievements", json)
+        editor.apply()
+    }
+    fun getAchievements(): List<Achievement> {
+        val gson = Gson()
+        val json = sharedPreferences.getString("achievements", null)
+        val type = object : TypeToken<List<Achievement>>() {}.type
+        return gson.fromJson(json, type) ?: listOf()
+    }
+    // Save the index of the last achievement added, to make sure every index is unique
+    fun saveAchievementIndex(index: Int) {
+        val editor = sharedPreferences.edit()
+        editor.putInt("achievementIndex", index)
+        editor.apply()
+    }
+    fun getAchievementIndex(): Int {
+        return sharedPreferences.getInt("achievementIndex", 0)
+    }
+}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
@@ -137,12 +173,11 @@ fun CustomTopBar() {
 fun AchievementPopup(openDialog: MutableState<Boolean>,isHeldDown: MutableState<Boolean>){
     val cornerSize = 10.dp //box specs
     val coroutineScope = rememberCoroutineScope()
-    data class Achievement(val name: String, val currentProgress: Int, val goalProgress: Int)
-    val achievements = remember {mutableStateListOf(
-        Achievement("Præstation 1", 50, 100),
-        Achievement("Præstation 2", 70, 200),
-        Achievement("Præstation 3", 30, 150)
-    ) }
+    val context = LocalContext.current
+    val sharedPreferencesManager = SharedPreferencesManager(context)
+    val achievements = remember { mutableStateListOf(*sharedPreferencesManager.getAchievements().toTypedArray()) }
+    var achievementIndex = remember { mutableIntStateOf(sharedPreferencesManager.getAchievementIndex()) }
+
 
     androidx.compose.ui.window.Popup(
         alignment = Alignment.Center, //here we mention the pos
@@ -172,6 +207,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>,isHeldDown: MutableState<
                         Purple40,
                         RoundedCornerShape(cornerSize)
                     )
+                    .verticalScroll(rememberScrollState())
             ) {
 
                 Column(
@@ -187,7 +223,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>,isHeldDown: MutableState<
                         modifier = Modifier.padding(vertical = 5.dp)
                     )
                     // Loop through the achievements and display them
-                    for (achievement in achievements) {
+                    for ((index, achievement) in achievements.withIndex()) {
                         Column {
                             Text(
                                 text = achievement.name,
@@ -235,6 +271,17 @@ fun AchievementPopup(openDialog: MutableState<Boolean>,isHeldDown: MutableState<
                                     )
                                 )
                             }
+                            // Button to remove the current achievement
+                            Button(modifier = Modifier.height(30.dp),
+                                onClick = {
+                                val achievementToRemove = achievements.firstOrNull { it.index == achievement.index }
+                                if (achievementToRemove != null) {
+                                    achievements.remove(achievementToRemove)
+                                    sharedPreferencesManager.saveAchievements(achievements)
+                                }
+                            }) {
+                                Text(text = "Fjern denne præstation", fontSize = 10.sp)
+                            }
                             Divider(
                                 color = Color.Black,
                                 thickness = 2.dp,
@@ -242,18 +289,39 @@ fun AchievementPopup(openDialog: MutableState<Boolean>,isHeldDown: MutableState<
                                 )
                         }
                     }
-                    Button(onClick = {
-                        achievements.add(Achievement("New Achievement", 0, 100))
-                    }) {
-                        Text("Tilføj Præstation")
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        // Button to add a new achievement for testing
+                        Button(onClick = {
+                            val newAchievement = Achievement(achievementIndex.value, "Præstation (${achievementIndex.value})",  Random.nextInt(0,100), 100)
+                            achievements.add(newAchievement)
+                            sharedPreferencesManager.saveAchievements(achievements)
+                            achievementIndex.value++  // Increment the independent index tracker
+                            sharedPreferencesManager.saveAchievementIndex(achievementIndex.value)  // Save the updated index
+                        }) {
+                            Text("Tilføj Præstation")
+                        }
+                        // Button to remove the specific achievement for testing
+                        Button(onClick = {
+                            val achievementToRemove = achievements.firstOrNull { it.index == 4 } // Replace 0 with the specific index of the achievement you want to remove
+                            if (achievementToRemove != null) {
+                                achievements.remove(achievementToRemove)
+                                sharedPreferencesManager.saveAchievements(achievements)
+                            }
+                        }) {
+                            Text("Fjern Præstation")
+                        }
+                        Spacer(modifier = Modifier.height(75.dp))
                     }
+
                 }
             }
         }
     }
 }
-
-
 
 @Composable
 fun Info(onDismiss: () -> Unit){
