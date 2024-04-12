@@ -124,7 +124,7 @@ fun CustomTopBar() {
             Spacer(modifier = Modifier.height(50.dp))
         })
     if (openDialog.value) {
-        Popup(openDialog, isHeldDown)
+        AchievementPopup(openDialog, isHeldDown)
         val keyboardController = LocalSoftwareKeyboardController.current
         keyboardController?.hide()
     }
@@ -134,14 +134,14 @@ fun CustomTopBar() {
 }
 
 @Composable
-fun Popup(openDialog: MutableState<Boolean>,isHeldDown: MutableState<Boolean>){
+fun AchievementPopup(openDialog: MutableState<Boolean>,isHeldDown: MutableState<Boolean>){
     val cornerSize = 10.dp //box specs
     val coroutineScope = rememberCoroutineScope()
     data class Achievement(val name: String, val currentProgress: Int, val goalProgress: Int)
     val achievements = remember {mutableStateListOf(
-        Achievement("Achievement 1", 50, 100),
-        Achievement("Achievement 2", 70, 200),
-        Achievement("Achievement 3", 30, 150)
+        Achievement("Præstation 1", 50, 100),
+        Achievement("Præstation 2", 70, 200),
+        Achievement("Præstation 3", 30, 150)
     ) }
 
     androidx.compose.ui.window.Popup(
@@ -179,7 +179,14 @@ fun Popup(openDialog: MutableState<Boolean>,isHeldDown: MutableState<Boolean>){
                     verticalArrangement = Arrangement.spacedBy(5.dp)
 
                 ) {
-
+                    Text(
+                        text = "Præstationer",
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black,
+                        modifier = Modifier.padding(vertical = 5.dp)
+                    )
+                    // Loop through the achievements and display them
                     for (achievement in achievements) {
                         Column {
                             Text(
@@ -238,7 +245,7 @@ fun Popup(openDialog: MutableState<Boolean>,isHeldDown: MutableState<Boolean>){
                     Button(onClick = {
                         achievements.add(Achievement("New Achievement", 0, 100))
                     }) {
-                        Text("Add Achievement")
+                        Text("Tilføj Præstation")
                     }
                 }
             }
