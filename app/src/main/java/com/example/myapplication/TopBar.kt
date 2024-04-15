@@ -176,7 +176,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>,isHeldDown: MutableState<
     val context = LocalContext.current
     val sharedPreferencesManager = SharedPreferencesManager(context)
     val achievements = remember { mutableStateListOf(*sharedPreferencesManager.getAchievements().toTypedArray()) }
-    var achievementIndex = remember { mutableIntStateOf(sharedPreferencesManager.getAchievementIndex()) }
+    val achievementIndex = remember { mutableIntStateOf(sharedPreferencesManager.getAchievementIndex()) }
 
 
     androidx.compose.ui.window.Popup(
@@ -296,11 +296,11 @@ fun AchievementPopup(openDialog: MutableState<Boolean>,isHeldDown: MutableState<
                     ) {
                         // Button to add a new achievement for testing
                         Button(onClick = {
-                            val newAchievement = Achievement(achievementIndex.value, "Præstation (${achievementIndex.value})",  Random.nextInt(0,100), 100)
+                            val newAchievement = Achievement(achievementIndex.intValue, "Præstation (${achievementIndex.intValue})",  Random.nextInt(0,100), 100)
                             achievements.add(newAchievement)
                             sharedPreferencesManager.saveAchievements(achievements)
-                            achievementIndex.value++  // Increment the independent index tracker
-                            sharedPreferencesManager.saveAchievementIndex(achievementIndex.value)  // Save the updated index
+                            achievementIndex.intValue++  // Increment the independent index tracker
+                            sharedPreferencesManager.saveAchievementIndex(achievementIndex.intValue)  // Save the updated index
                         }) {
                             Text("Tilføj Præstation")
                         }
