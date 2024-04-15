@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.scripts
 
 import kotlin.math.log10
 import kotlin.math.min
