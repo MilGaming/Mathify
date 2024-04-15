@@ -10,4 +10,5 @@
     <string name="title_activity_mmrfuncitons">MMRFuncitons</string>
     <string name="title_activity_scalable_demo">scalable demo</string>
     <string name="title_main_activity_test">Main Activity Test</string>
+    <string name="title_activity_shared_pref">SharedPref</string>
 </resources>

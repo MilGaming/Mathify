@@ -33,7 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.scripts.CustomTopBar
-import com.example.myapplication.PreferencesManager
+import com.example.myapplication.scripts.PreferencesManager
 import com.example.myapplication.scripts.StreakBar
 import com.example.myapplication.scripts.decreaseScore
 import com.example.myapplication.scripts.increaseScore
