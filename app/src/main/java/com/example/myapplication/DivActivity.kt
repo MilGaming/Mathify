@@ -108,18 +108,19 @@ private fun DivFunction() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    preferencesManager.saveDivMMR(increaseScore(positiveStreak, timeTaken, mmr))
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
                     points++ // increment points
                     preferencesManager.saveDivisionPoints(points) // save points
+
+                    preferencesManager.saveDivMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
                 } else {
 
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    preferencesManager.saveDivMMR(decreaseScore(negativeStreak, timeTaken, mmr)) // decrease score
+                    preferencesManager.saveDivMMR(decreaseScore(negativeStreak, timeTaken, mmr, points)) // decrease score
                     ///////////////////EmilKode/////////////////////
 
                     result = "Forkert! Prøv igen."
@@ -144,19 +145,21 @@ private fun DivFunction() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    preferencesManager.saveDivMMR(increaseScore(positiveStreak, timeTaken, mmr))
+
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
                     points++ // increment points
                     preferencesManager.saveDivisionPoints(points) // save points
+
+                    preferencesManager.saveDivMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
                 } else {
                     result = "Forkert! Prøv igen."
 
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    preferencesManager.saveDivMMR(decreaseScore(negativeStreak, timeTaken, mmr))
+                    preferencesManager.saveDivMMR(decreaseScore(negativeStreak, timeTaken, mmr, points))
                     ///////////////////EmilKode/////////////////////
 
                 }

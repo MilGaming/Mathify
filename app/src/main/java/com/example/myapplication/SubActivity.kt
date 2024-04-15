@@ -109,18 +109,19 @@ private fun SubFunction() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    preferencesManager.saveSubMMR(increaseScore(positiveStreak, timeTaken, mmr))
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
                     points++ // increment points
                     preferencesManager.saveSubtractionPoints(points) // save points
+
+                    preferencesManager.saveSubMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
                 } else {
 
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    preferencesManager.saveSubMMR(decreaseScore(negativeStreak, timeTaken, mmr)) // decrease score
+                    preferencesManager.saveSubMMR(decreaseScore(negativeStreak, timeTaken, mmr, points)) // decrease score
                     ///////////////////EmilKode/////////////////////
 
                     result = "Forkert! Prøv igen."
@@ -145,19 +146,20 @@ private fun SubFunction() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    preferencesManager.saveSubMMR(increaseScore(positiveStreak, timeTaken, mmr))
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
                     points++ // increment points
                     preferencesManager.saveSubtractionPoints(points) // save points
+
+                    preferencesManager.saveSubMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
                 } else {
                     result = "Forkert! Prøv igen."
 
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    preferencesManager.saveSubMMR(decreaseScore(negativeStreak, timeTaken, mmr))
+                    preferencesManager.saveSubMMR(decreaseScore(negativeStreak, timeTaken, mmr, points))
                     ///////////////////EmilKode/////////////////////
 
                 }

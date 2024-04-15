@@ -55,7 +55,8 @@ private fun MMRFunction() {
     val cooldownTime = 1000L
     val random = Random
     val preferencesManager = PreferencesManager(context)
-    var points by remember { mutableIntStateOf(preferencesManager.getMultiplicationPoints()) }
+    var points by remember { mutableIntStateOf(preferencesManager.getAdditionPoints()) }
+
 
     ///////////////////EmilKode/////////////////////
     var startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
@@ -105,18 +106,21 @@ private fun MMRFunction() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    preferencesManager.saveAddMMR(increaseScore(positiveStreak, timeTaken, mmr))
+
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
                     points++ // increment points
                     preferencesManager.saveAdditionPoints(points) // save points
+
+                    preferencesManager.saveAddMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
+
                 } else {
 
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    preferencesManager.saveAddMMR(decreaseScore(negativeStreak, timeTaken, mmr)) // decrease score
+                    preferencesManager.saveAddMMR(decreaseScore(negativeStreak, timeTaken, mmr, points)) // decrease score
                     ///////////////////EmilKode/////////////////////
 
                     result = "Forkert! Prøv igen."
@@ -141,19 +145,20 @@ private fun MMRFunction() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    preferencesManager.saveAddMMR(increaseScore(positiveStreak, timeTaken, mmr))
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
                     points++ // increment points
                     preferencesManager.saveAdditionPoints(points) // save points
+
+                    preferencesManager.saveAddMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
                 } else {
                     result = "Forkert! Prøv igen."
 
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    preferencesManager.saveAddMMR(decreaseScore(negativeStreak, timeTaken, mmr))
+                    preferencesManager.saveAddMMR(decreaseScore(negativeStreak, timeTaken, mmr, points))
                     ///////////////////EmilKode/////////////////////
 
                 }
