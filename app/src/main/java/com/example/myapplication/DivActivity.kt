@@ -72,33 +72,7 @@ private fun DivFunction() {
     //Question scalabililty------------------------------------------------------------
     var question by remember {
         mutableStateOf(
-            when {
-                mmr >= 1500 -> {
-                    val num2 = random.nextInt(10, 20)
-                    val num1 = num2 * random.nextInt(10, 20)
-                    Pair(num1, num2)
-                }
-                mmr >= 1150 -> {
-                    val num2 = random.nextInt(5, 10)
-                    val num1 = num2 * random.nextInt(10, 20)
-                    Pair(num1, num2)
-                }
-                mmr >= 800 -> {
-                    val num2 = random.nextInt(2, 5)
-                    val num1 = num2 * random.nextInt(10, 20)
-                    Pair(num1, num2)
-                }
-                mmr >= 350 -> {
-                    val num2 = random.nextInt(1, 3)
-                    val num1 = num2 * random.nextInt(10, 20)
-                    Pair(num1, num2)
-                }
-                else -> {
-                    val num2 = random.nextInt(1, 3)
-                    val num1 = num2 * random.nextInt(5, 10)
-                    Pair(num1, num2)
-                }
-            }
+            updateDivQuestion(mmr, random)
         )
     }
     val correctAnswer = question.first / question.second
@@ -134,18 +108,19 @@ private fun DivFunction() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    preferencesManager.saveDivMMR(increaseScore(positiveStreak, timeTaken, mmr))
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
                     points++ // increment points
                     preferencesManager.saveDivisionPoints(points) // save points
+
+                    preferencesManager.saveDivMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
                 } else {
 
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    preferencesManager.saveDivMMR(decreaseScore(negativeStreak, timeTaken, mmr)) // decrease score
+                    preferencesManager.saveDivMMR(decreaseScore(negativeStreak, timeTaken, mmr, points)) // decrease score
                     ///////////////////EmilKode/////////////////////
 
                     result = "Forkert! Prøv igen."
@@ -170,19 +145,21 @@ private fun DivFunction() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    preferencesManager.saveDivMMR(increaseScore(positiveStreak, timeTaken, mmr))
+
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
                     points++ // increment points
                     preferencesManager.saveDivisionPoints(points) // save points
+
+                    preferencesManager.saveDivMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
                 } else {
                     result = "Forkert! Prøv igen."
 
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    preferencesManager.saveDivMMR(decreaseScore(negativeStreak, timeTaken, mmr))
+                    preferencesManager.saveDivMMR(decreaseScore(negativeStreak, timeTaken, mmr, points))
                     ///////////////////EmilKode/////////////////////
 
                 }

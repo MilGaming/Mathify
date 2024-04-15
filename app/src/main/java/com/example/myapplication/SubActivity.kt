@@ -73,33 +73,7 @@ private fun SubFunction() {
     //Question scalabililty------------------------------------------------------------
     var question by remember {
         mutableStateOf(
-            when {
-                mmr >= 1500 -> {
-                    val num1 = random.nextInt(100, 150)
-                    val num2 = random.nextInt(50, min(num1, 100))
-                    Pair(num1, num2)
-                }
-                mmr >= 1150 -> {
-                    val num1 = random.nextInt(50, 100)
-                    val num2 = random.nextInt(25, min(num1, 50))
-                    Pair(num1, num2)
-                }
-                mmr >= 800 -> {
-                    val num1 = random.nextInt(25, 50)
-                    val num2 = random.nextInt(10, min(num1, 25))
-                    Pair(num1, num2)
-                }
-                mmr >= 350 -> {
-                    val num1 = random.nextInt(10, 25)
-                    val num2 = random.nextInt(5, min(num1, 10))
-                    Pair(num1, num2)
-                }
-                else -> {
-                    val num1 = random.nextInt(10)
-                    val num2 = random.nextInt(min(num1, 5))
-                    Pair(num1, num2) //Convert into pair
-                }
-            }
+            updateSubQuestion(mmr, random)
         )
     }
     val correctAnswer = question.first - question.second
@@ -135,18 +109,19 @@ private fun SubFunction() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    preferencesManager.saveSubMMR(increaseScore(positiveStreak, timeTaken, mmr))
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
                     points++ // increment points
                     preferencesManager.saveSubtractionPoints(points) // save points
+
+                    preferencesManager.saveSubMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
                 } else {
 
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    preferencesManager.saveSubMMR(decreaseScore(negativeStreak, timeTaken, mmr)) // decrease score
+                    preferencesManager.saveSubMMR(decreaseScore(negativeStreak, timeTaken, mmr, points)) // decrease score
                     ///////////////////EmilKode/////////////////////
 
                     result = "Forkert! Prøv igen."
@@ -171,19 +146,20 @@ private fun SubFunction() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    preferencesManager.saveSubMMR(increaseScore(positiveStreak, timeTaken, mmr))
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
                     points++ // increment points
                     preferencesManager.saveSubtractionPoints(points) // save points
+
+                    preferencesManager.saveSubMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
                 } else {
                     result = "Forkert! Prøv igen."
 
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    preferencesManager.saveSubMMR(decreaseScore(negativeStreak, timeTaken, mmr))
+                    preferencesManager.saveSubMMR(decreaseScore(negativeStreak, timeTaken, mmr, points))
                     ///////////////////EmilKode/////////////////////
 
                 }

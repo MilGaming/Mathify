@@ -38,7 +38,7 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".AddActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_add"
             android:theme="@style/Theme.MyApplication"
             android:screenOrientation="portrait"/>

@@ -55,7 +55,8 @@ private fun MMRFunction() {
     val cooldownTime = 1000L
     val random = Random
     val preferencesManager = PreferencesManager(context)
-    var points by remember { mutableIntStateOf(preferencesManager.getMultiplicationPoints()) }
+    var points by remember { mutableIntStateOf(preferencesManager.getAdditionPoints()) }
+
 
     ///////////////////EmilKode/////////////////////
     var startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
@@ -67,13 +68,7 @@ private fun MMRFunction() {
     //Question scalabililty------------------------------------------------------------
     var question by remember {
         mutableStateOf(
-            when {
-                mmr >= 1500 -> Pair(random.nextInt(50,100), random.nextInt(50,100))
-                mmr >= 1150 -> Pair(random.nextInt(25,50), random.nextInt(25,50))
-                mmr >= 800 -> Pair(random.nextInt(10,25), random.nextInt(10,25))
-                mmr >= 350 -> Pair(random.nextInt(5,10), random.nextInt(5,10))
-                else -> Pair(random.nextInt(5), random.nextInt(5))
-            }
+            updateAddQuestion(mmr, random)
         )
     }
     val correctAnswer = question.first + question.second
@@ -111,18 +106,21 @@ private fun MMRFunction() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    preferencesManager.saveAddMMR(increaseScore(positiveStreak, timeTaken, mmr))
+
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
                     points++ // increment points
                     preferencesManager.saveAdditionPoints(points) // save points
+
+                    preferencesManager.saveAddMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
+
                 } else {
 
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    preferencesManager.saveAddMMR(decreaseScore(negativeStreak, timeTaken, mmr)) // decrease score
+                    preferencesManager.saveAddMMR(decreaseScore(negativeStreak, timeTaken, mmr, points)) // decrease score
                     ///////////////////EmilKode/////////////////////
 
                     result = "Forkert! Prøv igen."
@@ -147,19 +145,20 @@ private fun MMRFunction() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    preferencesManager.saveAddMMR(increaseScore(positiveStreak, timeTaken, mmr))
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
                     points++ // increment points
                     preferencesManager.saveAdditionPoints(points) // save points
+
+                    preferencesManager.saveAddMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
                 } else {
                     result = "Forkert! Prøv igen."
 
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    preferencesManager.saveAddMMR(decreaseScore(negativeStreak, timeTaken, mmr))
+                    preferencesManager.saveAddMMR(decreaseScore(negativeStreak, timeTaken, mmr, points))
                     ///////////////////EmilKode/////////////////////
 
                 }
