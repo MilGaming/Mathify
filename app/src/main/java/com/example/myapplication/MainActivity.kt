@@ -232,19 +232,20 @@ fun MyApp() {
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Text( //Mads added moved text ------------------------------------------------------------------------------------
+                    text = "Vælg en udfordring ved at trykke på den og regn løs!",
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.CenterHorizontally),
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
                 //Button 1 with expanding button
                 Column {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth(0.8f)
                     ) {
-                        Text(
-                            text = "Vælg en udfordring ved at trykke på den og regn løs!",
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .align(Alignment.CenterStart),
-                            fontSize = 24.sp
-                        )
                         Button(
                             onClick = {
                                 val intent = Intent(context, AddActivity::class.java)
