@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.mathPages
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -32,16 +32,20 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.scripts.CustomTopBar
+import com.example.myapplication.scripts.PreferencesManager
+import com.example.myapplication.scripts.StreakBar
+import com.example.myapplication.scripts.decreaseScore
+import com.example.myapplication.scripts.increaseScore
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.example.myapplication.scripts.updateAddQuestion
 import kotlinx.coroutines.delay
-import kotlin.math.min
 import kotlin.random.Random
-
-class SubActivity : ComponentActivity() {
+class AddActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SubFunction()
+            MMRFunction()
         }
     }
 }
@@ -49,34 +53,31 @@ class SubActivity : ComponentActivity() {
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-private fun SubFunction() {
+private fun MMRFunction() {
     val context = LocalContext.current
     var answer by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
     var coolDownOn by remember { mutableStateOf(false) }
     val cooldownTime = 1000L
     val random = Random
-    ///var question by remember { mutableStateOf(Pair(random.nextInt(10), random.nextInt(10))) }
-    //var number1 by remember { mutableIntStateOf(random.nextInt(1,21)) }
-    //var number2 by remember { mutableIntStateOf(random.nextInt(1, number1+1)) }
-    //val correctAnswer = number1 - number2
     val preferencesManager = PreferencesManager(context)
-    var points by remember { mutableIntStateOf(preferencesManager.getSubtractionPoints()) }
+    var points by remember { mutableIntStateOf(preferencesManager.getAdditionPoints()) }
+
 
     ///////////////////EmilKode/////////////////////
     var startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
     var positiveStreak by remember { mutableIntStateOf(0) } // reset positive streak
     var negativeStreak by remember { mutableIntStateOf(0) } // reset negative streak
-    val mmr = preferencesManager.getSubMMR() // get MMR
+    val mmr = preferencesManager.getAddMMR() // get MMR
     ///////////////////EmilKode/////////////////////
 
     //Question scalabililty------------------------------------------------------------
     var question by remember {
         mutableStateOf(
-            updateSubQuestion(mmr, random)
+            updateAddQuestion(mmr, random)
         )
     }
-    val correctAnswer = question.first - question.second
+    val correctAnswer = question.first + question.second
 
     CustomTopBar()
     StreakBar(positiveStreak) //Add streak score to screen
@@ -88,7 +89,7 @@ private fun SubFunction() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Hvad er ${question.first} - ${question.second}?", fontSize = 24.sp)
+        Text(text = "Hvad er ${question.first} + ${question.second}?", fontSize = 24.sp)
         Spacer(modifier = Modifier.height(10.dp))
         TextField(
             value = answer,
@@ -100,8 +101,10 @@ private fun SubFunction() {
                 ///////////////////EmilKode/////////////////////
                 val endTime = System.currentTimeMillis() // get current time
                 val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
-                val mmr = preferencesManager.getSubMMR()
+                val mmr = preferencesManager.getAddMMR()
                 ///////////////////EmilKode/////////////////////
+
+
 
                 if (answer.toIntOrNull() == correctAnswer) {
 
@@ -109,19 +112,21 @@ private fun SubFunction() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
+
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
                     points++ // increment points
-                    preferencesManager.saveSubtractionPoints(points) // save points
+                    preferencesManager.saveAdditionPoints(points) // save points
 
-                    preferencesManager.saveSubMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
+                    preferencesManager.saveAddMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
+
                 } else {
 
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    preferencesManager.saveSubMMR(decreaseScore(negativeStreak, timeTaken, mmr, points)) // decrease score
+                    preferencesManager.saveAddMMR(decreaseScore(negativeStreak, timeTaken, mmr, points)) // decrease score
                     ///////////////////EmilKode/////////////////////
 
                     result = "Forkert! Prøv igen."
@@ -137,7 +142,7 @@ private fun SubFunction() {
                 ///////////////////EmilKode/////////////////////
                 val endTime = System.currentTimeMillis() // get current time
                 val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
-                val mmr = preferencesManager.getSubMMR() // get MMR
+                val mmr = preferencesManager.getAddMMR() // get MMR
                 ///////////////////EmilKode/////////////////////
 
                 if (answer.toIntOrNull() == correctAnswer) {
@@ -150,16 +155,16 @@ private fun SubFunction() {
 
                     result = "Rigtigt!"
                     points++ // increment points
-                    preferencesManager.saveSubtractionPoints(points) // save points
+                    preferencesManager.saveAdditionPoints(points) // save points
 
-                    preferencesManager.saveSubMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
+                    preferencesManager.saveAddMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
                 } else {
                     result = "Forkert! Prøv igen."
 
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    preferencesManager.saveSubMMR(decreaseScore(negativeStreak, timeTaken, mmr, points))
+                    preferencesManager.saveAddMMR(decreaseScore(negativeStreak, timeTaken, mmr, points))
                     ///////////////////EmilKode/////////////////////
 
                 }
@@ -183,7 +188,8 @@ private fun SubFunction() {
                 ///////////////////EmilKode/////////////////////
 
                 //Question scalabililty------------------------------------------------------------
-                question = updateSubQuestion(mmr, random) // update the question according to MMR
+                question = updateAddQuestion(mmr, random) // update the question according to MMR
+
                 coolDownOn = false // Turns off cooldown for button
             }
         }
@@ -201,11 +207,10 @@ private fun SubFunction() {
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
-private fun SubFunctionPreview() {
+private fun MulFunctionPreview() {
     MyApplicationTheme {
-        SubFunction()
+        MMRFunction()
     }
 }

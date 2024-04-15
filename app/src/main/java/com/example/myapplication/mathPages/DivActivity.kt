@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.mathPages
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -32,7 +32,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.scripts.CustomTopBar
+import com.example.myapplication.scripts.PreferencesManager
+import com.example.myapplication.scripts.StreakBar
+import com.example.myapplication.scripts.decreaseScore
+import com.example.myapplication.scripts.increaseScore
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.example.myapplication.scripts.updateDivQuestion
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
