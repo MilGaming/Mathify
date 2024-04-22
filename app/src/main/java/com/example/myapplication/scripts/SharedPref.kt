@@ -2,12 +2,28 @@ package com.example.myapplication.scripts
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.myapplication.mathPages.AddUserStats
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class PreferencesManager(context: Context) {
         private val sharedPreferences: SharedPreferences = context.getSharedPreferences("MathPrefs", Context.MODE_PRIVATE)
 
+
+        fun saveUserStats(userStatsList: List<AddUserStats>) {
+            val editor = sharedPreferences.edit()
+            val gson = Gson()
+            val json = gson.toJson(userStatsList)
+            editor.putString("USER_STATS_LIST", json)
+            editor.apply()
+        }
+
+        fun getUserStats(): List<AddUserStats> {
+            val gson = Gson()
+            val json = sharedPreferences.getString("USER_STATS_LIST", null)
+            val type = object : TypeToken<List<AddUserStats>>() {}.type
+            return gson.fromJson(json, type) ?: listOf()
+        }
 
         // Addition points
         fun saveAdditionPoints(points: Int) {

@@ -41,19 +41,21 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.scripts.updateAddQuestion
 import kotlinx.coroutines.delay
 import kotlin.random.Random
+data class AddUserStats(val answerTime: Int, val currentMMR: Int, val winningStreak: Int)
 class AddActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MMRFunction()
+            AddFunction()
         }
     }
 }
 
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-private fun MMRFunction() {
+private fun AddFunction() {
+
+
     val context = LocalContext.current
     var answer by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
@@ -62,7 +64,8 @@ private fun MMRFunction() {
     val random = Random
     val preferencesManager = PreferencesManager(context)
     var points by remember { mutableIntStateOf(preferencesManager.getAdditionPoints()) }
-
+    //new shit
+    val userStatsList = preferencesManager.getUserStats().toMutableList()
 
     ///////////////////EmilKode/////////////////////
     var startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
@@ -133,6 +136,13 @@ private fun MMRFunction() {
                 }
                 coolDownOn = true //Turns on cooldown for button and text field
                 answer = "" // clear the TextField
+
+                // Create a new UserStats object and add it to the list
+                val userStats = AddUserStats(timeTaken, mmr, positiveStreak)
+                userStatsList.add(userStats)
+
+                preferencesManager.saveUserStats(userStatsList)
+
             }),
             enabled = !coolDownOn // Disables text field when cooldown is on
         )
@@ -170,6 +180,13 @@ private fun MMRFunction() {
                 }
                 coolDownOn = true //Turns on cooldown for button and text field
                 answer = "" // clear the TextField
+
+                // Create a new UserStats object and add it to the list
+                val userStats = AddUserStats(timeTaken, mmr, positiveStreak)
+                userStatsList.add(userStats)
+                // Save the userStatsList to Shared Preferences
+                preferencesManager.saveUserStats(userStatsList)
+
             },
             enabled = !coolDownOn,
             modifier = Modifier.padding(top = 16.dp)
@@ -211,6 +228,6 @@ private fun MMRFunction() {
 @Composable
 private fun MulFunctionPreview() {
     MyApplicationTheme {
-        MMRFunction()
+        AddFunction()
     }
 }
