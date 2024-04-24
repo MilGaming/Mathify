@@ -2,6 +2,7 @@ package com.example.myapplication.mathPages
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Environment
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -41,16 +42,22 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.scripts.updateAddQuestion
 import kotlinx.coroutines.delay
 import kotlin.random.Random
-data class AddUserStats(val answerTime: Int, val currentMMR: Int, val winningStreak: Int)
+import androidx.compose.runtime.rememberCoroutineScope
+import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.io.File
+
 class AddActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             AddFunction()
+
         }
     }
 }
-
+data class AddUserStats(val answerTime: Int, val currentMMR: Int, val winningStreak: Int)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 private fun AddFunction() {
@@ -84,6 +91,7 @@ private fun AddFunction() {
 
     CustomTopBar()
     StreakBar(positiveStreak) //Add streak score to screen
+    SaveJsonButton()
     Column(
         //Adds padding to button column at the top
         modifier = Modifier
@@ -223,7 +231,26 @@ private fun AddFunction() {
         )
     }
 }
+@Composable
+fun SaveJsonButton() {
+    val context = LocalContext.current
+    val preferencesManager = PreferencesManager(context)
+    val userStatsList = preferencesManager.getUserStats()
+    val gson = Gson()
+    val userStatsJson = gson.toJson(userStatsList)
 
+    val coroutineScope = rememberCoroutineScope()
+
+    Button(onClick = {
+        coroutineScope.launch(Dispatchers.IO) {
+            val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            val file = File(downloadsDir, "userStats.json")
+            file.writeText(userStatsJson)
+        }
+    }) {
+        Text("Save JSON")
+    }
+}
 @Preview(showBackground = true)
 @Composable
 private fun MulFunctionPreview() {

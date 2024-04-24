@@ -9,7 +9,6 @@ import com.google.gson.reflect.TypeToken
 class PreferencesManager(context: Context) {
         private val sharedPreferences: SharedPreferences = context.getSharedPreferences("MathPrefs", Context.MODE_PRIVATE)
 
-
         fun saveUserStats(userStatsList: List<AddUserStats>) {
             val editor = sharedPreferences.edit()
             val gson = Gson()
