@@ -51,6 +51,7 @@ class SubActivity : ComponentActivity() {
     }
 }
 
+data class SubUserStats(val answerTime: Int, val currentMMR: Int, val winningStreak: Int, val index: Int, val activityName: String)
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -61,19 +62,17 @@ private fun SubFunction() {
     var coolDownOn by remember { mutableStateOf(false) }
     val cooldownTime = 1000L
     val random = Random
-    ///var question by remember { mutableStateOf(Pair(random.nextInt(10), random.nextInt(10))) }
-    //var number1 by remember { mutableIntStateOf(random.nextInt(1,21)) }
-    //var number2 by remember { mutableIntStateOf(random.nextInt(1, number1+1)) }
-    //val correctAnswer = number1 - number2
     val preferencesManager = PreferencesManager(context)
     var points by remember { mutableIntStateOf(preferencesManager.getSubtractionPoints()) }
 
-    ///////////////////EmilKode/////////////////////
+
     var startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
     var positiveStreak by remember { mutableIntStateOf(0) } // reset positive streak
     var negativeStreak by remember { mutableIntStateOf(0) } // reset negative streak
     val mmr = preferencesManager.getSubMMR() // get MMR
-    ///////////////////EmilKode/////////////////////
+
+    //new
+    val userStatsList = preferencesManager.getSubStats().toMutableList()
 
     //Question scalabililty------------------------------------------------------------
     var question by remember {
@@ -133,6 +132,13 @@ private fun SubFunction() {
                 }
                 coolDownOn = true //Turns on cooldown for button and text field
                 answer = "" // clear the TextField
+
+                // Create a new UserStats object and add it to the list
+                val index = userStatsList.size // Get the current size of the list
+                val activityName = "SubActivity" // Name of the current activity
+                val userStats = SubUserStats(timeTaken, mmr, positiveStreak, index, activityName) // Create a new AddUserStats object with the index and activity name
+                userStatsList.add(userStats) // Add the new object to the list
+                preferencesManager.saveSubStats(userStatsList) // Save the list
             }),
             enabled = !coolDownOn // Disables text field when cooldown is on
         )
@@ -170,6 +176,13 @@ private fun SubFunction() {
                 }
                 coolDownOn = true //Turns on cooldown for button and text field
                 answer = "" // clear the TextField
+
+                // Create a new UserStats object and add it to the list
+                val index = userStatsList.size // Get the current size of the list
+                val activityName = "SubActivity" // Name of the current activity
+                val userStats = SubUserStats(timeTaken, mmr, positiveStreak, index, activityName) // Create a new AddUserStats object with the index and activity name
+                userStatsList.add(userStats) // Add the new object to the list
+                preferencesManager.saveSubStats(userStatsList) // Save the list
             },
             enabled = !coolDownOn,
             modifier = Modifier.padding(top = 16.dp)

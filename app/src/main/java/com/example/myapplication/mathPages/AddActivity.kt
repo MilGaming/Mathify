@@ -57,7 +57,7 @@ class AddActivity : ComponentActivity() {
         }
     }
 }
-data class AddUserStats(val answerTime: Int, val currentMMR: Int, val winningStreak: Int)
+data class AddUserStats(val answerTime: Int, val currentMMR: Int, val winningStreak: Int, val index: Int, val activityName: String)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 private fun AddFunction() {
@@ -71,8 +71,9 @@ private fun AddFunction() {
     val random = Random
     val preferencesManager = PreferencesManager(context)
     var points by remember { mutableIntStateOf(preferencesManager.getAdditionPoints()) }
+
     //new shit
-    val userStatsList = preferencesManager.getUserStats().toMutableList()
+    val userStatsList = preferencesManager.getAddStats().toMutableList()
 
     ///////////////////EmilKode/////////////////////
     var startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
@@ -146,10 +147,11 @@ private fun AddFunction() {
                 answer = "" // clear the TextField
 
                 // Create a new UserStats object and add it to the list
-                val userStats = AddUserStats(timeTaken, mmr, positiveStreak)
-                userStatsList.add(userStats)
-
-                preferencesManager.saveUserStats(userStatsList)
+                val index = userStatsList.size // Get the current size of the list
+                val activityName = "AddActivity" // Name of the current activity
+                val userStats = AddUserStats(timeTaken, mmr, positiveStreak, index, activityName) // Create a new AddUserStats object with the index and activity name
+                userStatsList.add(userStats) // Add the new object to the list
+                preferencesManager.saveAddStats(userStatsList) // Save the list
 
             }),
             enabled = !coolDownOn // Disables text field when cooldown is on
@@ -189,11 +191,11 @@ private fun AddFunction() {
                 coolDownOn = true //Turns on cooldown for button and text field
                 answer = "" // clear the TextField
 
-                // Create a new UserStats object and add it to the list
-                val userStats = AddUserStats(timeTaken, mmr, positiveStreak)
-                userStatsList.add(userStats)
-                // Save the userStatsList to Shared Preferences
-                preferencesManager.saveUserStats(userStatsList)
+                val index = userStatsList.size // Get the current size of the list
+                val activityName = "AddActivity" // Name of the current activity
+                val userStats = AddUserStats(timeTaken, mmr, positiveStreak, index, activityName) // Create a new AddUserStats object with the index and activity name
+                userStatsList.add(userStats) // Add the new object to the list
+                preferencesManager.saveAddStats(userStatsList) // Save the list
 
             },
             enabled = !coolDownOn,
@@ -235,9 +237,16 @@ private fun AddFunction() {
 fun SaveJsonButton() {
     val context = LocalContext.current
     val preferencesManager = PreferencesManager(context)
-    val userStatsList = preferencesManager.getUserStats()
+    val addStatsList = preferencesManager.getAddStats()
+    val subStatsList = preferencesManager.getSubStats()
+    val mulStatsList = preferencesManager.getMulStats()
+    val divStatsList = preferencesManager.getDivStats()
+
+    // Combine all the lists into a single list
+    val allStatsList = listOf(addStatsList, subStatsList, mulStatsList, divStatsList)
+
     val gson = Gson()
-    val userStatsJson = gson.toJson(userStatsList)
+    val userStatsJson = gson.toJson(allStatsList)
 
     val coroutineScope = rememberCoroutineScope()
 

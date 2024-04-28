@@ -3,24 +3,72 @@ package com.example.myapplication.scripts
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.myapplication.mathPages.AddUserStats
+import com.example.myapplication.mathPages.DivUserStats
+import com.example.myapplication.mathPages.MulUserStats
+import com.example.myapplication.mathPages.SubUserStats
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class PreferencesManager(context: Context) {
         private val sharedPreferences: SharedPreferences = context.getSharedPreferences("MathPrefs", Context.MODE_PRIVATE)
 
-        fun saveUserStats(userStatsList: List<AddUserStats>) {
+        // Add User stats
+        fun saveAddStats(userStatsList: List<AddUserStats>) {
             val editor = sharedPreferences.edit()
             val gson = Gson()
             val json = gson.toJson(userStatsList)
-            editor.putString("USER_STATS_LIST", json)
+            editor.putString("ADD_USER_STATS_LIST", json)
             editor.apply()
         }
-
-        fun getUserStats(): List<AddUserStats> {
+        fun getAddStats(): List<AddUserStats> {
             val gson = Gson()
-            val json = sharedPreferences.getString("USER_STATS_LIST", null)
+            val json = sharedPreferences.getString("ADD_USER_STATS_LIST", null)
             val type = object : TypeToken<List<AddUserStats>>() {}.type
+            return gson.fromJson(json, type) ?: listOf()
+        }
+
+        // Sub User stats
+        fun saveSubStats(userStatsList: List<SubUserStats>) {
+            val editor = sharedPreferences.edit()
+            val gson = Gson()
+            val json = gson.toJson(userStatsList)
+            editor.putString("SUB_USER_STATS_LIST", json)
+            editor.apply()
+        }
+        fun getSubStats(): List<SubUserStats> {
+            val gson = Gson()
+            val json = sharedPreferences.getString("SUB_USER_STATS_LIST", null)
+            val type = object : TypeToken<List<SubUserStats>>() {}.type
+            return gson.fromJson(json, type) ?: listOf()
+        }
+
+        // Mul User stats
+        fun saveMulStats(userStatsList: List<MulUserStats>) {
+            val editor = sharedPreferences.edit()
+            val gson = Gson()
+            val json = gson.toJson(userStatsList)
+            editor.putString("MUL_USER_STATS_LIST", json)
+            editor.apply()
+        }
+        fun getMulStats(): List<MulUserStats> {
+            val gson = Gson()
+            val json = sharedPreferences.getString("MUL_USER_STATS_LIST", null)
+            val type = object : TypeToken<List<MulUserStats>>() {}.type
+            return gson.fromJson(json, type) ?: listOf()
+        }
+
+        // Div User stats
+        fun saveDivStats(userStatsList: List<DivUserStats>) {
+            val editor = sharedPreferences.edit()
+            val gson = Gson()
+            val json = gson.toJson(userStatsList)
+            editor.putString("DIV_USER_STATS_LIST", json)
+            editor.apply()
+        }
+        fun getDivStats(): List<DivUserStats> {
+            val gson = Gson()
+            val json = sharedPreferences.getString("DIV_USER_STATS_LIST", null)
+            val type = object : TypeToken<List<DivUserStats>>() {}.type
             return gson.fromJson(json, type) ?: listOf()
         }
 

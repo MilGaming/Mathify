@@ -51,7 +51,7 @@ class DivActivity : ComponentActivity() {
     }
 }
 
-
+data class DivUserStats(val answerTime: Int, val currentMMR: Int, val winningStreak: Int, val index: Int, val activityName: String)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 private fun DivFunction() {
@@ -61,19 +61,18 @@ private fun DivFunction() {
     var coolDownOn by remember { mutableStateOf(false) }
     val cooldownTime = 1000L
     val random = Random
-    //var divisor by remember { mutableIntStateOf(random.nextInt(9) + 1) } // Avoid zero
-    //var multiplier by remember { mutableIntStateOf(random.nextInt(10)) }
-    //var dividend by remember { mutableIntStateOf(divisor * multiplier) }
-    //val correctAnswer = dividend / divisor
+
     val preferencesManager = PreferencesManager(context)
     var points by remember { mutableIntStateOf(preferencesManager.getDivisionPoints()) }
 
-    ///////////////////EmilKode/////////////////////
     var startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
     var positiveStreak by remember { mutableIntStateOf(0) } // reset positive streak
     var negativeStreak by remember { mutableIntStateOf(0) } // reset negative streak
     val mmr = preferencesManager.getDivMMR() // get MMR
-    ///////////////////EmilKode/////////////////////
+
+
+    //new shit
+    val userStatsList = preferencesManager.getDivStats().toMutableList()
 
     //Question scalabililty------------------------------------------------------------
     var question by remember {
@@ -131,8 +130,17 @@ private fun DivFunction() {
 
                     result = "Forkert! Prøv igen."
                 }
+
                 coolDownOn = true //Turns on cooldown for button and text field
                 answer = "" // clear the TextField
+
+                // Create a new UserStats object and add it to the list
+                val index = userStatsList.size // Get the current size of the list
+                val activityName = "DivActivity" // Name of the current activity
+                val userStats = DivUserStats(timeTaken, mmr, positiveStreak, index, activityName) // Create a new AddUserStats object with the index and activity name
+                userStatsList.add(userStats) // Add the new object to the list
+                preferencesManager.saveDivStats(userStatsList) // Save the list
+
             }),
             enabled = !coolDownOn // Disables text field when cooldown is on
         )
@@ -171,6 +179,13 @@ private fun DivFunction() {
                 }
                 coolDownOn = true //Turns on cooldown for button and text field
                 answer = "" // clear the TextField
+
+                // Create a new UserStats object and add it to the list
+                val index = userStatsList.size // Get the current size of the list
+                val activityName = "DivActivity" // Name of the current activity
+                val userStats = DivUserStats(timeTaken, mmr, positiveStreak, index, activityName) // Create a new AddUserStats object with the index and activity name
+                userStatsList.add(userStats) // Add the new object to the list
+                preferencesManager.saveDivStats(userStatsList) // Save the list
             },
             enabled = !coolDownOn,
             modifier = Modifier.padding(top = 16.dp)
