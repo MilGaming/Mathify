@@ -45,7 +45,7 @@ class AddActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MMRFunction()
+            AddFunction()
         }
     }
 }
@@ -53,7 +53,7 @@ class AddActivity : ComponentActivity() {
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-private fun MMRFunction() {
+private fun AddFunction() {
     val context = LocalContext.current
     var answer by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
@@ -211,6 +211,6 @@ private fun MMRFunction() {
 @Composable
 private fun MulFunctionPreview() {
     MyApplicationTheme {
-        MMRFunction()
+        AddFunction()
     }
 }
