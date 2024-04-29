@@ -74,14 +74,17 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
     if (achievement1Value == false) {
         achievement1ValueInt = 1
     }
-
     var achievement2Value by remember { mutableStateOf(sharedPreferencesManager.getAdditionPoints()) }
-
     var achievement3Value by remember { mutableStateOf(sharedPreferencesManager.getSubtractionPoints()) }
-
     var achievement4Value by remember { mutableStateOf(sharedPreferencesManager.getMultiplicationPoints()) }
-
     var achievement5Value by remember { mutableStateOf(sharedPreferencesManager.getDivisionPoints()) }
+
+    //Ahievement show booleans
+    var achievement1Bool by remember { mutableStateOf(sharedPreferencesManager.getAchi1()) }
+    var achievement2Bool by remember { mutableStateOf(sharedPreferencesManager.getAchi2()) }
+    var achievement3Bool by remember { mutableStateOf(sharedPreferencesManager.getAchi3()) }
+    var achievement4Bool by remember { mutableStateOf(sharedPreferencesManager.getAchi4()) }
+    var achievement5Bool by remember { mutableStateOf(sharedPreferencesManager.getAchi5()) }
 
 
 
@@ -130,7 +133,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                         modifier = Modifier.padding(vertical = 5.dp)
                     )
                     // achievement 1
-                    if (showAchievement1.value) {
+                    if (showAchievement1.value && achievement1Bool == false) {
                         Column {
                             Text(
                                 text = "Åben appen for første gang",
@@ -183,6 +186,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                 Button(modifier = Modifier.height(30.dp),
                                     onClick = {
                                         showAchievement1.value = false
+                                        sharedPreferencesManager.saveAchi1(true)
                                     }) {
                                     Text(text = "Fjern denne præstation", fontSize = 10.sp)
                                 }
@@ -196,7 +200,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                     }
 
                     // achievement 2
-                    if (showAchievement2.value) {
+                    if (showAchievement2.value && achievement2Bool == false) {
                         Column {
                             Text(
                                 text = "Få 10 points i plus regnestykker (+)",
@@ -249,6 +253,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                 Button(modifier = Modifier.height(30.dp),
                                     onClick = {
                                         showAchievement2.value = false
+                                        sharedPreferencesManager.saveAchi2(true)
                                     }) {
                                     Text(text = "Fjern denne præstation", fontSize = 10.sp)
                                 }
@@ -263,7 +268,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
 
 
                     // achievement 3
-                    if (showAchievement3.value) {
+                    if (showAchievement3.value && achievement3Bool == false) {
                         Column {
                             Text(
                                 text = "Få 10 points i minus regnestykker (-)",
@@ -316,6 +321,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                 Button(modifier = Modifier.height(30.dp),
                                     onClick = {
                                         showAchievement3.value = false
+                                        sharedPreferencesManager.saveAchi3(true)
                                     }) {
                                     Text(text = "Fjern denne præstation", fontSize = 10.sp)
                                 }
@@ -330,7 +336,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
 
 
                     // achievement 4
-                    if (showAchievement4.value) {
+                    if (showAchievement4.value && achievement4Bool == false) {
                         Column {
                             Text(
                                 text = "Få 10 points i gange regnestykker (×)",
@@ -383,6 +389,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                 Button(modifier = Modifier.height(30.dp),
                                     onClick = {
                                         showAchievement4.value = false
+                                        sharedPreferencesManager.saveAchi4(true)
                                     }) {
                                     Text(text = "Fjern denne præstation", fontSize = 10.sp)
                                 }
@@ -397,7 +404,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
 
 
                     // achievement 5
-                    if (showAchievement5.value) {
+                    if (showAchievement5.value && achievement5Bool == false) {
                         Column {
                             Text(
                                 text = "Få 10 points i division regnestykker (÷)",
@@ -450,6 +457,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                 Button(modifier = Modifier.height(30.dp),
                                     onClick = {
                                         showAchievement5.value = false
+                                        sharedPreferencesManager.saveAchi5(true)
                                     }) {
                                     Text(text = "Fjern denne præstation", fontSize = 10.sp)
                                 }

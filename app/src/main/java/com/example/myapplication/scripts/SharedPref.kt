@@ -131,5 +131,55 @@ class PreferencesManager(context: Context) {
              return sharedPreferences.getInt("achievementIndex", 0)
          }
 
+
+
+
+
+    //Show Achievements booleans
+    fun saveAchi1(value: Boolean) {
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("Achi1", value)
+        editor.apply()
+    }
+    fun getAchi1(): Boolean {
+        return sharedPreferences.getBoolean("Achi1", false)
+    }
+
+    fun saveAchi2(value: Boolean) {
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("Achi2", value)
+        editor.apply()
+    }
+    fun getAchi2(): Boolean {
+        return sharedPreferences.getBoolean("Achi2", false)
+    }
+
+    fun saveAchi3(value: Boolean) {
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("Achi3", value)
+        editor.apply()
+    }
+    fun getAchi3(): Boolean {
+        return sharedPreferences.getBoolean("Achi3", false)
+    }
+
+    fun saveAchi4(value: Boolean) {
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("Achi4", value)
+        editor.apply()
+    }
+    fun getAchi4(): Boolean {
+        return sharedPreferences.getBoolean("Achi4", false)
+    }
+
+    fun saveAchi5(value: Boolean) {
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("Achi5", value)
+        editor.apply()
+    }
+    fun getAchi5(): Boolean {
+        return sharedPreferences.getBoolean("Achi5", false)
+    }
+
      }
 
