@@ -5,7 +5,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -43,19 +42,25 @@ import com.example.myapplication.ui.theme.Purple40
 import com.example.myapplication.ui.theme.Purple80
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 
-data class Achievement(val index: Int, val name: String, val currentProgress: Int, val goalProgress: Int)
+data class Achievement(
+    val index: Int,
+    val name: String,
+    val currentProgress: Int,
+    val goalProgress: Int
+)
 
 @Composable
-fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState<Boolean>){
+fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState<Boolean>) {
     val cornerSize = 10.dp //box specs
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     val sharedPreferencesManager = PreferencesManager(context)
-    val achievements = remember { mutableStateListOf(*sharedPreferencesManager.getAchievements().toTypedArray()) }
-    val achievementIndex = remember { mutableIntStateOf(sharedPreferencesManager.getAchievementIndex()) }
+    val achievements =
+        remember { mutableStateListOf(*sharedPreferencesManager.getAchievements().toTypedArray()) }
+    val achievementIndex =
+        remember { mutableIntStateOf(sharedPreferencesManager.getAchievementIndex()) }
     val showAchievement1 = remember { mutableStateOf(true) }
     val showAchievement2 = remember { mutableStateOf(true) }
     val showAchievement3 = remember { mutableStateOf(true) }
@@ -125,70 +130,70 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                         modifier = Modifier.padding(vertical = 5.dp)
                     )
                     // achievement 1
-                        if (showAchievement1.value) {
-                            Column {
-                                Text(
-                                    text = "Åben appen for første gang",
-                                    modifier = Modifier.padding(vertical = 5.dp),
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-                                Box(
-                                    contentAlignment = Alignment.Center,
-                                ) {
-                                    LinearProgressIndicator(
-                                        progress = achievement1ValueInt / 1f, // Calculate the progress
-                                        color = Purple40, // Customize the color of the progress bar
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(20.dp)
-                                            .clip(RoundedCornerShape(5.dp)) // Apply rounded corners
+                    if (showAchievement1.value) {
+                        Column {
+                            Text(
+                                text = "Åben appen for første gang",
+                                modifier = Modifier.padding(vertical = 5.dp),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Box(
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                LinearProgressIndicator(
+                                    progress = achievement1ValueInt / 1f, // Calculate the progress
+                                    color = Purple40, // Customize the color of the progress bar
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(20.dp)
+                                        .clip(RoundedCornerShape(5.dp)) // Apply rounded corners
 
-                                    )
-                                    Text(
-                                        text = "${achievement1ValueInt}/${1}",
-                                        modifier = Modifier
-                                            .padding(vertical = 5.dp)
-                                            .wrapContentHeight(align = Alignment.CenterVertically),
+                                )
+                                Text(
+                                    text = "${achievement1ValueInt}/${1}",
+                                    modifier = Modifier
+                                        .padding(vertical = 5.dp)
+                                        .wrapContentHeight(align = Alignment.CenterVertically),
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Black,
+                                )
+                                //Text contour
+                                Text(
+                                    text = "${achievement1ValueInt}/${1}",
+                                    modifier = Modifier
+                                        .padding(vertical = 5.dp)
+                                        .wrapContentHeight(align = Alignment.CenterVertically),
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White,
+                                    style = TextStyle.Default.copy(
                                         fontSize = 18.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.Black,
-                                    )
-                                    //Text contour
-                                    Text(
-                                        text = "${achievement1ValueInt}/${1}",
-                                        modifier = Modifier
-                                            .padding(vertical = 5.dp)
-                                            .wrapContentHeight(align = Alignment.CenterVertically),
-                                        fontSize = 18.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.White,
-                                        style = TextStyle.Default.copy(
-                                            fontSize = 18.sp,
-                                            drawStyle = Stroke(
-                                                miter = 50f,
-                                                width = 3f,
-                                                join = StrokeJoin.Round
-                                            )
+                                        drawStyle = Stroke(
+                                            miter = 50f,
+                                            width = 3f,
+                                            join = StrokeJoin.Round
                                         )
                                     )
-                                }
-                                if(achievement1ValueInt == 1) {
-                                    // Button to remove the current achievement
-                                    Button(modifier = Modifier.height(30.dp),
-                                        onClick = {
-                                            showAchievement1.value = false
-                                        }) {
-                                        Text(text = "Fjern denne præstation", fontSize = 10.sp)
-                                    }
-                                }
-                                Divider(
-                                    color = Color.Black,
-                                    thickness = 2.dp,
-                                    modifier = Modifier.padding(vertical = 5.dp)
                                 )
                             }
+                            if (achievement1ValueInt >= 1) {
+                                // Button to remove the current achievement
+                                Button(modifier = Modifier.height(30.dp),
+                                    onClick = {
+                                        showAchievement1.value = false
+                                    }) {
+                                    Text(text = "Fjern denne præstation", fontSize = 10.sp)
+                                }
+                            }
+                            Divider(
+                                color = Color.Black,
+                                thickness = 2.dp,
+                                modifier = Modifier.padding(vertical = 5.dp)
+                            )
                         }
+                    }
 
                     // achievement 2
                     if (showAchievement2.value) {
@@ -239,7 +244,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                     )
                                 )
                             }
-                            if (achievement2Value == 10) {
+                            if (achievement2Value >= 10) {
                                 // Button to remove the current achievement
                                 Button(modifier = Modifier.height(30.dp),
                                     onClick = {
@@ -306,7 +311,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                     )
                                 )
                             }
-                            if (achievement3Value == 10) {
+                            if (achievement3Value >= 10) {
                                 // Button to remove the current achievement
                                 Button(modifier = Modifier.height(30.dp),
                                     onClick = {
@@ -373,7 +378,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                     )
                                 )
                             }
-                            if (achievement4Value == 10) {
+                            if (achievement4Value >= 10) {
                                 // Button to remove the current achievement
                                 Button(modifier = Modifier.height(30.dp),
                                     onClick = {
@@ -389,7 +394,6 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                             )
                         }
                     }
-
 
 
                     // achievement 5
@@ -441,7 +445,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                     )
                                 )
                             }
-                            if (achievement5Value == 10) {
+                            if (achievement5Value >= 10) {
                                 // Button to remove the current achievement
                                 Button(modifier = Modifier.height(30.dp),
                                     onClick = {
@@ -458,212 +462,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                         }
                     }
                 }
-                }
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-    @Composable
-    fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState<Boolean>){
-        val cornerSize = 10.dp //box specs
-        val coroutineScope = rememberCoroutineScope()
-        val context = LocalContext.current
-        val sharedPreferencesManager = PreferencesManager(context)
-        val achievements = remember { mutableStateListOf(*sharedPreferencesManager.getAchievements().toTypedArray()) }
-        val achievementIndex = remember { mutableIntStateOf(sharedPreferencesManager.getAchievementIndex()) }
-
-
-        androidx.compose.ui.window.Popup(
-            alignment = Alignment.Center, //here we mention the pos
-            properties = PopupProperties(), //popup properties
-            onDismissRequest = {
-                coroutineScope.launch {
-                    delay(200) // delay for 200 miliseconds
-                    openDialog.value = false
-                    isHeldDown.value = false
-                }
-
-            }
-        )
-        {
-            Column {
-                Box( //the box content
-                    modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .fillMaxHeight(0.8f)
-                        .padding(top = 2.dp)
-                        .background(
-                            Purple80,
-                            RoundedCornerShape(cornerSize)
-                        )
-                        .border(
-                            5.dp,
-                            Purple40,
-                            RoundedCornerShape(cornerSize)
-                        )
-                        .verticalScroll(rememberScrollState())
-                ) {
-
-                    Column(
-                        modifier = Modifier.padding(horizontal = 10.dp),
-                        verticalArrangement = Arrangement.spacedBy(5.dp)
-
-                    ) {
-                        Text(
-                            text = "Præstationer",
-                            fontSize = 32.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Black,
-                            modifier = Modifier.padding(vertical = 5.dp)
-                        )
-                        // Loop through the achievements and display them
-                        for ((index, achievement) in achievements.withIndex()) {
-                            Column {
-                                Text(
-                                    text = achievement.name,
-                                    modifier = Modifier.padding(vertical = 5.dp),
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-                                Box(
-                                    contentAlignment = Alignment.Center,
-                                ) {
-                                    LinearProgressIndicator(
-                                        progress = achievement.currentProgress.toFloat() / achievement.goalProgress, // Calculate the progress
-                                        color = Purple40, // Customize the color of the progress bar
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(20.dp)
-                                            .clip(RoundedCornerShape(5.dp)) // Apply rounded corners
-
-                                    )
-                                    Text(
-                                        text = "${achievement.currentProgress}/${achievement.goalProgress}",
-                                        modifier = Modifier
-                                            .padding(vertical = 5.dp)
-                                            .wrapContentHeight(align = Alignment.CenterVertically),
-                                        fontSize = 18.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.Black,
-                                    )
-                                    //Text contour
-                                    Text(
-                                        text = "${achievement.currentProgress}/${achievement.goalProgress}",
-                                        modifier = Modifier
-                                            .padding(vertical = 5.dp)
-                                            .wrapContentHeight(align = Alignment.CenterVertically),
-                                        fontSize = 18.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.White,
-                                        style = TextStyle.Default.copy(
-                                            fontSize = 18.sp,
-                                            drawStyle = Stroke(
-                                                miter = 50f,
-                                                width = 3f,
-                                                join = StrokeJoin.Round
-                                            )
-                                        )
-                                    )
-                                }
-                                // Button to remove the current achievement
-                                Button(modifier = Modifier.height(30.dp),
-                                    onClick = {
-                                        val achievementToRemove = achievements.firstOrNull { it.index == achievement.index }
-                                        if (achievementToRemove != null) {
-                                            achievements.remove(achievementToRemove)
-                                            sharedPreferencesManager.saveAchievements(achievements)
-                                        }
-                                    }) {
-                                    Text(text = "Fjern denne præstation", fontSize = 10.sp)
-                                }
-                                Divider(
-                                    color = Color.Black,
-                                    thickness = 2.dp,
-                                    modifier = Modifier.padding(vertical = 5.dp)
-                                )
-                            }
-                        }
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
-                            // Button to add a new achievement for testing
-                            Button(onClick = {
-                                val newAchievement = Achievement(achievementIndex.intValue, "Præstation (${achievementIndex.intValue})",  Random.nextInt(0,100), 100)
-                                achievements.add(newAchievement)
-                                sharedPreferencesManager.saveAchievements(achievements)
-                                achievementIndex.intValue++  // Increment the independent index tracker
-                                sharedPreferencesManager.saveAchievementIndex(achievementIndex.intValue)  // Save the updated index
-                            }) {
-                                Text("Tilføj Præstation")
-                            }
-                            // Button to remove the specific achievement for testing
-                            Button(onClick = {
-                                val achievementToRemove = achievements.firstOrNull { it.index == 4 } // Replace 0 with the specific index of the achievement you want to remove
-                                if (achievementToRemove != null) {
-                                    achievements.remove(achievementToRemove)
-                                    sharedPreferencesManager.saveAchievements(achievements)
-                                }
-                            }) {
-                                Text("Fjern Præstation")
-                            }
-                            Spacer(modifier = Modifier.height(75.dp))
-                        }
-
-                    }
-                }
-            }
-        }
-    }*/
+}
