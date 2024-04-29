@@ -113,7 +113,7 @@ private fun AddFunction() {
                 ///////////////////EmilKode/////////////////////
                 val endTime = System.currentTimeMillis() // get current time
                 val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
-                val mmr = preferencesManager.getAddMMR()
+                var mmr = preferencesManager.getAddMMR()
                 ///////////////////EmilKode/////////////////////
 
 
@@ -146,6 +146,7 @@ private fun AddFunction() {
                 coolDownOn = true //Turns on cooldown for button and text field
                 answer = "" // clear the TextField
 
+                mmr = preferencesManager.getAddMMR()
                 // Create a new UserStats object and add it to the list
                 val index = userStatsList.size // Get the current size of the list
                 val activityName = "AddActivity" // Name of the current activity
@@ -162,7 +163,7 @@ private fun AddFunction() {
                 ///////////////////EmilKode/////////////////////
                 val endTime = System.currentTimeMillis() // get current time
                 val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
-                val mmr = preferencesManager.getAddMMR() // get MMR
+                var mmr = preferencesManager.getAddMMR() // get MMR
                 ///////////////////EmilKode/////////////////////
 
                 if (answer.toIntOrNull() == correctAnswer) {
@@ -191,6 +192,7 @@ private fun AddFunction() {
                 coolDownOn = true //Turns on cooldown for button and text field
                 answer = "" // clear the TextField
 
+                mmr = preferencesManager.getAddMMR()
                 val index = userStatsList.size // Get the current size of the list
                 val activityName = "AddActivity" // Name of the current activity
                 val userStats = AddUserStats(timeTaken, mmr, positiveStreak, index, activityName) // Create a new AddUserStats object with the index and activity name

@@ -104,7 +104,7 @@ private fun SubFunction() {
                 ///////////////////EmilKode/////////////////////
                 val endTime = System.currentTimeMillis() // get current time
                 val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
-                val mmr = preferencesManager.getSubMMR()
+                var mmr = preferencesManager.getSubMMR()
                 ///////////////////EmilKode/////////////////////
 
                 if (answer.toIntOrNull() == correctAnswer) {
@@ -133,6 +133,8 @@ private fun SubFunction() {
                 coolDownOn = true //Turns on cooldown for button and text field
                 answer = "" // clear the TextField
 
+
+                mmr = preferencesManager.getSubMMR()
                 // Create a new UserStats object and add it to the list
                 val index = userStatsList.size // Get the current size of the list
                 val activityName = "SubActivity" // Name of the current activity
@@ -148,7 +150,7 @@ private fun SubFunction() {
                 ///////////////////EmilKode/////////////////////
                 val endTime = System.currentTimeMillis() // get current time
                 val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
-                val mmr = preferencesManager.getSubMMR() // get MMR
+                var mmr = preferencesManager.getSubMMR() // get MMR
                 ///////////////////EmilKode/////////////////////
 
                 if (answer.toIntOrNull() == correctAnswer) {
@@ -177,6 +179,8 @@ private fun SubFunction() {
                 coolDownOn = true //Turns on cooldown for button and text field
                 answer = "" // clear the TextField
 
+
+                mmr = preferencesManager.getSubMMR()
                 // Create a new UserStats object and add it to the list
                 val index = userStatsList.size // Get the current size of the list
                 val activityName = "SubActivity" // Name of the current activity

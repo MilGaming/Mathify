@@ -104,7 +104,7 @@ private fun MulFunction() {
                 ///////////////////EmilKode/////////////////////
                 val endTime = System.currentTimeMillis() // get current time
                 val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
-                val mmr = preferencesManager.getMulMMR()
+                var mmr = preferencesManager.getMulMMR()
                 ///////////////////EmilKode/////////////////////
 
                 if (answer.toIntOrNull() == correctAnswer) {
@@ -133,6 +133,7 @@ private fun MulFunction() {
                 coolDownOn = true //Turns on cooldown for button and text field
                 answer = "" // clear the TextField
 
+                mmr = preferencesManager.getMulMMR()
                 // Create a new UserStats object and add it to the list
                 val index = userStatsList.size // Get the current size of the list
                 val activityName = "MulActivity" // Name of the current activity
@@ -148,7 +149,7 @@ private fun MulFunction() {
                 ///////////////////EmilKode/////////////////////
                 val endTime = System.currentTimeMillis() // get current time
                 val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
-                val mmr = preferencesManager.getMulMMR() // get MMR
+                var mmr = preferencesManager.getMulMMR() // get MMR
                 ///////////////////EmilKode/////////////////////
 
                 if (answer.toIntOrNull() == correctAnswer) {
@@ -177,6 +178,7 @@ private fun MulFunction() {
                 coolDownOn = true //Turns on cooldown for button and text field
                 answer = "" // clear the TextField
 
+                mmr = preferencesManager.getMulMMR()
                 // Create a new UserStats object and add it to the list
                 val index = userStatsList.size // Get the current size of the list
                 val activityName = "MulActivity" // Name of the current activity
