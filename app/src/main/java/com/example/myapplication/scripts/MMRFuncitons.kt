@@ -99,7 +99,7 @@ fun updateSubQuestion(mmr: Int, random: Random): Pair<Int, Int> {
         }
         else -> {
             val num1 = random.nextInt(1,6)
-            val num2 = random.nextInt(min(num1, 6))
+            val num2 = random.nextInt(1, min(num1, 6))
             Pair(num1, num2)
         }
     }
