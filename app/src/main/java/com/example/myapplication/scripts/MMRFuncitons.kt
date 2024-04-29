@@ -74,32 +74,32 @@ fun updateSubQuestion(mmr: Int, random: Random): Pair<Int, Int> {
     return when {
         mmr >= 2500 -> {
             val num1 = random.nextInt(41, 101)
-            val num2 = random.nextInt(41, min(num1, 101))
+            val num2 = random.nextInt(30, min(num1+1, 102))
             Pair(num1, num2)
         }
         mmr >= 2000 -> {
             val num1 = random.nextInt(26, 51)
-            val num2 = random.nextInt(26, min(num1, 51))
+            val num2 = random.nextInt(15, min(num1+1, 52))
             Pair(num1, num2)
         }
         mmr >= 1500 -> {
             val num1 = random.nextInt(11, 31)
-            val num2 = random.nextInt(11, min(num1, 31))
+            val num2 = random.nextInt(5, min(num1+1, 32))
             Pair(num1, num2)
         }
         mmr >= 1000 -> {
             val num1 = random.nextInt(8, 16)
-            val num2 = random.nextInt(8, min(num1, 16))
+            val num2 = random.nextInt(4, min(num1+1, 17))
             Pair(num1, num2)
         }
         mmr >= 500 -> {
             val num1 = random.nextInt(5, 10)
-            val num2 = random.nextInt(5, min(num1, 10))
+            val num2 = random.nextInt(3, min(num1+1, 11))
             Pair(num1, num2)
         }
         else -> {
             val num1 = random.nextInt(1,6)
-            val num2 = random.nextInt(1, min(num1, 6))
+            val num2 = random.nextInt(1, min(num1+1, 7))
             Pair(num1, num2)
         }
     }
