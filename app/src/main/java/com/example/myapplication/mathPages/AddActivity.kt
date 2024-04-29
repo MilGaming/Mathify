@@ -2,6 +2,7 @@ package com.example.myapplication.mathPages
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Environment
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -41,19 +42,27 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.scripts.updateAddQuestion
 import kotlinx.coroutines.delay
 import kotlin.random.Random
+import androidx.compose.runtime.rememberCoroutineScope
+import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.io.File
+
 class AddActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             AddFunction()
+
         }
     }
 }
-
-
+data class AddUserStats(val answerTime: Int, val currentMMR: Int, val winningStreak: Int, val index: Int, val activityName: String)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 private fun AddFunction() {
+
+
     val context = LocalContext.current
     var answer by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
@@ -63,6 +72,8 @@ private fun AddFunction() {
     val preferencesManager = PreferencesManager(context)
     var points by remember { mutableIntStateOf(preferencesManager.getAdditionPoints()) }
 
+    //new shit
+    val userStatsList = preferencesManager.getAddStats().toMutableList()
 
     ///////////////////EmilKode/////////////////////
     var startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
@@ -81,6 +92,7 @@ private fun AddFunction() {
 
     CustomTopBar()
     StreakBar(positiveStreak) //Add streak score to screen
+    SaveJsonButton()
     Column(
         //Adds padding to button column at the top
         modifier = Modifier
@@ -101,7 +113,7 @@ private fun AddFunction() {
                 ///////////////////EmilKode/////////////////////
                 val endTime = System.currentTimeMillis() // get current time
                 val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
-                val mmr = preferencesManager.getAddMMR()
+                var mmr = preferencesManager.getAddMMR()
                 ///////////////////EmilKode/////////////////////
 
 
@@ -133,6 +145,15 @@ private fun AddFunction() {
                 }
                 coolDownOn = true //Turns on cooldown for button and text field
                 answer = "" // clear the TextField
+
+                mmr = preferencesManager.getAddMMR()
+                // Create a new UserStats object and add it to the list
+                val index = userStatsList.size // Get the current size of the list
+                val activityName = "AddActivity" // Name of the current activity
+                val userStats = AddUserStats(timeTaken, mmr, positiveStreak, index, activityName) // Create a new AddUserStats object with the index and activity name
+                userStatsList.add(userStats) // Add the new object to the list
+                preferencesManager.saveAddStats(userStatsList) // Save the list
+
             }),
             enabled = !coolDownOn // Disables text field when cooldown is on
         )
@@ -142,7 +163,7 @@ private fun AddFunction() {
                 ///////////////////EmilKode/////////////////////
                 val endTime = System.currentTimeMillis() // get current time
                 val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
-                val mmr = preferencesManager.getAddMMR() // get MMR
+                var mmr = preferencesManager.getAddMMR() // get MMR
                 ///////////////////EmilKode/////////////////////
 
                 if (answer.toIntOrNull() == correctAnswer) {
@@ -170,6 +191,14 @@ private fun AddFunction() {
                 }
                 coolDownOn = true //Turns on cooldown for button and text field
                 answer = "" // clear the TextField
+
+                mmr = preferencesManager.getAddMMR()
+                val index = userStatsList.size // Get the current size of the list
+                val activityName = "AddActivity" // Name of the current activity
+                val userStats = AddUserStats(timeTaken, mmr, positiveStreak, index, activityName) // Create a new AddUserStats object with the index and activity name
+                userStatsList.add(userStats) // Add the new object to the list
+                preferencesManager.saveAddStats(userStatsList) // Save the list
+
             },
             enabled = !coolDownOn,
             modifier = Modifier.padding(top = 16.dp)
@@ -206,7 +235,33 @@ private fun AddFunction() {
         )
     }
 }
+@Composable
+fun SaveJsonButton() {
+    val context = LocalContext.current
+    val preferencesManager = PreferencesManager(context)
+    val addStatsList = preferencesManager.getAddStats()
+    val subStatsList = preferencesManager.getSubStats()
+    val mulStatsList = preferencesManager.getMulStats()
+    val divStatsList = preferencesManager.getDivStats()
 
+    // Combine all the lists into a single list
+    val allStatsList = listOf(addStatsList, subStatsList, mulStatsList, divStatsList)
+
+    val gson = Gson()
+    val userStatsJson = gson.toJson(allStatsList)
+
+    val coroutineScope = rememberCoroutineScope()
+
+    Button(onClick = {
+        coroutineScope.launch(Dispatchers.IO) {
+            val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            val file = File(downloadsDir, "userStats.json")
+            file.writeText(userStatsJson)
+        }
+    }) {
+        Text("Save JSON")
+    }
+}
 @Preview(showBackground = true)
 @Composable
 private fun MulFunctionPreview() {
