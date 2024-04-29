@@ -1,7 +1,6 @@
-package com.example.myapplication
+package com.example.myapplication.mathPages
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -27,70 +26,64 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusProperties
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.scripts.CustomTopBar
+import com.example.myapplication.scripts.PreferencesManager
+import com.example.myapplication.scripts.StreakBar
+import com.example.myapplication.scripts.decreaseScore
+import com.example.myapplication.scripts.increaseScore
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.example.myapplication.scripts.updateDivQuestion
 import kotlinx.coroutines.delay
-import kotlin.math.log10
-import kotlin.math.min
 import kotlin.random.Random
 
-class ScalableDemoActivity : ComponentActivity() {
+class DivActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Scalable()
+            DivFunction()
         }
     }
 }
 
-
+data class DivUserStats(val answerTime: Int, val currentMMR: Int, val winningStreak: Int, val index: Int, val activityName: String)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-private fun Scalable() {
-    val isHeldDown by remember { mutableStateOf(false) } // to see if menu open
-    val openDialog = remember { mutableStateOf(false) } // for popup
+private fun DivFunction() {
     val context = LocalContext.current
     var answer by remember { mutableStateOf("") }
     var result by remember { mutableStateOf("") }
     var coolDownOn by remember { mutableStateOf(false) }
     val cooldownTime = 1000L
     val random = Random
-    //var question by remember { mutableStateOf(Pair(random.nextInt(10), random.nextInt(10))) }
-    val preferencesManager = PreferencesManager(context)
-    var points by remember { mutableIntStateOf(preferencesManager.getMultiplicationPoints()) }
-    val focusRequester = remember { FocusRequester() }
 
-    ///////////////////EmilKode/////////////////////
-    val mmr = preferencesManager.getAddMMR()
+    val preferencesManager = PreferencesManager(context)
+    var points by remember { mutableIntStateOf(preferencesManager.getDivisionPoints()) }
+
     var startTime by remember { mutableLongStateOf(System.currentTimeMillis()) } // reset start time
     var positiveStreak by remember { mutableIntStateOf(0) } // reset positive streak
     var negativeStreak by remember { mutableIntStateOf(0) } // reset negative streak
-    ///////////////////EmilKode/////////////////////
+    val mmr = preferencesManager.getDivMMR() // get MMR
+
+
+    //new shit
+    val userStatsList = preferencesManager.getDivStats().toMutableList()
+
     //Question scalabililty------------------------------------------------------------
     var question by remember {
         mutableStateOf(
-            when {
-                mmr >= 1500 -> Pair(random.nextInt(50,100), random.nextInt(50,100))
-                mmr >= 1150 -> Pair(random.nextInt(25,50), random.nextInt(25,50))
-                mmr >= 800 -> Pair(random.nextInt(10,25), random.nextInt(10,25))
-                mmr >= 350 -> Pair(random.nextInt(5,10), random.nextInt(5,10))
-                else -> Pair(random.nextInt(5), random.nextInt(5))
-            }
+            updateDivQuestion(mmr, random)
         )
     }
-    val correctAnswer = question.first + question.second
+    val correctAnswer = question.first / question.second
 
     CustomTopBar()
     StreakBar(positiveStreak) //Add streak score to screen
-
     Column(
         //Adds padding to button column at the top
         modifier = Modifier
@@ -99,19 +92,19 @@ private fun Scalable() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Hvad er ${question.first} + ${question.second}?", fontSize = 24.sp)
+        Text(text = "Hvad er ${question.first} ÷ ${question.second}?", fontSize = 24.sp)
         Spacer(modifier = Modifier.height(10.dp))
         TextField(
             value = answer,
             onValueChange = { answer = it },
             label = { Text("Skriv svar her") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
-            modifier = Modifier.focusRequester(focusRequester).focusProperties { canFocus = true },
             keyboardActions = KeyboardActions(onDone = {
 
                 ///////////////////EmilKode/////////////////////
                 val endTime = System.currentTimeMillis() // get current time
                 val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
+                var mmr = preferencesManager.getDivMMR()
                 ///////////////////EmilKode/////////////////////
 
                 if (answer.toIntOrNull() == correctAnswer) {
@@ -120,24 +113,35 @@ private fun Scalable() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    increaseScore(positiveStreak, timeTaken, context)
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
                     points++ // increment points
-                    preferencesManager.saveMultiplicationPoints(points) // save points
+                    preferencesManager.saveDivisionPoints(points) // save points
+
+                    preferencesManager.saveDivMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
                 } else {
 
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    decreaseScore(negativeStreak, timeTaken, context) // decrease score
+                    preferencesManager.saveDivMMR(decreaseScore(negativeStreak, timeTaken, mmr, points)) // decrease score
                     ///////////////////EmilKode/////////////////////
 
                     result = "Forkert! Prøv igen."
                 }
+
                 coolDownOn = true //Turns on cooldown for button and text field
                 answer = "" // clear the TextField
+
+                mmr = preferencesManager.getDivMMR()
+                // Create a new UserStats object and add it to the list
+                val index = userStatsList.size // Get the current size of the list
+                val activityName = "DivActivity" // Name of the current activity
+                val userStats = DivUserStats(timeTaken, mmr, positiveStreak, index, activityName) // Create a new AddUserStats object with the index and activity name
+                userStatsList.add(userStats) // Add the new object to the list
+                preferencesManager.saveDivStats(userStatsList) // Save the list
+
             }),
             enabled = !coolDownOn // Disables text field when cooldown is on
         )
@@ -147,6 +151,7 @@ private fun Scalable() {
                 ///////////////////EmilKode/////////////////////
                 val endTime = System.currentTimeMillis() // get current time
                 val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
+                var mmr = preferencesManager.getDivMMR() // get MMR
                 ///////////////////EmilKode/////////////////////
 
                 if (answer.toIntOrNull() == correctAnswer) {
@@ -155,24 +160,34 @@ private fun Scalable() {
                     println(timeTaken) // print time taken
                     positiveStreak++ // increment positive streak
                     negativeStreak = 0 // reset negative streak
-                    increaseScore(positiveStreak, timeTaken,context) // increase score
+
                     ///////////////////EmilKode/////////////////////
 
                     result = "Rigtigt!"
                     points++ // increment points
-                    preferencesManager.saveMultiplicationPoints(points) // save points
+                    preferencesManager.saveDivisionPoints(points) // save points
+
+                    preferencesManager.saveDivMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
                 } else {
                     result = "Forkert! Prøv igen."
 
                     ///////////////////EmilKode/////////////////////
                     negativeStreak++ // increment negative streak
                     positiveStreak = 0 // reset positive streak
-                    decreaseScore(negativeStreak, timeTaken, context)
+                    preferencesManager.saveDivMMR(decreaseScore(negativeStreak, timeTaken, mmr, points))
                     ///////////////////EmilKode/////////////////////
 
                 }
                 coolDownOn = true //Turns on cooldown for button and text field
                 answer = "" // clear the TextField
+
+                mmr = preferencesManager.getDivMMR()
+                // Create a new UserStats object and add it to the list
+                val index = userStatsList.size // Get the current size of the list
+                val activityName = "DivActivity" // Name of the current activity
+                val userStats = DivUserStats(timeTaken, mmr, positiveStreak, index, activityName) // Create a new AddUserStats object with the index and activity name
+                userStatsList.add(userStats) // Add the new object to the list
+                preferencesManager.saveDivStats(userStatsList) // Save the list
             },
             enabled = !coolDownOn,
             modifier = Modifier.padding(top = 16.dp)
@@ -185,13 +200,16 @@ private fun Scalable() {
             // Coroutine to update the question after 3 seconds
             LaunchedEffect(key1 = coolDownOn) {
                 delay(cooldownTime) // delay for 3 seconds
+                //divisor = random.nextInt(7) + 1 // Avoid zero
+                //multiplier = random.nextInt(10)
+                //dividend = divisor * multiplier // update the question
 
                 ///////////////////EmilKode/////////////////////
                 startTime = System.currentTimeMillis() // reset start time
                 ///////////////////EmilKode/////////////////////
 
                 //Question scalabililty------------------------------------------------------------
-                question = updateAddQuestion(mmr, random) // update the question according to MMR
+                question = updateDivQuestion(mmr, random) // update the question according to MMR
 
                 coolDownOn = false // Turns off cooldown for button
             }
@@ -205,7 +223,7 @@ private fun Scalable() {
         contentAlignment = Alignment.TopEnd
     ) {
         Text(
-            text = "MMR: $mmr",
+            text = "Points: $points",
             modifier = Modifier
                 .padding(top = 16.dp, end = 16.dp)
                 .align(Alignment.TopEnd),
@@ -214,50 +232,12 @@ private fun Scalable() {
     }
 }
 
-///////////////////EmilKode/////////////////////
-private fun increaseScore(streak: Int, time: Int, context: Context) {
-    val preferencesManager = PreferencesManager(context)
-    var points = preferencesManager.getAddMMR()
-
-    val baseScore = 50
-    val streakMultiplier = (log10((streak + 2).toDouble()) +0.5) // decreases as streak increases
-    val timeBonus = if (time <= 5) (5 - time) * 10 else 0 // larger bonus for time less than 5 seconds
-
-    val score = min(((baseScore + timeBonus) * streakMultiplier).toInt(), 150)
-
-
-    points += score
-    preferencesManager.saveAddMMR(points)
-    println(points)
-}
-
-private fun decreaseScore(streak: Int, time: Int, context: Context) {
-    val preferencesManager = PreferencesManager(context)
-    var points = preferencesManager.getAddMMR()
-
-    val basePenalty = 50
-    val streakPenalty = (log10((streak + 2).toDouble()) +0.8) // increases as streak increases
-    val timePenalty = if (time <= 5) time * 2 else 10 // smaller penalty for time less than 5 seconds
-
-    val penalty = min(((basePenalty + timePenalty) * streakPenalty).toInt(),100)
-    points -= penalty // decrease the score
-
-    if (points < 0) {
-        points = 0 // ensure the score doesn't go below zero
-    }
-
-    preferencesManager.saveAddMMR(points) // save the updated score
-    println(points)
-}
-///////////////////EmilKode/////////////////////
-
-
 
 
 @Preview(showBackground = true)
 @Composable
-private fun MulFunctionPreview() {
+private fun DivFunctionPreview() {
     MyApplicationTheme {
-        Scalable()
+        DivFunction()
     }
 }

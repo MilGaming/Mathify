@@ -5,11 +5,24 @@
       <entry key="AddActivity">
         <State />
       </entry>
-      <entry key="MMRActivity">
+      <entry key="SubActivity">
         <State />
       </entry>
       <entry key="app">
-        <State />
+        <State>
+          <runningDeviceTargetSelectedWithDropDown>
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\mads9\.android\avd\Pixel_8_Pro_API_TiramisuPrivacySandbox.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-04-29T11:55:57.240462300Z" />
+        </State>
       </entry>
     </value>
   </component>
