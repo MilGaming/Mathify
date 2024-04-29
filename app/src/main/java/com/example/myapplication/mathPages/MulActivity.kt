@@ -216,7 +216,7 @@ private fun MulFunction() {
         contentAlignment = Alignment.TopEnd
     ) {
         Text(
-            text = "Points: $mmr",
+            text = "Points: $points",
             modifier = Modifier.padding(top = 16.dp, end = 16.dp).align(Alignment.TopEnd),
             fontSize = 24.sp
         )

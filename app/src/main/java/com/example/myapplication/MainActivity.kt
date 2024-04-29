@@ -192,7 +192,7 @@ fun MyApp() {
                     //Whatever needs to be under button 1 to has to be added below here--------
                     this.AnimatedVisibility(visible = isExpandedB1.value) {
                         Text(
-                            text = "Addition Statistics will be shown here!!!" +
+                            text = "Statistik:" +
                                     "\nPoints: ${preferencesManager.getAdditionPoints()}" +
                                     "\nMMR: ${preferencesManager.getAddMMR()}",
                             modifier = Modifier
@@ -254,7 +254,7 @@ fun MyApp() {
                     //Whatever needs to be under button 2 to has to be added below here--------
                     this.AnimatedVisibility(visible = isExpandedB2.value) {
                         Text(
-                            text = "Subtraction Statistics will be shown here!!!" +
+                            text = "Statistik:" +
                                     "\nPoints: ${preferencesManager.getSubtractionPoints()}" +
                                     "\nMMR: ${preferencesManager.getSubMMR()}",
                             modifier = Modifier
@@ -316,7 +316,7 @@ fun MyApp() {
                     //Whatever needs to be under button 3 to has to be added below here--------
                     this.AnimatedVisibility(visible = isExpandedB3.value) {
                         Text(
-                            text = "Multiplication Statistics will be shown here!!!" +
+                            text = "Statistik:" +
                                     "\nPoints: ${preferencesManager.getMultiplicationPoints()}" +
                                     "\nMMR: ${preferencesManager.getMulMMR()}",
                             modifier = Modifier
@@ -379,7 +379,7 @@ fun MyApp() {
                     //Whatever needs to be under button 4 to has to be added below here--------
                     this.AnimatedVisibility(visible = isExpandedB4.value) {
                         Text(
-                            text = "Division Statistics will be shown here!!!" +
+                            text = "Statistik:" +
                                     "\nPoints: ${preferencesManager.getDivisionPoints()}" +
                                     "\nMMR: ${preferencesManager.getDivMMR()}",
                             modifier = Modifier

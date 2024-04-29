@@ -65,7 +65,7 @@ fun updateAddQuestion(mmr: Int, random: Random): Pair<Int, Int> {
         mmr >= 1500 -> Pair(random.nextInt(11,31), random.nextInt(11,31)) // Overlap with above and below
         mmr >= 1000 -> Pair(random.nextInt(8,16), random.nextInt(8,16)) // Overlap with above and below
         mmr >= 500 -> Pair(random.nextInt(5,10), random.nextInt(5,10)) // Overlap with above and below
-        else -> Pair(random.nextInt(6), random.nextInt(6))
+        else -> Pair(random.nextInt(1,6), random.nextInt(1,6))
     }
 }
 
@@ -98,7 +98,7 @@ fun updateSubQuestion(mmr: Int, random: Random): Pair<Int, Int> {
             Pair(num1, num2)
         }
         else -> {
-            val num1 = random.nextInt(6)
+            val num1 = random.nextInt(1,6)
             val num2 = random.nextInt(min(num1, 6))
             Pair(num1, num2)
         }

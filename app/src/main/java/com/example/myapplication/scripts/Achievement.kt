@@ -20,8 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -57,10 +55,6 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     val sharedPreferencesManager = PreferencesManager(context)
-    val achievements =
-        remember { mutableStateListOf(*sharedPreferencesManager.getAchievements().toTypedArray()) }
-    val achievementIndex =
-        remember { mutableIntStateOf(sharedPreferencesManager.getAchievementIndex()) }
     val showAchievement1 = remember { mutableStateOf(true) }
     val showAchievement2 = remember { mutableStateOf(true) }
     val showAchievement3 = remember { mutableStateOf(true) }
