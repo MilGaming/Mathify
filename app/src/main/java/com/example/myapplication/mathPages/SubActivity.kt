@@ -42,6 +42,8 @@ import com.example.myapplication.scripts.updateSubQuestion
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
+data class SubUserStats(val answerTime: Int, val currentMMR: Int, val winningStreak: Int, val index: Int, val activityName: String)
+
 class SubActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +53,6 @@ class SubActivity : ComponentActivity() {
     }
 }
 
-data class SubUserStats(val answerTime: Int, val currentMMR: Int, val winningStreak: Int, val index: Int, val activityName: String)
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
