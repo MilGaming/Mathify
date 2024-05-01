@@ -92,7 +92,6 @@ private fun AddFunction() {
 
     CustomTopBar()
     StreakBar(positiveStreak) //Add streak score to screen
-    SaveJsonButton()
     Column(
         //Adds padding to button column at the top
         modifier = Modifier
@@ -233,33 +232,6 @@ private fun AddFunction() {
             modifier = Modifier.padding(top = 16.dp, end = 16.dp).align(Alignment.TopEnd),
             fontSize = 24.sp
         )
-    }
-}
-@Composable
-fun SaveJsonButton() {
-    val context = LocalContext.current
-    val preferencesManager = PreferencesManager(context)
-    val addStatsList = preferencesManager.getAddStats()
-    val subStatsList = preferencesManager.getSubStats()
-    val mulStatsList = preferencesManager.getMulStats()
-    val divStatsList = preferencesManager.getDivStats()
-
-    // Combine all the lists into a single list
-    val allStatsList = listOf(addStatsList, subStatsList, mulStatsList, divStatsList)
-
-    val gson = Gson()
-    val userStatsJson = gson.toJson(allStatsList)
-
-    val coroutineScope = rememberCoroutineScope()
-
-    Button(onClick = {
-        coroutineScope.launch(Dispatchers.IO) {
-            val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            val file = File(downloadsDir, "userStats.json")
-            file.writeText(userStatsJson)
-        }
-    }) {
-        Text("Save JSON")
     }
 }
 @Preview(showBackground = true)
