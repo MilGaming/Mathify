@@ -64,9 +64,10 @@ fun CustomTopBar() {
 
     Scaffold(
         topBar = {
-            TopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.LightGray),
+            TopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = FortniteBlue),
                 title = {Text(
                     "MathTech",
+                    color = Color.White,
                     modifier = Modifier.clickable(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() }
@@ -161,12 +162,4 @@ fun Info(onDismiss: () -> Unit){
             }
         }
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun DivFunctionPreview() {
-    MyApplicationTheme {
-        CustomTopBar()
-    }
 }
