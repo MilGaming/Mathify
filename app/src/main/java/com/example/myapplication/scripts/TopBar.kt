@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -36,9 +37,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.MainActivity
 import com.example.myapplication.mathPages.SecretPage
+import com.example.myapplication.ui.theme.FortniteBlue
+import com.example.myapplication.ui.theme.FortniteGreen
+import com.example.myapplication.ui.theme.FortniteOrange
+import com.example.myapplication.ui.theme.FortniteYellow
+import com.example.myapplication.ui.theme.MyApplicationTheme
 
 //data class Achievement(val index: Int, val name: String, val currentProgress: Int, val goalProgress: Int)
 
@@ -57,9 +64,10 @@ fun CustomTopBar() {
 
     Scaffold(
         topBar = {
-            TopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.LightGray),
+            TopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = FortniteBlue),
                 title = {Text(
                     "MathTech",
+                    color = Color.White,
                     modifier = Modifier.clickable(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() }
@@ -78,14 +86,14 @@ fun CustomTopBar() {
                             val intent = Intent(context, MainActivity::class.java)
                             context.startActivity(intent)
                         }) {
-                            Icon(Icons.Filled.Home, contentDescription = "Home")
+                            Icon(Icons.Filled.Home, contentDescription = "Home", tint = Color.White)
                         }
                     }
                     else{
                         IconButton(onClick = { //home button
                             showInfo.value = !showInfo.value
                         }) {
-                            Icon(Icons.Filled.Info, contentDescription = "Info")
+                            Icon(Icons.Filled.Info, contentDescription = "Info", tint = Color.White)
                         }
                     }
                     Surface(
@@ -101,7 +109,7 @@ fun CustomTopBar() {
                             enabled = !isHeldDown.value
                             ) {
 
-                            Icon(Icons.Filled.Star, contentDescription = "Trophy")
+                            Icon(Icons.Filled.Star, contentDescription = "Trophy", tint = Color.White)
                         }
                     }
                 }
@@ -140,9 +148,16 @@ fun Info(onDismiss: () -> Unit){
                 Spacer(modifier = Modifier.height(8.dp))
                 Text("så vælg en udfordring ved at trykke på den og regn løs!")
             }
+
         },
         confirmButton = {
-            Button(onClick = onDismiss) {
+            Button(
+                onClick = onDismiss,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = FortniteYellow,
+                    contentColor = Color.DarkGray
+                ),
+            ) {
                 Text("Forstået")
             }
         }

@@ -14,6 +14,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
@@ -27,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -36,7 +38,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.PopupProperties
-import com.example.myapplication.ui.theme.Purple40
+import com.example.myapplication.ui.theme.FortniteBlue
+import com.example.myapplication.ui.theme.FortniteGreen
+import com.example.myapplication.ui.theme.FortniteLightBlue
+import com.example.myapplication.ui.theme.FortniteGreen
+import com.example.myapplication.ui.theme.FortniteYellow
 import com.example.myapplication.ui.theme.Purple80
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -103,12 +109,12 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                     .fillMaxHeight(0.8f)
                     .padding(top = 2.dp)
                     .background(
-                        Purple80,
+                        color = Color(0xF2CBCBCB),
                         RoundedCornerShape(cornerSize)
                     )
                     .border(
                         5.dp,
-                        Purple40,
+                        color = Color(0xBF348ABF),
                         RoundedCornerShape(cornerSize)
                     )
                     .verticalScroll(rememberScrollState())
@@ -140,7 +146,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                             ) {
                                 LinearProgressIndicator(
                                     progress = achievement1ValueInt / 1f, // Calculate the progress
-                                    color = Purple40, // Customize the color of the progress bar
+                                    color = FortniteGreen, // Customize the color of the progress bar
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .height(20.dp)
@@ -181,7 +187,11 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                     onClick = {
                                         showAchievement1.value = false
                                         sharedPreferencesManager.saveAchi1(true)
-                                    }) {
+                                    },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = FortniteYellow,
+                                        contentColor = Color.DarkGray
+                                    ),) {
                                     Text(text = "Fjern denne præstation", fontSize = 10.sp)
                                 }
                             }
@@ -207,7 +217,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                             ) {
                                 LinearProgressIndicator(
                                     progress = achievement2Value / 10f, // Calculate the progress
-                                    color = Purple40, // Customize the color of the progress bar
+                                    color = FortniteGreen, // Customize the color of the progress bar
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .height(20.dp)
@@ -248,7 +258,11 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                     onClick = {
                                         showAchievement2.value = false
                                         sharedPreferencesManager.saveAchi2(true)
-                                    }) {
+                                    },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = FortniteYellow,
+                                        contentColor = Color.DarkGray
+                                    ),) {
                                     Text(text = "Fjern denne præstation", fontSize = 10.sp)
                                 }
                             }
@@ -275,7 +289,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                             ) {
                                 LinearProgressIndicator(
                                     progress = achievement3Value / 10f, // Calculate the progress
-                                    color = Purple40, // Customize the color of the progress bar
+                                    color = FortniteGreen, // Customize the color of the progress bar
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .height(20.dp)
@@ -316,7 +330,11 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                     onClick = {
                                         showAchievement3.value = false
                                         sharedPreferencesManager.saveAchi3(true)
-                                    }) {
+                                    },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = FortniteYellow,
+                                        contentColor = Color.DarkGray
+                                    ),) {
                                     Text(text = "Fjern denne præstation", fontSize = 10.sp)
                                 }
                             }
@@ -343,7 +361,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                             ) {
                                 LinearProgressIndicator(
                                     progress = achievement4Value / 10f, // Calculate the progress
-                                    color = Purple40, // Customize the color of the progress bar
+                                    color = FortniteGreen, // Customize the color of the progress bar
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .height(20.dp)
@@ -384,7 +402,11 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                     onClick = {
                                         showAchievement4.value = false
                                         sharedPreferencesManager.saveAchi4(true)
-                                    }) {
+                                    },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = FortniteYellow,
+                                        contentColor = Color.DarkGray
+                                    ),) {
                                     Text(text = "Fjern denne præstation", fontSize = 10.sp)
                                 }
                             }
@@ -411,7 +433,7 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                             ) {
                                 LinearProgressIndicator(
                                     progress = achievement5Value / 10f, // Calculate the progress
-                                    color = Purple40, // Customize the color of the progress bar
+                                    color = FortniteGreen, // Customize the color of the progress bar
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .height(20.dp)
@@ -452,7 +474,11 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                     onClick = {
                                         showAchievement5.value = false
                                         sharedPreferencesManager.saveAchi5(true)
-                                    }) {
+                                    },
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = FortniteYellow,
+                                        contentColor = Color.DarkGray
+                                    ),) {
                                     Text(text = "Fjern denne præstation", fontSize = 10.sp)
                                 }
                             }
