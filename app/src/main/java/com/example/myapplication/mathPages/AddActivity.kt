@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Environment
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -43,6 +45,10 @@ import com.example.myapplication.scripts.updateAddQuestion
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.zIndex
+import com.example.myapplication.ui.theme.FortniteLightBlue
+import com.example.myapplication.ui.theme.FortniteYellow
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -97,11 +103,13 @@ private fun AddFunction() {
         //Adds padding to button column at the top
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 100.dp),
+            .padding(top = 60.dp)
+            .background(FortniteLightBlue)
+            .zIndex(0.5f),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Hvad er ${question.first} + ${question.second}?", fontSize = 24.sp)
+        Text(text = "Hvad er ${question.first} + ${question.second}?", fontSize = 24.sp, modifier = Modifier.padding(top = 50.dp))
         Spacer(modifier = Modifier.height(10.dp))
         TextField(
             value = answer,
@@ -200,6 +208,10 @@ private fun AddFunction() {
                 preferencesManager.saveAddStats(userStatsList) // Save the list
 
             },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = FortniteYellow,
+                contentColor = Color.DarkGray
+            ),
             enabled = !coolDownOn,
             modifier = Modifier.padding(top = 16.dp)
         ) {

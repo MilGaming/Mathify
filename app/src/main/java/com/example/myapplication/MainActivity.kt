@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -51,6 +53,12 @@ import com.example.myapplication.scripts.CustomTopBar
 import com.example.myapplication.scripts.PreferencesManager
 import com.example.myapplication.ui.theme.Purple40
 import com.example.myapplication.ui.theme.Purple80
+import com.example.myapplication.ui.theme.FortniteBlue
+import com.example.myapplication.ui.theme.FortniteLightBlue
+import com.example.myapplication.ui.theme.FortniteGreen
+import com.example.myapplication.ui.theme.FortniteYellow
+import com.example.myapplication.ui.theme.FortniteOrange
+
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalAnimationApi::class)
@@ -121,7 +129,8 @@ fun MyApp() {
         Column {
             Box(modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp)
+                .height(60.dp)
+                /*.background(FortniteYellow)*/,
             ) {
 
             }
@@ -131,14 +140,16 @@ fun MyApp() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()
-                    .verticalScroll(rememberScrollState()),
+                    .verticalScroll(rememberScrollState())
+                    .background(FortniteLightBlue),
                 verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text( //Mads added moved text ------------------------------------------------------------------------------------
                     text = "Vælg en udfordring ved at trykke på den og regn løs!",
                     modifier = Modifier
                         .padding(16.dp)
+                        .padding(top = 30.dp)
                         .align(Alignment.CenterHorizontally),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
@@ -154,6 +165,10 @@ fun MyApp() {
                                 val intent = Intent(context, AddActivity::class.java)
                                 context.startActivity(intent)
                             },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = FortniteYellow,
+                                contentColor = Color.DarkGray
+                            ),
                             modifier = Modifier
                                 .wrapContentSize(Alignment.CenterStart)
                                 .fillMaxWidth(0.9f)
@@ -168,8 +183,8 @@ fun MyApp() {
                             Button(
                                 onClick = { isExpandedB1.value = !isExpandedB1.value },
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = Purple80,
-                                    contentColor = Purple40
+                                    containerColor = FortniteYellow,
+                                    contentColor = Color.DarkGray
                                 ),
                                 modifier = Modifier
                                     .align(Alignment.Center)
@@ -185,7 +200,7 @@ fun MyApp() {
                                 fontSize = 25.sp,
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
-                                color = Purple40,
+                                color = Color.DarkGray,
                             )
                         }
                     }
@@ -216,6 +231,10 @@ fun MyApp() {
                                 val intent = Intent(context, SubActivity::class.java)
                                 context.startActivity(intent)
                             },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = FortniteYellow,
+                                contentColor = Color.DarkGray
+                            ),
                             modifier = Modifier
                                 .wrapContentSize(Alignment.CenterStart)
                                 .fillMaxWidth(0.9f)
@@ -230,8 +249,8 @@ fun MyApp() {
                             Button(
                                 onClick = { isExpandedB2.value = !isExpandedB2.value },
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = Purple80,
-                                    contentColor = Purple40
+                                    containerColor = FortniteYellow,
+                                    contentColor = Color.DarkGray
                                 ),
                                 modifier = Modifier
                                     .align(Alignment.Center)
@@ -247,7 +266,7 @@ fun MyApp() {
                                 fontSize = 25.sp,
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
-                                color = Purple40,
+                                color = Color.DarkGray,
                             )
                         }
                     }
@@ -278,6 +297,10 @@ fun MyApp() {
                                 val intent = Intent(context, MulActivity::class.java)
                                 context.startActivity(intent)
                             },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = FortniteYellow,
+                                contentColor = Color.DarkGray
+                            ),
                             modifier = Modifier
                                 .wrapContentSize(Alignment.CenterStart)
                                 .fillMaxWidth(0.9f)
@@ -292,8 +315,8 @@ fun MyApp() {
                             Button(
                                 onClick = { isExpandedB3.value = !isExpandedB3.value },
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = Purple80,
-                                    contentColor = Purple40
+                                    containerColor = FortniteYellow,
+                                    contentColor = Color.DarkGray
                                 ),
                                 modifier = Modifier
                                     .align(Alignment.Center)
@@ -309,7 +332,7 @@ fun MyApp() {
                                 fontSize = 25.sp,
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
-                                color = Purple40,
+                                color = Color.DarkGray,
                             )
                         }
                     }
@@ -341,6 +364,10 @@ fun MyApp() {
                                 val intent = Intent(context, DivActivity::class.java)
                                 context.startActivity(intent)
                             },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = FortniteYellow,
+                                contentColor = Color.DarkGray
+                            ),
                             modifier = Modifier
                                 .wrapContentSize(Alignment.CenterStart)
                                 .fillMaxWidth(0.9f)
@@ -355,8 +382,8 @@ fun MyApp() {
                             Button(
                                 onClick = { isExpandedB4.value = !isExpandedB4.value },
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = Purple80,
-                                    contentColor = Purple40
+                                    containerColor = FortniteYellow,
+                                    contentColor = Color.DarkGray
                                 ),
                                 modifier = Modifier
                                     .align(Alignment.Center)
@@ -372,7 +399,7 @@ fun MyApp() {
                                 fontSize = 25.sp,
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,
-                                color = Purple40,
+                                color = Color.DarkGray,
                             )
                         }
                     }
@@ -423,7 +450,13 @@ fun WelcomePopup(onDismiss: () -> Unit) {
             }
         },
         confirmButton = {
-            Button(onClick = onDismiss) {
+            Button(
+                onClick = onDismiss,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = FortniteYellow,
+                    contentColor = Color.DarkGray
+                ),
+            ) {
                 Text("Forstået")
             }
         }

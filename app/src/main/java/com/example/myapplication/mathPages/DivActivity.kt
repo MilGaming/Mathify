@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -26,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -39,6 +41,7 @@ import com.example.myapplication.scripts.decreaseScore
 import com.example.myapplication.scripts.increaseScore
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.scripts.updateDivQuestion
+import com.example.myapplication.ui.theme.FortniteYellow
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
@@ -189,6 +192,10 @@ private fun DivFunction() {
                 userStatsList.add(userStats) // Add the new object to the list
                 preferencesManager.saveDivStats(userStatsList) // Save the list
             },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = FortniteYellow,
+                contentColor = Color.DarkGray
+            ),
             enabled = !coolDownOn,
             modifier = Modifier.padding(top = 16.dp)
         ) {

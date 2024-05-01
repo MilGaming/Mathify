@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.example.myapplication.R
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.delay
@@ -59,7 +60,8 @@ fun StreakBar(streak: Int) {
     Box(
         modifier = Modifier
             .size(100.dp) // Size of streak icon
-            .padding(top = 20.dp),
+            .padding(top = 20.dp)
+            .zIndex(1f),
     ) {
         Image(
             painter = painterResource(id = R.drawable.streak_icon),
