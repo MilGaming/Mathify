@@ -13,10 +13,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -46,7 +50,13 @@ import kotlinx.coroutines.delay
 import kotlin.random.Random
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.zIndex
+import com.example.myapplication.ui.theme.FortniteGreen
 import com.example.myapplication.ui.theme.FortniteLightBlue
 import com.example.myapplication.ui.theme.FortniteYellow
 import com.google.gson.Gson
@@ -97,7 +107,12 @@ private fun AddFunction() {
     val correctAnswer = question.first + question.second
 
     CustomTopBar()
-    StreakBar(positiveStreak) //Add streak score to screen
+    Box(
+        modifier = Modifier
+            .zIndex(1f),
+    ) {
+        StreakBar(positiveStreak) //Add streak score to screen
+    }
     Column(
         //Adds padding to button column at the top
         modifier = Modifier
@@ -108,7 +123,35 @@ private fun AddFunction() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Hvad er ${question.first} + ${question.second}?", fontSize = 24.sp, modifier = Modifier.padding(top = 50.dp))
+        Box(
+            modifier = Modifier
+                .padding(top = 150.dp),
+        ) {
+            //Text contour
+            Text(
+                text = "Hvad er:\n" +
+                        "${question.first} + ${question.second}",
+                fontSize = 36.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                color = Color.White,
+                style = TextStyle.Default.copy(
+                    fontSize = 36.sp,
+                    drawStyle = Stroke(
+                        miter = 50f,
+                        width = 8f,
+                        join = StrokeJoin.Round
+                    )
+                )
+            )
+            Text(text = "Hvad er:\n" +
+                    "${question.first} + ${question.second}",
+                fontSize = 36.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                color = Color.DarkGray
+            )
+        }
         Spacer(modifier = Modifier.height(10.dp))
         TextField(
             value = answer,
@@ -236,14 +279,40 @@ private fun AddFunction() {
     }
     // Display the score in the top right corner
     Box(
-        modifier = Modifier.fillMaxSize().padding(top = 50.dp),
-        contentAlignment = Alignment.TopEnd
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 60.dp)
+            .zIndex(1f),
+        contentAlignment = Alignment.TopStart
     ) {
-        Text(
-            text = "Points: $points",
-            modifier = Modifier.padding(top = 16.dp, end = 16.dp).align(Alignment.TopEnd),
-            fontSize = 24.sp
-        )
+        Card(
+            modifier = Modifier
+                .padding(16.dp)
+                .background(Color.Transparent)
+                .width(150.dp)
+                .height(80.dp),
+            shape = RoundedCornerShape(10.dp),
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    text = "Points",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = points.toString(),
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
     }
 }
 @Preview(showBackground = true)

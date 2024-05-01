@@ -19,13 +19,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,7 +43,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -129,8 +137,7 @@ fun MyApp() {
         Column {
             Box(modifier = Modifier
                 .fillMaxWidth()
-                .height(60.dp)
-                /*.background(FortniteYellow)*/,
+                .height(60.dp),
             ) {
 
             }
@@ -145,16 +152,35 @@ fun MyApp() {
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text( //Mads added moved text ------------------------------------------------------------------------------------
-                    text = "Vælg en udfordring:",
+                Box(
                     modifier = Modifier
                         .padding(16.dp)
-                        .padding(top = 30.dp)
+                        .padding(top = 100.dp, start = 30.dp)
                         .align(Alignment.Start),
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
+                ) {
+                    //Text contour
+                    Text(
+                        text = "Vælg en udfordring:",
+                        fontSize = 36.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        color = Color.White,
+                        style = TextStyle.Default.copy(
+                            fontSize = 36.sp,
+                            drawStyle = Stroke(
+                                miter = 50f,
+                                width = 8f,
+                                join = StrokeJoin.Round
+                            )
+                        )
+                    )
+                    Text(text = "Vælg en udfordring:",
+                        fontSize = 36.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        color = Color.DarkGray
+                    )
+                }
                 //Button 1 with expanding button
                 Column {
                     Box(
@@ -207,15 +233,25 @@ fun MyApp() {
                     }
                     //Whatever needs to be under button 1 to has to be added below here--------
                     this.AnimatedVisibility(visible = isExpandedB1.value) {
-                        Text(
-                            text = "Statistik:" +
-                                    "\nPoints: ${preferencesManager.getAdditionPoints()}" +
-                                    "\nMMR: ${preferencesManager.getAddMMR()}",
+                        Card(
                             modifier = Modifier
                                 .padding(4.dp)
                                 .fillMaxWidth(0.8f),
-                            fontSize = 5.em
-                        )
+                            shape = RoundedCornerShape(10.dp),
+                        ) {
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                Text(
+                                    text = "Plus statistik",
+                                )
+                                Divider(color = Color.Gray, thickness = 1.dp)
+                                Text(
+                                    text = "Points: ${preferencesManager.getAdditionPoints()}",
+                                )
+                                Text(
+                                    text = "MMR: ${preferencesManager.getAddMMR()}",
+                                )
+                            }
+                        }
                     }
                 }
 
@@ -273,15 +309,25 @@ fun MyApp() {
                     }
                     //Whatever needs to be under button 2 to has to be added below here--------
                     this.AnimatedVisibility(visible = isExpandedB2.value) {
-                        Text(
-                            text = "Statistik:" +
-                                    "\nPoints: ${preferencesManager.getSubtractionPoints()}" +
-                                    "\nMMR: ${preferencesManager.getSubMMR()}",
+                        Card(
                             modifier = Modifier
                                 .padding(4.dp)
                                 .fillMaxWidth(0.8f),
-                            fontSize = 5.em
-                        )
+                            shape = RoundedCornerShape(10.dp),
+                        ) {
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                Text(
+                                    text = "Minus statistik",
+                                )
+                                Divider(color = Color.Gray, thickness = 1.dp)
+                                Text(
+                                    text = "Points: ${preferencesManager.getSubtractionPoints()}",
+                                )
+                                Text(
+                                    text = "MMR: ${preferencesManager.getSubMMR()}",
+                                )
+                            }
+                        }
                     }
                 }
 
@@ -339,15 +385,25 @@ fun MyApp() {
                     }
                     //Whatever needs to be under button 3 to has to be added below here--------
                     this.AnimatedVisibility(visible = isExpandedB3.value) {
-                        Text(
-                            text = "Statistik:" +
-                                    "\nPoints: ${preferencesManager.getMultiplicationPoints()}" +
-                                    "\nMMR: ${preferencesManager.getMulMMR()}",
+                        Card(
                             modifier = Modifier
                                 .padding(4.dp)
                                 .fillMaxWidth(0.8f),
-                            fontSize = 5.em
-                        )
+                            shape = RoundedCornerShape(10.dp),
+                        ) {
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                Text(
+                                    text = "Gange statistik",
+                                )
+                                Divider(color = Color.Gray, thickness = 1.dp)
+                                Text(
+                                    text = "Points: ${preferencesManager.getMultiplicationPoints()}",
+                                )
+                                Text(
+                                    text = "MMR: ${preferencesManager.getMulMMR()}",
+                                )
+                            }
+                        }
                     }
                 }
 
@@ -406,15 +462,25 @@ fun MyApp() {
                     }
                     //Whatever needs to be under button 4 to has to be added below here--------
                     this.AnimatedVisibility(visible = isExpandedB4.value) {
-                        Text(
-                            text = "Statistik:" +
-                                    "\nPoints: ${preferencesManager.getDivisionPoints()}" +
-                                    "\nMMR: ${preferencesManager.getDivMMR()}",
+                        Card(
                             modifier = Modifier
                                 .padding(4.dp)
                                 .fillMaxWidth(0.8f),
-                            fontSize = 5.em
-                        )
+                            shape = RoundedCornerShape(10.dp),
+                        ) {
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                Text(
+                                    text = "Division statistik",
+                                )
+                                Divider(color = Color.Gray, thickness = 1.dp)
+                                Text(
+                                    text = "Points: ${preferencesManager.getDivisionPoints()}",
+                                )
+                                Text(
+                                    text = "MMR: ${preferencesManager.getDivMMR()}",
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -424,17 +490,36 @@ fun MyApp() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 50.dp),
-            contentAlignment = Alignment.TopEnd
+                .padding(top = 60.dp),
+            contentAlignment = Alignment.TopStart
         ) {
-            Text(
-                text = "Samlede points: $totalScore",
+            Card(
                 modifier = Modifier
-                    .padding(top = 16.dp, start = 16.dp)
-                    .align(Alignment.TopStart),
-                fontSize = 20.sp,
-                color = Color.White
-            )
+                    .padding(16.dp)
+                    .background(Color.Transparent)
+                    .width(150.dp)
+                    .height(80.dp),
+                shape = RoundedCornerShape(10.dp),
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Text(
+                        text = "Samlede points",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        text = totalScore.toString(),
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
         }
     }
 }

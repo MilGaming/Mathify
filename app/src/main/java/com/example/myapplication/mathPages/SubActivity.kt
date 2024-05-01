@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,10 +12,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -28,12 +32,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.example.myapplication.scripts.CustomTopBar
 import com.example.myapplication.scripts.PreferencesManager
 import com.example.myapplication.scripts.StreakBar
@@ -41,6 +51,7 @@ import com.example.myapplication.scripts.decreaseScore
 import com.example.myapplication.scripts.increaseScore
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.scripts.updateSubQuestion
+import com.example.myapplication.ui.theme.FortniteLightBlue
 import com.example.myapplication.ui.theme.FortniteYellow
 import kotlinx.coroutines.delay
 import kotlin.random.Random
@@ -87,16 +98,51 @@ private fun SubFunction() {
     val correctAnswer = question.first - question.second
 
     CustomTopBar()
-    StreakBar(positiveStreak) //Add streak score to screen
+    Box(
+        modifier = Modifier
+            .zIndex(1f),
+    ) {
+        StreakBar(positiveStreak) //Add streak score to screen
+    }
     Column(
         //Adds padding to button column at the top
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 100.dp),
+            .padding(top = 60.dp)
+            .background(FortniteLightBlue)
+            .zIndex(0.5f),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Hvad er ${question.first} - ${question.second}?", fontSize = 24.sp)
+        Box(
+            modifier = Modifier
+                .padding(top = 150.dp),
+        ) {
+            //Text contour
+            Text(
+                text = "Hvad er:\n" +
+                        "${question.first} − ${question.second}",
+                fontSize = 36.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                color = Color.White,
+                style = TextStyle.Default.copy(
+                    fontSize = 36.sp,
+                    drawStyle = Stroke(
+                        miter = 50f,
+                        width = 8f,
+                        join = StrokeJoin.Round
+                    )
+                )
+            )
+            Text(text = "Hvad er:\n" +
+                    "${question.first} − ${question.second}",
+                fontSize = 36.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                color = Color.DarkGray
+            )
+        }
         Spacer(modifier = Modifier.height(10.dp))
         TextField(
             value = answer,
@@ -220,14 +266,39 @@ private fun SubFunction() {
     }
     // Display the score in the top right corner
     Box(
-        modifier = Modifier.fillMaxSize().padding(top = 50.dp),
-        contentAlignment = Alignment.TopEnd
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 60.dp)
+            .zIndex(1f),
+        contentAlignment = Alignment.TopStart
     ) {
-        Text(
-            text = "Points: $points",
-            modifier = Modifier.padding(top = 16.dp, end = 16.dp).align(Alignment.TopEnd),
-            fontSize = 24.sp
-        )
+        Card(
+            modifier = Modifier
+                .padding(16.dp)
+                .background(Color.Transparent)
+                .width(150.dp)
+                .height(80.dp),
+            shape = RoundedCornerShape(10.dp),
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    text = "Points",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = points.toString(),
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
     }
 }
 
