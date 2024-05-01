@@ -161,12 +161,12 @@ fun MyApp() {
                     //Text contour
                     Text(
                         text = "Vælg en udfordring:",
-                        fontSize = 36.sp,
+                        fontSize = 28.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
                         color = Color.White,
                         style = TextStyle.Default.copy(
-                            fontSize = 36.sp,
+                            fontSize = 28.sp,
                             drawStyle = Stroke(
                                 miter = 50f,
                                 width = 8f,
@@ -175,7 +175,7 @@ fun MyApp() {
                         )
                     )
                     Text(text = "Vælg en udfordring:",
-                        fontSize = 36.sp,
+                        fontSize = 28.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
                         color = Color.DarkGray
@@ -255,8 +255,7 @@ fun MyApp() {
                     }
                 }
 
-                Spacer(modifier = Modifier.height(50.dp))
-
+                Spacer(modifier = Modifier.height(40.dp))
                 //Button 2 with expanding button
                 Column {
                     Box(
@@ -331,8 +330,7 @@ fun MyApp() {
                     }
                 }
 
-                Spacer(modifier = Modifier.height(50.dp))
-
+                Spacer(modifier = Modifier.height(40.dp))
                 //Button 3 with expanding button
                 Column {
                     Box(
@@ -408,8 +406,7 @@ fun MyApp() {
                 }
 
 
-                Spacer(modifier = Modifier.height(50.dp))
-
+                Spacer(modifier = Modifier.height(40.dp))
                 //Button 4 with expanding button
                 Column {
                     Box(
@@ -482,6 +479,7 @@ fun MyApp() {
                             }
                         }
                     }
+                    Spacer(modifier = Modifier.height(40.dp))
                 }
             }
 
