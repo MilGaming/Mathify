@@ -153,15 +153,6 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                         .clip(RoundedCornerShape(5.dp)) // Apply rounded corners
 
                                 )
-                                Text(
-                                    text = "${achievement1ValueInt}/${1}",
-                                    modifier = Modifier
-                                        .padding(vertical = 5.dp)
-                                        .wrapContentHeight(align = Alignment.CenterVertically),
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.Black,
-                                )
                                 //Text contour
                                 Text(
                                     text = "${achievement1ValueInt}/${1}",
@@ -175,10 +166,19 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                         fontSize = 18.sp,
                                         drawStyle = Stroke(
                                             miter = 50f,
-                                            width = 3f,
+                                            width = 5f,
                                             join = StrokeJoin.Round
                                         )
                                     )
+                                )
+                                Text(
+                                    text = "${achievement1ValueInt}/${1}",
+                                    modifier = Modifier
+                                        .padding(vertical = 5.dp)
+                                        .wrapContentHeight(align = Alignment.CenterVertically),
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Black,
                                 )
                             }
                             if (achievement1ValueInt >= 1) {
@@ -224,15 +224,6 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                         .clip(RoundedCornerShape(5.dp)) // Apply rounded corners
 
                                 )
-                                Text(
-                                    text = "${achievement2Value}/${10}",
-                                    modifier = Modifier
-                                        .padding(vertical = 5.dp)
-                                        .wrapContentHeight(align = Alignment.CenterVertically),
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.Black,
-                                )
                                 //Text contour
                                 Text(
                                     text = "${achievement2Value}/${10}",
@@ -246,10 +237,19 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                         fontSize = 18.sp,
                                         drawStyle = Stroke(
                                             miter = 50f,
-                                            width = 3f,
+                                            width = 5f,
                                             join = StrokeJoin.Round
                                         )
                                     )
+                                )
+                                Text(
+                                    text = "${achievement2Value}/${10}",
+                                    modifier = Modifier
+                                        .padding(vertical = 5.dp)
+                                        .wrapContentHeight(align = Alignment.CenterVertically),
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Black,
                                 )
                             }
                             if (achievement2Value >= 10) {
@@ -296,15 +296,6 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                         .clip(RoundedCornerShape(5.dp)) // Apply rounded corners
 
                                 )
-                                Text(
-                                    text = "${achievement3Value}/${10}",
-                                    modifier = Modifier
-                                        .padding(vertical = 5.dp)
-                                        .wrapContentHeight(align = Alignment.CenterVertically),
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.Black,
-                                )
                                 //Text contour
                                 Text(
                                     text = "${achievement3Value}/${10}",
@@ -318,10 +309,19 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                         fontSize = 18.sp,
                                         drawStyle = Stroke(
                                             miter = 50f,
-                                            width = 3f,
+                                            width = 5f,
                                             join = StrokeJoin.Round
                                         )
                                     )
+                                )
+                                Text(
+                                    text = "${achievement3Value}/${10}",
+                                    modifier = Modifier
+                                        .padding(vertical = 5.dp)
+                                        .wrapContentHeight(align = Alignment.CenterVertically),
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Black,
                                 )
                             }
                             if (achievement3Value >= 10) {
@@ -368,15 +368,6 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                         .clip(RoundedCornerShape(5.dp)) // Apply rounded corners
 
                                 )
-                                Text(
-                                    text = "${achievement4Value}/${10}",
-                                    modifier = Modifier
-                                        .padding(vertical = 5.dp)
-                                        .wrapContentHeight(align = Alignment.CenterVertically),
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.Black,
-                                )
                                 //Text contour
                                 Text(
                                     text = "${achievement4Value}/${10}",
@@ -390,10 +381,19 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                         fontSize = 18.sp,
                                         drawStyle = Stroke(
                                             miter = 50f,
-                                            width = 3f,
+                                            width = 5f,
                                             join = StrokeJoin.Round
                                         )
                                     )
+                                )
+                                Text(
+                                    text = "${achievement4Value}/${10}",
+                                    modifier = Modifier
+                                        .padding(vertical = 5.dp)
+                                        .wrapContentHeight(align = Alignment.CenterVertically),
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Black,
                                 )
                             }
                             if (achievement4Value >= 10) {
@@ -440,15 +440,6 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                         .clip(RoundedCornerShape(5.dp)) // Apply rounded corners
 
                                 )
-                                Text(
-                                    text = "${achievement5Value}/${10}",
-                                    modifier = Modifier
-                                        .padding(vertical = 5.dp)
-                                        .wrapContentHeight(align = Alignment.CenterVertically),
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.Black,
-                                )
                                 //Text contour
                                 Text(
                                     text = "${achievement5Value}/${10}",
@@ -462,10 +453,19 @@ fun AchievementPopup(openDialog: MutableState<Boolean>, isHeldDown: MutableState
                                         fontSize = 18.sp,
                                         drawStyle = Stroke(
                                             miter = 50f,
-                                            width = 3f,
+                                            width = 5f,
                                             join = StrokeJoin.Round
                                         )
                                     )
+                                )
+                                Text(
+                                    text = "${achievement5Value}/${10}",
+                                    modifier = Modifier
+                                        .padding(vertical = 5.dp)
+                                        .wrapContentHeight(align = Alignment.CenterVertically),
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Black,
                                 )
                             }
                             if (achievement5Value >= 10) {

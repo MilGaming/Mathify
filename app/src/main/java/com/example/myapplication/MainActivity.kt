@@ -146,13 +146,14 @@ fun MyApp() {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text( //Mads added moved text ------------------------------------------------------------------------------------
-                    text = "Vælg en udfordring ved at trykke på den og regn løs!",
+                    text = "Vælg en udfordring:",
                     modifier = Modifier
                         .padding(16.dp)
                         .padding(top = 30.dp)
-                        .align(Alignment.CenterHorizontally),
+                        .align(Alignment.Start),
                     fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
                 )
                 //Button 1 with expanding button
                 Column {
@@ -166,7 +167,7 @@ fun MyApp() {
                                 context.startActivity(intent)
                             },
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = FortniteYellow,
+                                containerColor = Color(0xFFF2C12E),
                                 contentColor = Color.DarkGray
                             ),
                             modifier = Modifier
@@ -232,7 +233,7 @@ fun MyApp() {
                                 context.startActivity(intent)
                             },
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = FortniteYellow,
+                                containerColor = Color(0xFFF29B2B),
                                 contentColor = Color.DarkGray
                             ),
                             modifier = Modifier
@@ -249,7 +250,7 @@ fun MyApp() {
                             Button(
                                 onClick = { isExpandedB2.value = !isExpandedB2.value },
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = FortniteYellow,
+                                    containerColor = Color(0xFFF29B2B),
                                     contentColor = Color.DarkGray
                                 ),
                                 modifier = Modifier
@@ -298,7 +299,7 @@ fun MyApp() {
                                 context.startActivity(intent)
                             },
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = FortniteYellow,
+                                containerColor = Color(0xFFF28727),
                                 contentColor = Color.DarkGray
                             ),
                             modifier = Modifier
@@ -315,7 +316,7 @@ fun MyApp() {
                             Button(
                                 onClick = { isExpandedB3.value = !isExpandedB3.value },
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = FortniteYellow,
+                                    containerColor = Color(0xFFF28727),
                                     contentColor = Color.DarkGray
                                 ),
                                 modifier = Modifier
@@ -365,7 +366,7 @@ fun MyApp() {
                                 context.startActivity(intent)
                             },
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = FortniteYellow,
+                                containerColor = Color(0xFFF27528),
                                 contentColor = Color.DarkGray
                             ),
                             modifier = Modifier
@@ -382,7 +383,7 @@ fun MyApp() {
                             Button(
                                 onClick = { isExpandedB4.value = !isExpandedB4.value },
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = FortniteYellow,
+                                    containerColor = Color(0xFFF27528),
                                     contentColor = Color.DarkGray
                                 ),
                                 modifier = Modifier
@@ -429,9 +430,10 @@ fun MyApp() {
             Text(
                 text = "Samlede points: $totalScore",
                 modifier = Modifier
-                    .padding(top = 16.dp, end = 16.dp)
-                    .align(Alignment.TopEnd),
-                fontSize = 24.sp
+                    .padding(top = 16.dp, start = 16.dp)
+                    .align(Alignment.TopStart),
+                fontSize = 20.sp,
+                color = Color.White
             )
         }
     }

@@ -3,6 +3,7 @@ package com.example.myapplication.scripts
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -10,7 +11,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -34,11 +37,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.myapplication.MainActivity
 import com.example.myapplication.mathPages.SecretPage
 import com.example.myapplication.ui.theme.FortniteBlue
@@ -67,18 +78,23 @@ fun CustomTopBar() {
             TopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = FortniteBlue),
                 title = {Text(
                     "MathTech",
+                    style = TextStyle(
+                        fontSize = 30.sp,
+                        shadow = Shadow(color = Color.DarkGray, offset = Offset(5f, 5f)),
+                    ),
                     color = Color.White,
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier.clickable(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() }
-                    ) {
-                    titleClickCount.intValue++
-                    if (titleClickCount.intValue >= 5) {
-                        titleClickCount.intValue = 0
-                        val intent = Intent(context, SecretPage::class.java)
-                        context.startActivity(intent)
-                    }
-                }) },
+                    ){
+                        titleClickCount.intValue++
+                        if (titleClickCount.intValue >= 5) {
+                            titleClickCount.intValue = 0
+                            val intent = Intent(context, SecretPage::class.java)
+                            context.startActivity(intent)
+                        }
+                    }) },
                 actions = {
                     //Home button is not shown in the main activity
                     if (currentActivityName != "MainActivity") {
@@ -86,6 +102,7 @@ fun CustomTopBar() {
                             val intent = Intent(context, MainActivity::class.java)
                             context.startActivity(intent)
                         }) {
+                            Icon(Icons.Filled.Home, contentDescription = "Home", tint = Color.DarkGray, modifier = Modifier.offset(x = 1.5f.dp, y = 1.5f.dp))
                             Icon(Icons.Filled.Home, contentDescription = "Home", tint = Color.White)
                         }
                     }
@@ -93,6 +110,7 @@ fun CustomTopBar() {
                         IconButton(onClick = { //home button
                             showInfo.value = !showInfo.value
                         }) {
+                            Icon(Icons.Filled.Info, contentDescription = "Info", tint = Color.DarkGray, modifier = Modifier.offset(x = 1.5f.dp, y = 1.5f.dp))
                             Icon(Icons.Filled.Info, contentDescription = "Info", tint = Color.White)
                         }
                     }
@@ -108,7 +126,7 @@ fun CustomTopBar() {
                             },
                             enabled = !isHeldDown.value
                             ) {
-
+                            Icon(Icons.Filled.Star, contentDescription = "Trophy", tint = Color.DarkGray, modifier = Modifier.offset(x = 1.5f.dp, y = 1.5f.dp))
                             Icon(Icons.Filled.Star, contentDescription = "Trophy", tint = Color.White)
                         }
                     }
