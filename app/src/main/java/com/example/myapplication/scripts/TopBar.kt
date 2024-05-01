@@ -3,6 +3,8 @@ package com.example.myapplication.scripts
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -25,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -35,6 +38,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.MainActivity
+import com.example.myapplication.mathPages.SecretPage
 
 //data class Achievement(val index: Int, val name: String, val currentProgress: Int, val goalProgress: Int)
 
@@ -46,6 +50,7 @@ fun CustomTopBar() {
     val isHeldDown = remember { mutableStateOf(false) } // to see if menu open
     val openDialog = remember { mutableStateOf(false) } // for popup
     val showInfo = remember { mutableStateOf(false) } // for Info dialog
+    val titleClickCount = remember { mutableIntStateOf(0) }
     val context = LocalContext.current
     val currentActivity = context as Activity
     val currentActivityName = currentActivity.localClassName
@@ -53,7 +58,19 @@ fun CustomTopBar() {
     Scaffold(
         topBar = {
             TopAppBar(colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.LightGray),
-                title = { Text("MathTech") },
+                title = {Text(
+                    "MathTech",
+                    modifier = Modifier.clickable(
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() }
+                    ) {
+                    titleClickCount.intValue++
+                    if (titleClickCount.intValue >= 5) {
+                        titleClickCount.intValue = 0
+                        val intent = Intent(context, SecretPage::class.java)
+                        context.startActivity(intent)
+                    }
+                }) },
                 actions = {
                     //Home button is not shown in the main activity
                     if (currentActivityName != "MainActivity") {
