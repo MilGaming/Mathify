@@ -276,7 +276,7 @@ private fun SubFunction() {
             modifier = Modifier
                 .padding(16.dp)
                 .background(Color.Transparent)
-                .width(150.dp)
+                .width(125.dp)
                 .height(80.dp),
             shape = RoundedCornerShape(10.dp),
         ) {
