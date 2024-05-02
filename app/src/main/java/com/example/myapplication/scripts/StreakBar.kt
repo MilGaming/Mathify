@@ -77,11 +77,11 @@ fun StreakBar(streak: Int) {
         )
         Text(
             text = "$streak",
-            fontSize = 24.sp,
+            fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.align(Alignment.Center)
                 .padding(top = 40.dp),
-            color = Color.Black
+            color = Color.DarkGray
         )
     }
     }
