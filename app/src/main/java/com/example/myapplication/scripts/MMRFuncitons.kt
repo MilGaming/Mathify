@@ -59,96 +59,27 @@ fun decreaseScore(streak: Int, time: Int, mmr: Int , placePoint :Int): Int {
 //Update math question based on MMR
 //Question scalabililty------------------------------------------------------------
 fun updateAddQuestion(mmr: Int, random: Random): Pair<Int, Int> {
-    return when {
-        mmr >= 2500 -> Pair(random.nextInt(41,101), random.nextInt(41,101))
-        mmr >= 2000 -> Pair(random.nextInt(26,51), random.nextInt(26,51)) // Overlap with above and below
-        mmr >= 1500 -> Pair(random.nextInt(11,31), random.nextInt(11,31)) // Overlap with above and below
-        mmr >= 1000 -> Pair(random.nextInt(8,16), random.nextInt(8,16)) // Overlap with above and below
-        mmr >= 500 -> Pair(random.nextInt(5,10), random.nextInt(5,10)) // Overlap with above and below
-        else -> Pair(random.nextInt(1,6), random.nextInt(1,6))
-    }
+
+   return Pair(random.nextInt(26,51), random.nextInt(26,51)) // Overlap with above and below
 }
 
 // Update subtraction question based on MMR
 fun updateSubQuestion(mmr: Int, random: Random): Pair<Int, Int> {
-    return when {
-        mmr >= 2500 -> {
-            val num1 = random.nextInt(41, 101)
-            val num2 = random.nextInt(30, min(num1+1, 102))
-            Pair(num1, num2)
-        }
-        mmr >= 2000 -> {
-            val num1 = random.nextInt(26, 51)
-            val num2 = random.nextInt(15, min(num1+1, 52))
-            Pair(num1, num2)
-        }
-        mmr >= 1500 -> {
-            val num1 = random.nextInt(11, 31)
-            val num2 = random.nextInt(5, min(num1+1, 32))
-            Pair(num1, num2)
-        }
-        mmr >= 1000 -> {
-            val num1 = random.nextInt(8, 16)
-            val num2 = random.nextInt(4, min(num1+1, 17))
-            Pair(num1, num2)
-        }
-        mmr >= 500 -> {
-            val num1 = random.nextInt(5, 10)
-            val num2 = random.nextInt(3, min(num1+1, 11))
-            Pair(num1, num2)
-        }
-        else -> {
-            val num1 = random.nextInt(1,6)
-            val num2 = random.nextInt(1, min(num1+1, 7))
-            Pair(num1, num2)
-        }
-    }
+    val num1 = random.nextInt(26, 51)
+    val num2 = random.nextInt(15, min(num1+1, 52))
+    return Pair(num1, num2)
 }
 
 // Update multiplication question based on MMR
 fun updateMulQuestion(mmr: Int, random: Random): Pair<Int, Int> {
-    return when {
-        mmr >= 2500 -> Pair(random.nextInt(11, 16), random.nextInt(11, 16))
-        mmr >= 2000 -> Pair(random.nextInt(11, 15), random.nextInt(6, 10))
-        mmr >= 1500 -> Pair(random.nextInt(6, 10), random.nextInt(4, 10))
-        mmr >= 1000 -> Pair(random.nextInt(4, 8), random.nextInt(3, 5))
-        mmr >= 500 -> Pair(random.nextInt(2, 6), random.nextInt(2, 4))
-        else -> Pair(random.nextInt(2, 4), random.nextInt(1, 4))
-    }
+
+        return Pair(random.nextInt(11, 15), random.nextInt(6, 10))
+
 }
 
 // Update division question based on MMR
 fun updateDivQuestion(mmr: Int, random: Random): Pair<Int, Int> {
-    return when {
-        mmr >= 2500 -> {
-            val num2 = random.nextInt(9, 16)
-            val num1 = num2 * random.nextInt(3,15 )
-            Pair(num1, num2)
-        }
-        mmr >= 2000 -> {
             val num2 = random.nextInt(6, 11)
             val num1 = num2 * random.nextInt(2, 10)
-            Pair(num1, num2)
-        }
-        mmr >= 1500 -> {
-            val num2 = random.nextInt(4, 8)
-            val num1 = num2 * random.nextInt(2, 7)
-            Pair(num1, num2)
-        }
-        mmr >= 1000 -> {
-            val num2 = random.nextInt(3, 6)
-            val num1 = num2 * random.nextInt(2, 5)
-            Pair(num1, num2)
-        }
-        mmr >= 500 -> {
-            val num2 = random.nextInt(2, 5)
-            val num1 = num2 * random.nextInt(2, 5)
-            Pair(num1, num2)
-        }
-        else -> {
-            val num2 = random.nextInt(1, 4)
-            val num1 = num2 * random.nextInt(2, 3)
-            Pair(num1, num2)
-        }
-    }
+            return Pair(num1, num2)
 }
