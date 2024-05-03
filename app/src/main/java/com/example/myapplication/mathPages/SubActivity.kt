@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -100,169 +102,209 @@ private fun SubFunction() {
     CustomTopBar()
     Box(
         modifier = Modifier
-            .zIndex(1f),
+            .zIndex(1f)
     ) {
         StreakBar(positiveStreak) //Add streak score to screen
     }
-    Column(
-        //Adds padding to button column at the top
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 60.dp)
-            .background(FortniteLightBlue)
-            .zIndex(0.5f),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(
-            modifier = Modifier
-                .padding(top = 150.dp),
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .padding(top = 60.dp)
+        .background(FortniteLightBlue),
+        contentAlignment = Alignment.Center,
+    )
+    {
+        Card(modifier = Modifier
+            .padding(16.dp)
+            .background(Color.Transparent)
+            .fillMaxWidth(0.9f)
+            .height(400.dp)
         ) {
-            //Text contour
-            Text(
-                text = "Hvad er:\n" +
-                        "${question.first} − ${question.second}",
-                fontSize = 36.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                color = Color.White,
-                style = TextStyle.Default.copy(
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Hvad er:\n" +
+                            "${question.first} − ${question.second}",
                     fontSize = 36.sp,
-                    drawStyle = Stroke(
-                        miter = 50f,
-                        width = 8f,
-                        join = StrokeJoin.Round
-                    )
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    color = Color.DarkGray
                 )
-            )
-            Text(text = "Hvad er:\n" +
-                    "${question.first} − ${question.second}",
-                fontSize = 36.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                color = Color.DarkGray
-            )
-        }
-        Spacer(modifier = Modifier.height(10.dp))
-        TextField(
-            value = answer,
-            onValueChange = { answer = it },
-            label = { Text("Skriv svar her") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
-            keyboardActions = KeyboardActions(onDone = {
+                Spacer(modifier = Modifier.height(10.dp))
+                TextField(
+                    value = answer,
+                    onValueChange = { answer = it },
+                    label = { Text("Skriv svar her") },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(onDone = {
 
-                ///////////////////EmilKode/////////////////////
-                val endTime = System.currentTimeMillis() // get current time
-                val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
-                var mmr = preferencesManager.getSubMMR()
-                ///////////////////EmilKode/////////////////////
+                        ///////////////////EmilKode/////////////////////
+                        val endTime = System.currentTimeMillis() // get current time
+                        val timeTaken =
+                            ((endTime - startTime) / 1000).toInt() // calculate time taken
+                        var mmr = preferencesManager.getSubMMR()
+                        ///////////////////EmilKode/////////////////////
 
-                if (answer.toIntOrNull() == correctAnswer) {
+                        if (answer.toIntOrNull() == correctAnswer) {
 
-                    ///////////////////EmilKode/////////////////////
-                    println(timeTaken) // print time taken
-                    positiveStreak++ // increment positive streak
-                    negativeStreak = 0 // reset negative streak
-                    ///////////////////EmilKode/////////////////////
+                            ///////////////////EmilKode/////////////////////
+                            println(timeTaken) // print time taken
+                            positiveStreak++ // increment positive streak
+                            negativeStreak = 0 // reset negative streak
+                            ///////////////////EmilKode/////////////////////
 
-                    result = "Rigtigt!"
-                    points++ // increment points
-                    preferencesManager.saveSubtractionPoints(points) // save points
+                            result = "Rigtigt!"
+                            points++ // increment points
+                            preferencesManager.saveSubtractionPoints(points) // save points
 
-                    preferencesManager.saveSubMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
-                } else {
+                            preferencesManager.saveSubMMR(
+                                increaseScore(
+                                    positiveStreak,
+                                    timeTaken,
+                                    mmr,
+                                    points
+                                )
+                            )
+                        } else {
 
-                    ///////////////////EmilKode/////////////////////
-                    negativeStreak++ // increment negative streak
-                    positiveStreak = 0 // reset positive streak
-                    preferencesManager.saveSubMMR(decreaseScore(negativeStreak, timeTaken, mmr, points)) // decrease score
-                    ///////////////////EmilKode/////////////////////
+                            ///////////////////EmilKode/////////////////////
+                            negativeStreak++ // increment negative streak
+                            positiveStreak = 0 // reset positive streak
+                            preferencesManager.saveSubMMR(
+                                decreaseScore(
+                                    negativeStreak,
+                                    timeTaken,
+                                    mmr,
+                                    points
+                                )
+                            ) // decrease score
+                            ///////////////////EmilKode/////////////////////
 
-                    result = "Forkert! Prøv igen."
+                            result = "Forkert! Prøv igen."
+                        }
+                        coolDownOn = true //Turns on cooldown for button and text field
+                        answer = "" // clear the TextField
+
+
+                        mmr = preferencesManager.getSubMMR()
+                        // Create a new UserStats object and add it to the list
+                        val index = userStatsList.size // Get the current size of the list
+                        val activityName = "SubActivity" // Name of the current activity
+                        val userStats = SubUserStats(
+                            timeTaken,
+                            mmr,
+                            positiveStreak,
+                            index,
+                            activityName
+                        ) // Create a new AddUserStats object with the index and activity name
+                        userStatsList.add(userStats) // Add the new object to the list
+                        preferencesManager.saveSubStats(userStatsList) // Save the list
+                    }),
+                    enabled = !coolDownOn // Disables text field when cooldown is on
+                )
+                Button(
+                    onClick = {
+
+                        ///////////////////EmilKode/////////////////////
+                        val endTime = System.currentTimeMillis() // get current time
+                        val timeTaken =
+                            ((endTime - startTime) / 1000).toInt() // calculate time taken
+                        var mmr = preferencesManager.getSubMMR() // get MMR
+                        ///////////////////EmilKode/////////////////////
+
+                        if (answer.toIntOrNull() == correctAnswer) {
+
+                            ///////////////////EmilKode/////////////////////
+                            println(timeTaken) // print time taken
+                            positiveStreak++ // increment positive streak
+                            negativeStreak = 0 // reset negative streak
+                            ///////////////////EmilKode/////////////////////
+
+                            result = "Rigtigt!"
+                            points++ // increment points
+                            preferencesManager.saveSubtractionPoints(points) // save points
+
+                            preferencesManager.saveSubMMR(
+                                increaseScore(
+                                    positiveStreak,
+                                    timeTaken,
+                                    mmr,
+                                    points
+                                )
+                            )
+                        } else {
+                            result = "Forkert! Prøv igen."
+
+                            ///////////////////EmilKode/////////////////////
+                            negativeStreak++ // increment negative streak
+                            positiveStreak = 0 // reset positive streak
+                            preferencesManager.saveSubMMR(
+                                decreaseScore(
+                                    negativeStreak,
+                                    timeTaken,
+                                    mmr,
+                                    points
+                                )
+                            )
+                            ///////////////////EmilKode/////////////////////
+
+                        }
+                        coolDownOn = true //Turns on cooldown for button and text field
+                        answer = "" // clear the TextField
+
+
+                        mmr = preferencesManager.getSubMMR()
+                        // Create a new UserStats object and add it to the list
+                        val index = userStatsList.size // Get the current size of the list
+                        val activityName = "SubActivity" // Name of the current activity
+                        val userStats = SubUserStats(
+                            timeTaken,
+                            mmr,
+                            positiveStreak,
+                            index,
+                            activityName
+                        ) // Create a new AddUserStats object with the index and activity name
+                        userStatsList.add(userStats) // Add the new object to the list
+                        preferencesManager.saveSubStats(userStatsList) // Save the list
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = FortniteYellow,
+                        contentColor = Color.DarkGray
+                    ),
+                    enabled = !coolDownOn,
+                    modifier = Modifier.padding(top = 16.dp)
+                ) {
+                    Text("Tjek", fontSize = 24.sp)
                 }
-                coolDownOn = true //Turns on cooldown for button and text field
-                answer = "" // clear the TextField
+                Text(text = result, fontSize = 24.sp, modifier = Modifier.padding(top = 16.dp))
+                if (coolDownOn) {
+                    Text(
+                        text = "Vent venligst...",
+                        fontSize = 24.sp,
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+                    // Coroutine to update the question after 3 seconds
+                    LaunchedEffect(key1 = coolDownOn) {
+                        delay(cooldownTime) // delay for 3 seconds
 
+                        ///////////////////EmilKode/////////////////////
+                        startTime = System.currentTimeMillis() // reset start time
+                        ///////////////////EmilKode/////////////////////
 
-                mmr = preferencesManager.getSubMMR()
-                // Create a new UserStats object and add it to the list
-                val index = userStatsList.size // Get the current size of the list
-                val activityName = "SubActivity" // Name of the current activity
-                val userStats = SubUserStats(timeTaken, mmr, positiveStreak, index, activityName) // Create a new AddUserStats object with the index and activity name
-                userStatsList.add(userStats) // Add the new object to the list
-                preferencesManager.saveSubStats(userStatsList) // Save the list
-            }),
-            enabled = !coolDownOn // Disables text field when cooldown is on
-        )
-        Button(
-            onClick = {
-
-                ///////////////////EmilKode/////////////////////
-                val endTime = System.currentTimeMillis() // get current time
-                val timeTaken = ((endTime - startTime) / 1000).toInt() // calculate time taken
-                var mmr = preferencesManager.getSubMMR() // get MMR
-                ///////////////////EmilKode/////////////////////
-
-                if (answer.toIntOrNull() == correctAnswer) {
-
-                    ///////////////////EmilKode/////////////////////
-                    println(timeTaken) // print time taken
-                    positiveStreak++ // increment positive streak
-                    negativeStreak = 0 // reset negative streak
-                    ///////////////////EmilKode/////////////////////
-
-                    result = "Rigtigt!"
-                    points++ // increment points
-                    preferencesManager.saveSubtractionPoints(points) // save points
-
-                    preferencesManager.saveSubMMR(increaseScore(positiveStreak, timeTaken, mmr, points))
-                } else {
-                    result = "Forkert! Prøv igen."
-
-                    ///////////////////EmilKode/////////////////////
-                    negativeStreak++ // increment negative streak
-                    positiveStreak = 0 // reset positive streak
-                    preferencesManager.saveSubMMR(decreaseScore(negativeStreak, timeTaken, mmr, points))
-                    ///////////////////EmilKode/////////////////////
-
+                        //Question scalabililty------------------------------------------------------------
+                        question =
+                            updateSubQuestion(mmr, random) // update the question according to MMR
+                        coolDownOn = false // Turns off cooldown for button
+                    }
                 }
-                coolDownOn = true //Turns on cooldown for button and text field
-                answer = "" // clear the TextField
-
-
-                mmr = preferencesManager.getSubMMR()
-                // Create a new UserStats object and add it to the list
-                val index = userStatsList.size // Get the current size of the list
-                val activityName = "SubActivity" // Name of the current activity
-                val userStats = SubUserStats(timeTaken, mmr, positiveStreak, index, activityName) // Create a new AddUserStats object with the index and activity name
-                userStatsList.add(userStats) // Add the new object to the list
-                preferencesManager.saveSubStats(userStatsList) // Save the list
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = FortniteYellow,
-                contentColor = Color.DarkGray
-            ),
-            enabled = !coolDownOn,
-            modifier = Modifier.padding(top = 16.dp)
-        ) {
-            Text("Tjek")
-        }
-        Text(text = result, fontSize = 24.sp, modifier = Modifier.padding(top = 16.dp))
-        if (coolDownOn) {
-            Text(text = "Vent venligst...", fontSize = 24.sp, modifier = Modifier.padding(top = 16.dp))
-            // Coroutine to update the question after 3 seconds
-            LaunchedEffect(key1 = coolDownOn) {
-                delay(cooldownTime) // delay for 3 seconds
-
-                ///////////////////EmilKode/////////////////////
-                startTime = System.currentTimeMillis() // reset start time
-                ///////////////////EmilKode/////////////////////
-
-                //Question scalabililty------------------------------------------------------------
-                question = updateSubQuestion(mmr, random) // update the question according to MMR
-                coolDownOn = false // Turns off cooldown for button
-            }
-        }
+            }}
     }
     // Display the score in the top right corner
     Box(

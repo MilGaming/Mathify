@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -102,16 +104,16 @@ fun CustomTopBar() {
                             val intent = Intent(context, MainActivity::class.java)
                             context.startActivity(intent)
                         }) {
-                            Icon(Icons.Filled.Home, contentDescription = "Home", tint = Color.DarkGray, modifier = Modifier.offset(x = 1.5f.dp, y = 1.5f.dp))
-                            Icon(Icons.Filled.Home, contentDescription = "Home", tint = Color.White)
+                            Icon(Icons.Filled.Home, contentDescription = "Home", tint = Color.DarkGray, modifier = Modifier.offset(x = 1.5f.dp, y = 1.5f.dp).size(40.dp))
+                            Icon(Icons.Filled.Home, contentDescription = "Home", tint = FortniteYellow, modifier = Modifier.size(40.dp))
                         }
                     }
                     else{
                         IconButton(onClick = { //home button
                             showInfo.value = !showInfo.value
                         }) {
-                            Icon(Icons.Filled.Info, contentDescription = "Info", tint = Color.DarkGray, modifier = Modifier.offset(x = 1.5f.dp, y = 1.5f.dp))
-                            Icon(Icons.Filled.Info, contentDescription = "Info", tint = Color.White)
+                            Icon(Icons.Filled.Info, contentDescription = "Info", tint = Color.DarkGray, modifier = Modifier.offset(x = 1.5f.dp, y = 1.5f.dp).size(35.dp))
+                            Icon(Icons.Filled.Info, contentDescription = "Info", tint = FortniteYellow, modifier = Modifier.size(35.dp))
                         }
                     }
                     Surface(
@@ -126,8 +128,8 @@ fun CustomTopBar() {
                             },
                             enabled = !isHeldDown.value
                             ) {
-                            Icon(Icons.Filled.Star, contentDescription = "Trophy", tint = Color.DarkGray, modifier = Modifier.offset(x = 1.5f.dp, y = 1.5f.dp))
-                            Icon(Icons.Filled.Star, contentDescription = "Trophy", tint = Color.White)
+                            Icon(Icons.Filled.Star, contentDescription = "Trophy", tint = Color.DarkGray, modifier = Modifier.offset(x = 1.5f.dp, y = 1.5f.dp).size(40.dp))
+                            Icon(Icons.Filled.Star, contentDescription = "Trophy", tint = FortniteYellow, modifier = Modifier.size(40.dp))
                         }
                     }
                 }
