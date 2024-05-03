@@ -247,9 +247,9 @@ fun MyApp() {
                                 Text(
                                     text = "Points: ${preferencesManager.getAdditionPoints()}",
                                 )
-                                Text(
+                                /*Text(
                                     text = "MMR: ${preferencesManager.getAddMMR()}",
-                                )
+                                )*/
                             }
                         }
                     }
@@ -322,9 +322,9 @@ fun MyApp() {
                                 Text(
                                     text = "Points: ${preferencesManager.getSubtractionPoints()}",
                                 )
-                                Text(
+                                /*Text(
                                     text = "MMR: ${preferencesManager.getSubMMR()}",
-                                )
+                                )*/
                             }
                         }
                     }
@@ -397,9 +397,9 @@ fun MyApp() {
                                 Text(
                                     text = "Points: ${preferencesManager.getMultiplicationPoints()}",
                                 )
-                                Text(
+                                /*Text(
                                     text = "MMR: ${preferencesManager.getMulMMR()}",
-                                )
+                                )*/
                             }
                         }
                     }
@@ -473,9 +473,9 @@ fun MyApp() {
                                 Text(
                                     text = "Points: ${preferencesManager.getDivisionPoints()}",
                                 )
-                                Text(
+                                /*Text(
                                     text = "MMR: ${preferencesManager.getDivMMR()}",
-                                )
+                                )*/
                             }
                         }
                     }
