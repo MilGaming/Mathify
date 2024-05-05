@@ -161,12 +161,12 @@ fun CustomTopBar() {
 fun Info(onDismiss: () -> Unit){
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Velkommen til Mathify") },
+        title = { Text("Velkommen til Mathify!") },
         text = {
             Column {
-                Text("Denne app vil hjælpe dig med at øve dig på matematik!")
+                Text("Denne app vil hjælpe dig med at øve matematik.")
                 Spacer(modifier = Modifier.height(8.dp))
-                Text("så vælg en udfordring ved at trykke på den og regn løs!")
+                Text("Klar alle udfordringerne i stjerne menuen for at få en pris!")
             }
 
         },
