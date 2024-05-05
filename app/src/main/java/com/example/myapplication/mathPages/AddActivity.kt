@@ -287,7 +287,7 @@ private fun AddFunction() {
                 enabled = !coolDownOn,
                 modifier = Modifier.padding(top = 16.dp)
             ) {
-                Text("Tjek", fontSize = 24.sp)
+                Text("Svar", fontSize = 24.sp)
             }
             Text(text = result, fontSize = 24.sp, modifier = Modifier.padding(top = 16.dp))
             if (coolDownOn) {
