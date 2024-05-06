@@ -58,20 +58,29 @@ fun decreaseScore(streak: Int, time: Int, mmr: Int , placePoint :Int): Int {
 
 //Update math question based on MMR
 //Question scalabililty------------------------------------------------------------
+var lastAddAnswer: Int? = null
 fun updateAddQuestion(mmr: Int, random: Random): Pair<Int, Int> {
-    return when {
-        mmr >= 2500 -> Pair(random.nextInt(41,101), random.nextInt(41,101))
-        mmr >= 2000 -> Pair(random.nextInt(26,51), random.nextInt(26,51)) // Overlap with above and below
-        mmr >= 1500 -> Pair(random.nextInt(11,31), random.nextInt(11,31)) // Overlap with above and below
-        mmr >= 1000 -> Pair(random.nextInt(8,16), random.nextInt(8,16)) // Overlap with above and below
-        mmr >= 500 -> Pair(random.nextInt(5,10), random.nextInt(5,10)) // Overlap with above and below
-        else -> Pair(random.nextInt(1,6), random.nextInt(1,6))
-    }
+    var newQuestion: Pair<Int, Int>
+    do {
+        newQuestion = when {
+            mmr >= 2500 -> Pair(random.nextInt(41,101), random.nextInt(41,101))
+            mmr >= 2000 -> Pair(random.nextInt(26,51), random.nextInt(26,51))
+            mmr >= 1500 -> Pair(random.nextInt(11,31), random.nextInt(11,31))
+            mmr >= 1000 -> Pair(random.nextInt(8,16), random.nextInt(8,16))
+            mmr >= 500 -> Pair(random.nextInt(5,10), random.nextInt(5,10))
+            else -> Pair(random.nextInt(1,6), random.nextInt(1,6))
+        }
+    } while (newQuestion.first + newQuestion.second == lastAddAnswer)
+    lastAddAnswer = newQuestion.first + newQuestion.second
+    return newQuestion
 }
 
-// Update subtraction question based on MMR
+    // Update subtraction question based on MMR
+    var lastSubAnswer: Int? = null
 fun updateSubQuestion(mmr: Int, random: Random): Pair<Int, Int> {
-    return when {
+    var newQuestion: Pair<Int, Int>
+    do {
+        newQuestion = when {
         mmr >= 2500 -> {
             val num1 = random.nextInt(41, 101)
             val num2 = random.nextInt(30, min(num1+1, 102))
@@ -102,12 +111,18 @@ fun updateSubQuestion(mmr: Int, random: Random): Pair<Int, Int> {
             val num2 = random.nextInt(1, min(num1+1, 7))
             Pair(num1, num2)
         }
-    }
+        }
+    } while (newQuestion.first - newQuestion.second == lastSubAnswer)
+    lastSubAnswer = newQuestion.first - newQuestion.second
+    return newQuestion
 }
 
 // Update multiplication question based on MMR
+var lastMulAnswer: Int? = null
 fun updateMulQuestion(mmr: Int, random: Random): Pair<Int, Int> {
-    return when {
+    var newQuestion: Pair<Int, Int>
+    do {
+        newQuestion = when {
         mmr >= 2500 -> Pair(random.nextInt(11, 16), random.nextInt(11, 16))
         mmr >= 2000 -> Pair(random.nextInt(11, 15), random.nextInt(6, 10))
         mmr >= 1500 -> Pair(random.nextInt(6, 10), random.nextInt(4, 10))
@@ -115,40 +130,49 @@ fun updateMulQuestion(mmr: Int, random: Random): Pair<Int, Int> {
         mmr >= 500 -> Pair(random.nextInt(2, 6), random.nextInt(2, 4))
         else -> Pair(random.nextInt(2, 4), random.nextInt(1, 4))
     }
+    } while (newQuestion.first * newQuestion.second == lastMulAnswer)
+    lastMulAnswer = newQuestion.first * newQuestion.second
+    return newQuestion
 }
 
 // Update division question based on MMR
+var lastDivAnswer: Int? = null
 fun updateDivQuestion(mmr: Int, random: Random): Pair<Int, Int> {
-    return when {
-        mmr >= 2500 -> {
-            val num2 = random.nextInt(9, 16)
-            val num1 = num2 * random.nextInt(3,15 )
-            Pair(num1, num2)
+    var newQuestion: Pair<Int, Int>
+    do {
+        newQuestion = when {
+            mmr >= 2500 -> {
+                val num2 = random.nextInt(2, 16)
+                val num1 = num2 * random.nextInt(2, 20)
+                Pair(num1, num2)
+            }
+            mmr >= 2000 -> {
+                val num2 = random.nextInt(2, 11)
+                val num1 = num2 * random.nextInt(2, 15)
+                Pair(num1, num2)
+            }
+            mmr >= 1500 -> {
+                val num2 = random.nextInt(2, 8)
+                val num1 = num2 * random.nextInt(2, 10)
+                Pair(num1, num2)
+            }
+            mmr >= 1000 -> {
+                val num2 = random.nextInt(2, 6)
+                val num1 = num2 * random.nextInt(2, 8)
+                Pair(num1, num2)
+            }
+            mmr >= 500 -> {
+                val num2 = random.nextInt(2, 5)
+                val num1 = num2 * random.nextInt(2, 6)
+                Pair(num1, num2)
+            }
+            else -> {
+                val num2 = random.nextInt(2, 4)
+                val num1 = num2 * random.nextInt(2, 4)
+                Pair(num1, num2)
+            }
         }
-        mmr >= 2000 -> {
-            val num2 = random.nextInt(6, 11)
-            val num1 = num2 * random.nextInt(2, 10)
-            Pair(num1, num2)
-        }
-        mmr >= 1500 -> {
-            val num2 = random.nextInt(4, 8)
-            val num1 = num2 * random.nextInt(2, 7)
-            Pair(num1, num2)
-        }
-        mmr >= 1000 -> {
-            val num2 = random.nextInt(3, 6)
-            val num1 = num2 * random.nextInt(2, 5)
-            Pair(num1, num2)
-        }
-        mmr >= 500 -> {
-            val num2 = random.nextInt(2, 5)
-            val num1 = num2 * random.nextInt(2, 5)
-            Pair(num1, num2)
-        }
-        else -> {
-            val num2 = random.nextInt(1, 4)
-            val num1 = num2 * random.nextInt(2, 3)
-            Pair(num1, num2)
-        }
-    }
+    } while (newQuestion.first / newQuestion.second == lastDivAnswer)
+    lastDivAnswer = newQuestion.first / newQuestion.second
+    return newQuestion
 }
